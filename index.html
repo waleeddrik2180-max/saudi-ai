@@ -6,41 +6,44 @@
     <title>Saudi AI</title>
     <style>
         body { background-color: #0d1117; font-family: Tahoma, sans-serif; color: #ffffff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .container { width: 480px; height: 650px; background: #161b22; border: 2px solid #006c35; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0, 108, 53, 0.4); overflow: hidden; position: relative; }
+        .container { width: 480px; height: 650px; background: #161b22; border: 2px solid #006c35; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 10px 35px rgba(0, 108, 53, 0.5), inset 0 0 15px rgba(0, 108, 53, 0.15); overflow: hidden; position: relative; transition: all 0.3s ease; }
         
         /* الهيدر */
-        .header { background: linear-gradient(135deg, #006c35, #044e27); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00a859; }
-        .header h1 { font-size: 16px; margin: 0; color: #ffffff; font-weight: bold; }
+        .header { background: linear-gradient(135deg, #006c35, #044e27); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00a859; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .header h1 { font-size: 16px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
         .header-btns { display: flex; gap: 8px; align-items: center; }
-        .action-btn { background: #004d25; border: 1px solid #00a859; color: white; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .action-btn:hover { background: #006c35; }
+        .action-btn { background: #004d25; border: 1px solid #00a859; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: all 0.2s ease; }
+        .action-btn:hover { background: #006c35; box-shadow: 0 0 8px rgba(0, 168, 89, 0.6); transform: translateY(-1px); }
 
         /* الشات */
         .chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
-        .message-container { display: flex; flex-direction: column; max-width: 85%; }
+        .message-container { display: flex; flex-direction: column; max-width: 85%; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        
         .message-container.user { align-self: flex-end; }
         .message-container.ai { align-self: flex-start; }
         
-        .message { padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.4; word-wrap: break-word; white-space: pre-wrap; }
-        .message.user { background-color: #006c35; color: #ffffff; }
-        .message.ai { background-color: #21262d; color: #e0e0e0; border-left: 3px solid #00a859; }
+        .message { padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.4; word-wrap: break-word; white-space: pre-wrap; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .message.user { background-color: #006c35; color: #ffffff; border-bottom-right-radius: 2px; }
+        .message.ai { background-color: #21262d; color: #e0e0e0; border-left: 3px solid #00a859; border-bottom-left-radius: 2px; }
 
         /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 10px; margin-top: 4px; font-size: 11px; }
-        .msg-actions button { background: none; border: none; color: #8b949e; cursor: pointer; padding: 0; }
-        .msg-actions button:hover { color: #ffffff; text-decoration: underline; }
+        .msg-actions button { background: none; border: none; color: #8b949e; cursor: pointer; padding: 0; transition: color 0.2s; }
+        .msg-actions button:hover { color: #00a859; text-decoration: underline; }
 
         /* مؤشر الكتابة */
-        .typing-indicator span { height: 8px; width: 8px; float: left; margin: 0 2px; background-color: #8b949e; border-radius: 50%; display: inline-block; animation: bounce 1.3s infinite ease-in-out; }
+        .typing-indicator span { height: 8px; width: 8px; float: left; margin: 0 2px; background-color: #00a859; border-radius: 50%; display: inline-block; animation: bounce 1.3s infinite ease-in-out; }
         .typing-indicator span:nth-child(2) { animation-delay: -1.1s; }
         .typing-indicator span:nth-child(3) { animation-delay: -0.9s; }
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
         /* منطقة الإدخال */
         .input-area { padding: 12px; background: #0d1117; display: flex; gap: 8px; border-top: 1px solid #30363d; }
-        #userInput { flex: 1; background: #21262d; border: 1px solid #30363d; color: #ffffff; padding: 10px 12px; border-radius: 8px; outline: none; font-size: 14px; }
-        #userInput:focus { border-color: #006c35; }
-        #sendBtn { background-color: #006c35; color: #ffffff; border: none; padding: 0 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        #userInput { flex: 1; background: #21262d; border: 1px solid #30363d; color: #ffffff; padding: 10px 12px; border-radius: 8px; outline: none; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; }
+        #userInput:focus { border-color: #006c35; box-shadow: 0 0 8px rgba(0, 108, 53, 0.4); }
+        #sendBtn { background-color: #006c35; color: #ffffff; border: none; padding: 0 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.2s ease; }
+        #sendBtn:hover:not(:disabled) { background-color: #008542; box-shadow: 0 0 10px rgba(0, 168, 89, 0.6); }
         #sendBtn:disabled { background-color: #30363d; color: #8b949e; cursor: not-allowed; }
     </style>
 </head>
@@ -48,16 +51,16 @@
 
 <div class="container" id="appContainer">
     <div class="header">
-        <button class="action-btn" id="clearBtn" onclick="clearChat()">🗑️ مسح</button>
-        <h1 id="mainTitle">Saudi AI 🇸🇦</h1>
+        <button class="action-btn" id="clearBtn" onclick="clearChat()">&#128465;&#65039; &#1605;&#1587;&#1581;</button>
+        <h1 id="mainTitle">Saudi AI</h1>
         <button class="action-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
     </div>
     
     <div id="chatBox" class="chat-box"></div>
 
     <div class="input-area">
-        <input type="text" id="userInput" placeholder="اسأل سعودي AI" />
-        <button id="sendBtn" onclick="sendMessage()">إرسال</button>
+        <input type="text" id="userInput" placeholder="&#1575;&#1587;&#1571;&#1604; &#1587;&#1593;&#1608;&#1583;&#1610; AI" />
+        <button id="sendBtn" onclick="sendMessage()">&#1573;&#1585;&#1587;&#1575;&#1604;</button>
     </div>
 </div>
 
@@ -66,12 +69,12 @@
     
     let currentLang = 'ar';
     let chatHistory = JSON.parse(localStorage.getItem('saudi_ai_history')) || [
-        { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }
+        { role: "system", content: "\u0623\u0646\u062a \u0645\u0633\u0627\u0639\u062f \u0630\u0643\u064a \u0628\u0627\u0633\u0645 Saudi AI\u064c \u062a\u062a\u062d\u062f\u062b \u0628\u0637\u0631\u064a\u0642\u0629 \u0637\u0628\u064a\u0639\u064a\u0651\u0629 \u0648\u0648\u062f\u0648\u062f\u0629." }
     ];
 
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل سعودي AI", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask Saudi AI", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete" }
+        ar: { title: "Saudi AI", placeholder: "\u0627\u0633\u0621\u0644 \u0633\u0639\u0648\u062f\u064a AI", send: "\u0625\u0631\u0633\u0627\u0644", clear: "\uD83D\uDDD1\uFE0F \u0645\u0633\u062d", copy: "\u0646\u0633\u062e", delete: "\u062d\u0630\u0641" },
+        en: { title: "Saudi AI", placeholder: "Ask Saudi AI", send: "Send", clear: "\uD83D\uDDD1\uFE0F Clear", copy: "Copy", delete: "Delete" }
     };
 
     function toggleLanguage() {
@@ -132,7 +135,7 @@
     }
 
     function clearChat() {
-        chatHistory = [{ role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }];
+        chatHistory = [{ role: "system", content: "\u0623\u0646\u062a \u0645\u0633\u0627\u0639\u062f \u0630\u0643\u064a \u0628\u0627\u0633\u0645 Saudi AI\u064c \u062a\u062a\u062d\u062f\u062b \u0628\u0637\u0631\u064a\u0642\u0629 \u0637\u0628\u064a\u0639\u064a\u0651\u0629 \u0648\u0648\u062f\u0648\u062f\u0629." }];
         localStorage.removeItem('saudi_ai_history');
         renderChatBox();
     }
@@ -149,7 +152,6 @@
         const sendBtn = document.getElementById('sendBtn');
         sendBtn.disabled = true;
 
-        // إضافة مؤشر الكتابة
         const chatBox = document.getElementById('chatBox');
         const typingContainer = document.createElement('div');
         typingContainer.className = 'message-container ai';
@@ -181,13 +183,13 @@
                 localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
                 renderChatBox();
             } else {
-                chatHistory.push({ role: "assistant", content: "عذراً، لم أستطع الرد." });
+                chatHistory.push({ role: "assistant", content: "\u0639\u0630\u0631\u0627\u064b\u060c \u0644\u0645 \u0623\u0633\u062a\u0637\u0639 \u0627\u0644\u0631\u062f." });
                 renderChatBox();
             }
         } catch (error) {
             if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
             sendBtn.disabled = false;
-            alert("حدث خطأ في الاتصال.");
+            alert("\u062d\u062f\u062b \u062e\u0637\u0623 \u0641\u064a \u0627\u0644\u0627\u062a\u0635\u0627\u0644.");
         }
     }
 
@@ -195,7 +197,6 @@
         if (e.key === 'Enter') sendMessage();
     });
 
-    // تشغيل المحادثة عند فتح الصفحة
     renderChatBox();
 </script>
 
