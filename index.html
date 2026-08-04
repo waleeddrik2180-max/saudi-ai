@@ -5,33 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saudi AI</title>
     <style>
-        body { background-color: #0d1117; font-family: Tahoma, sans-serif; color: #ffffff; margin: 0; }
-        .container { width: 480px; height: 650px; background: #161b22; border: 2px solid #006c35; }
+        body { background-color: #0d1117; font-family: Tahoma, sans-serif; color: #ffffff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { width: 480px; height: 650px; background: #161b22; border: 2px solid #006c35; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0, 108, 53, 0.4); overflow: hidden; position: relative; }
         
         /* الهيدر */
-        .header { background: linear-gradient(135deg, #006c35, #044e27); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: linear-gradient(135deg, #006c35, #044e27); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00a859; }
         .header h1 { font-size: 16px; margin: 0; color: #ffffff; font-weight: bold; }
         .header-btns { display: flex; gap: 8px; align-items: center; }
-        .action-btn { background: #004d25; border: 1px solid #00a859; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .action-btn { background: #004d25; border: 1px solid #00a859; color: white; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
         .action-btn:hover { background: #006c35; }
 
         /* الشات */
-        .chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; }
         .message-container { display: flex; flex-direction: column; max-width: 85%; }
         .message-container.user { align-self: flex-end; }
+        .message-container.ai { align-self: flex-start; }
+        
+        .message { padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.4; word-wrap: break-word; white-space: pre-wrap; }
+        .message.user { background-color: #006c35; color: #ffffff; }
+        .message.ai { background-color: #21262d; color: #e0e0e0; border-left: 3px solid #00a859; }
+
+        /* أزرار التحكم بالرسالة */
+        .msg-actions { display: flex; gap: 10px; margin-top: 4px; font-size: 11px; }
+        .msg-actions button { background: none; border: none; color: #8b949e; cursor: pointer; padding: 0; }
+        .msg-actions button:hover { color: #ffffff; text-decoration: underline; }
+
+        /* مؤشر الكتابة (الدوائر الثلاث المتحركة) */
+        .typing-indicator { display: flex; align-items: center; gap: 4px; padding: 4px 2px; }
+        .typing-indicator span { height: 8px; width: 8px; background-color: #8b949e; border-radius: 50%; display: inline-block; animation: bounce 1.3s infinite ease-in-out; }
+        .typing-indicator span:nth-child(2) { animation-delay: -1.1s; }
+        .typing-indicator span:nth-child(3) { animation-delay: -0.9s; }
+        @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+
+        /* منطقة الإدخال */
+        .input-area { padding: 12px; background: #0d1117; display: flex; gap: 8px; border-top: 1px solid #30363d; }
+        #userInput { flex: 1; background: #21262d; border: 1px solid #30363d; color: #ffffff; padding: 10px 12px; border-radius: 8px; outline: none; font-size: 14px; }
+        #userInput:focus { border-color: #006c35; }
+        #sendBtn { background-color: #006c35; color: #ffffff; border: none; padding: 0 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        #sendBtn:disabled { background-color: #30363d; color: #8b949e; cursor: not-allowed; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Saudi AI</h1>
-            <div class="header-btns">
-                <button class="action-btn">جديد</button>
-            </div>
-        </div>
-        <div class="chat-box">
-            <!-- محتوى الشات هنا -->
-        </div>
+
+<div class="container" id="appContainer">
+    <div class="header">
+        <button class="action-btn" id="clearBtn" onclick="clearChat()">🗑️ مسح</button>
+        <h1 id="mainTitle">Saudi AI 🇸🇦</h1>
+        <button class="action-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
     </div>
+    
+    <div id="chatBox" class="chat-box"></div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="اسأل سعودي AI" />
+        <button id="sendBtn" onclick="sendMessage()">إرسال</button>
+    </div>
+</div>
+
+<script>
+    const GROQ_API_KEY = "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"; 
+    
+    let currentLang = 'ar';
+    let chatHistory = JSON.parse(localStorage.getItem('saudi_ai_history')) || [
+        { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }
+    ];
+
+    const translations = {
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل سعودي AI", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask Saudi AI", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete" }
+    };
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        document.getElementById('appContainer').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        document.getElementById('mainTitle').innerText = translations[currentLang].title;
+        document.getElementById('userInput').placeholder = translations[currentLang].placeholder;
+        document.getElementById('sendBtn').innerText = translations[currentLang].send;
+        document.getElementById('clearBtn').innerText = translations[currentLang].clear;
+        document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
+        renderChatBox();
+    }
+
+    function renderChatBox() {
+        const chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML = '';
+        for (let i = 1; i < chatHistory.length; i++) {
+            const msg = chatHistory[i];
+            if (!msg) continue;
+            const isUser = msg.role === 'user';
+            
+            const container = document.createElement('div');
+            container.className = `message-container ${isUser ? 'user' : 'ai'}`;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.innerText = msg.content || '';
+            container.appendChild(messageDiv);
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'msg-actions';
+            
+            if (isUser) {
+                const delBtn = document.createElement('button');
+                delBtn.innerText = translations[currentLang].delete;
+                delBtn.onclick = () => deleteMessage(i);
+                actionsDiv.appendChild(delBtn);
+            } else {
+                const copyBtn = document.createElement('button');
+                copyBtn.innerText = translations[currentLang].copy;
+                copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
+                actionsDiv.appendChild(copyBtn);
+            }
+            
+            container.appendChild(actionsDiv);
+            chatBox.appendChild(container);
+        }
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function deleteMessage(index) {
+        chatHistory.splice(index, 1);
+        if (index < chatHistory.length && chatHistory[index].role === 'assistant') {
+            chatHistory.splice(index, 1);
+        }
+        localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+        renderChatBox();
+    }
+
+    function clearChat() {
+        chatHistory = [{ role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }];
+        localStorage.removeItem('saudi_ai_history');
+        renderChatBox();
+    }
+
+    async function sendMessage() {
+        const userInput = document.getElementById('userInput');
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        chatHistory.push({ role: "user", content: text });
+        userInput.value = '';
+        renderChatBox();
+
+        const sendBtn = document.getElementById('sendBtn');
+        sendBtn.disabled = true;
+
+        // إضافة مؤشر الكتابة (الدوائر الثلاث)
+        const chatBox = document.getElementById('chatBox');
+        const typingContainer = document.createElement('div');
+        typingContainer.className = 'message-container ai';
+        typingContainer.id = 'typingIndicator';
+        typingContainer.innerHTML = `<div class="message ai"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+        chatBox.appendChild(typingContainer);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        try {
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${GROQ_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: chatHistory
+                })
+            });
+
+            const data = await response.json();
+            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+            sendBtn.disabled = false;
+
+            if (data.choices && data.choices.length > 0) {
+                const reply = data.choices[0].message.content;
+                chatHistory.push({ role: "assistant", content: reply });
+                localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+                renderChatBox();
+            } else {
+                chatHistory.push({ role: "assistant", content: "عذراً، لم أستطع الرد." });
+                renderChatBox();
+            }
+        } catch (error) {
+            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+            sendBtn.disabled = false;
+            alert("حدث خطأ في الاتصال.");
+        }
+    }
+
+    document.getElementById('userInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    renderChatBox();
+</script>
+
 </body>
 </html>
