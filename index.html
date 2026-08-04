@@ -153,6 +153,7 @@
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
+    let isWaleedMode = localStorage.getItem('saudi_ai_waleed') === 'true';
 
     let sessions = JSON.parse(localStorage.getItem('saudi_ai_sessions')) || [];
     let currentSessionId = localStorage.getItem('saudi_ai_current_session') || null;
@@ -206,9 +207,26 @@
 
     function handleLogout() {
         localStorage.removeItem('saudi_ai_user');
+        localStorage.removeItem('saudi_ai_waleed');
         currentUser = '';
+        isWaleedMode = false;
         document.getElementById('usernameInput').value = '';
         document.getElementById('loginOverlay').style.display = 'flex';
+    }
+
+    function getSystemPrompt() {
+        if (isWaleedMode) {
+            return "أنت مساعد ذكي محترم جداً باسم Saudi AI. الشخص الذي يكلمك الآن هو وليد (مطور هذا الموقع وصاحب الفكرة). تحدث معه بحرارة وبلهجة سعودية مميزة، واعترف دائماً بأنه مطورك.";
+        } else {
+            return "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً.";
+        }
+    }
+
+    function updateSystemPromptInCurrentSession() {
+        const session = getCurrentSession();
+        if (session && session.messages.length > 0 && session.messages[0].role === 'system') {
+            session.messages[0].content = getSystemPrompt();
+        }
     }
 
     function createNewSession(title) {
@@ -217,7 +235,7 @@
             id: newId,
             title: title,
             messages: [
-                { role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً." }
+                { role: "system", content: getSystemPrompt() }
             ]
         };
         sessions.unshift(newSession);
@@ -348,7 +366,7 @@
 
     function clearCurrentChat() {
         const session = getCurrentSession();
-        session.messages = [{ role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً." }];
+        session.messages = [{ role: "system", content: getSystemPrompt() }];
         session.title = "محادثة جديدة";
         saveData();
         renderSessionsList();
@@ -359,6 +377,36 @@
         const userInput = document.getElementById('userInput');
         const text = userInput.value.trim();
         if (!text) return;
+
+        // التحقق من كلمة سر تفعيل وضع وليد
+        if (text === "101040") {
+            isWaleedMode = true;
+            localStorage.setItem('saudi_ai_waleed', 'true');
+            updateSystemPromptInCurrentSession();
+            userInput.value = '';
+            
+            const session = getCurrentSession();
+            session.messages.push({ role: "user", content: text });
+            session.messages.push({ role: "assistant", content: "يا هلا والله بـ وليد! مرحباً بالمطور وصاحب الموقع، تم التعرف عليك بنجاح، أمرني وش تبي؟" });
+            saveData();
+            renderChatBox();
+            return;
+        }
+
+        // التحقق من كلمة سر العودة لوضع المستخدم العادي
+        if (text === "401010") {
+            isWaleedMode = false;
+            localStorage.removeItem('saudi_ai_waleed');
+            updateSystemPromptInCurrentSession();
+            userInput.value = '';
+            
+            const session = getCurrentSession();
+            session.messages.push({ role: "user", content: text });
+            session.messages.push({ role: "assistant", content: "تم الرجوع لوضع المستخدم العادي بنجاح." });
+            saveData();
+            renderChatBox();
+            return;
+        }
 
         const session = getCurrentSession();
         if (session.messages.length === 1) {
