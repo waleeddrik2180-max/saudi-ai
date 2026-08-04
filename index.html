@@ -28,36 +28,30 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 108, 53, 0.2); 
             overflow: hidden; 
             position: relative; 
-            animation: fadeIn 0.5s ease-in-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.97); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* شاشة تسجيل الدخول */
+        /* شاشة تسجيل الدخول مرتبة وبدون تداخل */
         #loginOverlay { 
             position: absolute; 
             top: 0; 
             left: 0; 
             width: 100%; 
             height: 100%; 
-            background: linear-gradient(135deg, rgba(13, 22, 17, 0.95), rgba(7, 12, 9, 0.98)); 
+            background: #0d1611; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            z-index: 20; 
-            padding: 20px; 
+            z-index: 999; 
+            padding: 30px; 
             box-sizing: border-box; 
             text-align: center; 
         }
-        #loginOverlay h2 { color: #00ff88; margin-bottom: 10px; text-shadow: 0 0 10px rgba(0,255,136,0.3); }
-        #loginOverlay p { color: #8fa396; font-size: 14px; margin-bottom: 20px; }
-        #usernameInput { width: 75%; background: rgba(26, 38, 30, 0.9); border: 1px solid rgba(0, 168, 89, 0.4); color: #ffffff; padding: 14px; border-radius: 12px; outline: none; font-size: 15px; margin-bottom: 15px; text-align: center; transition: all 0.3s; }
+        #loginOverlay h2 { color: #00ff88; margin-bottom: 8px; font-size: 22px; text-shadow: 0 0 10px rgba(0,255,136,0.3); }
+        #loginOverlay p { color: #8fa396; font-size: 14px; margin-bottom: 25px; }
+        #usernameInput { width: 80%; max-width: 320px; background: rgba(26, 38, 30, 0.9); border: 1px solid rgba(0, 168, 89, 0.5); color: #ffffff; padding: 12px 16px; border-radius: 10px; outline: none; font-size: 14px; margin-bottom: 15px; text-align: center; }
         #usernameInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
-        #loginBtn { background: linear-gradient(135deg, #00b359, #006c35); color: #ffffff; border: none; padding: 12px 30px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: transform 0.2s, box-shadow 0.2s; }
+        #loginBtn { background: linear-gradient(135deg, #00b359, #006c35); color: #ffffff; border: none; padding: 10px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; }
         #loginBtn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,179,89,0.4); }
 
         /* القائمة الجانبية لسجل المحادثات */
@@ -79,7 +73,7 @@
         
         /* الهيدر */
         .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header h1 { font-size: 17px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 0.5px; }
+        .header h1 { font-size: 17px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .header-btns { display: flex; gap: 8px; align-items: center; }
         .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
@@ -89,11 +83,7 @@
         .chat-box::-webkit-scrollbar { width: 6px; }
         .chat-box::-webkit-scrollbar-thumb { background: rgba(0,108,53,0.5); border-radius: 4px; }
         
-        .message-container { display: flex; flex-direction: column; max-width: 82%; animation: msgPop 0.3s ease-out; }
-        @keyframes msgPop {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .message-container { display: flex; flex-direction: column; max-width: 82%; }
         .message-container.user { align-self: flex-end; }
         .message-container.ai { align-self: flex-start; }
         
@@ -126,8 +116,8 @@
 <div class="app-wrapper">
     <!-- نافذة تسجيل الدخول -->
     <div id="loginOverlay">
-        <h2>أهلاً بك في Saudi AI 🇸🇦</h2>
-        <p>الرجاء إدخال اسمك للبدء بالمحادثة بأسلوب فخم ومتجدد</p>
+        <h2>Saudi AI 🇸🇦</h2>
+        <p>الرجاء إدخال اسمك للبدء في المحادثة</p>
         <input type="text" id="usernameInput" placeholder="اكتب اسمك هنا..." />
         <button id="loginBtn" onclick="handleLogin()">دخول</button>
     </div>
@@ -178,13 +168,20 @@
         en: { title: "Saudi AI 🇸🇦", placeholder: "Ask Saudi AI...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
     };
 
-    window.onload = function() {
-        if (currentUser) {
-            document.getElementById('loginOverlay').style.display = 'none';
-        }
+    window.addEventListener('DOMContentLoaded', () => {
+        checkLoginState();
         renderSessionsList();
         renderChatBox();
-    };
+    });
+
+    function checkLoginState() {
+        const overlay = document.getElementById('loginOverlay');
+        if (currentUser && currentUser.trim() !== "") {
+            overlay.style.display = 'none';
+        } else {
+            overlay.style.display = 'flex';
+        }
+    }
 
     function handleLogin() {
         const nameInput = document.getElementById('usernameInput');
@@ -195,14 +192,16 @@
         }
         currentUser = name;
         localStorage.setItem('saudi_ai_user', currentUser);
+        
+        // إخفاء نافذة تسجيل الدخول نهائياً وتحديث الواجهة
         document.getElementById('loginOverlay').style.display = 'none';
         
         const currentSession = sessions.find(s => s.id == currentSessionId);
         if (currentSession && currentSession.messages.length === 1) {
             currentSession.messages.push({ role: "assistant", content: `أهلاً بك يا ${currentUser}! منور اليوم، كيف أقدر أخدمك؟` });
             saveData();
-            renderChatBox();
         }
+        renderChatBox();
     }
 
     function handleLogout() {
@@ -397,7 +396,7 @@
 
             const data = await response.json();
             if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-            sendBtn.disabled, sendBtn.disabled = false;
+            sendBtn.disabled = false;
 
             if (data.choices && data.choices.length > 0) {
                 const reply = data.choices[0].message.content;
@@ -409,7 +408,7 @@
                 renderChatBox();
             }
         } catch (error) {
-            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator'].remove();
+            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
             sendBtn.disabled = false;
             alert("حدث خطأ في الاتصال.");
         }
