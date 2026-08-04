@@ -91,9 +91,6 @@
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); color: #ffffff; border-bottom-right-radius: 4px; border: 1px solid rgba(0,255,136,0.2); }
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 4px; border-left: 4px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
-        /* تنسيق الصور المتولدة داخل الشات */
-        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-
         /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 12px; margin-top: 5px; font-size: 11px; padding: 0 4px; }
         .msg-actions button { background: none; border: none; color: #7a9485; cursor: pointer; padding: 0; transition: 0.2s; }
@@ -145,7 +142,7 @@
         <div id="chatBox" class="chat-box"></div>
 
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
+            <input type="text" id="userInput" placeholder="اسأل سعودي AI..." />
             <button id="sendBtn" onclick="sendMessage()">إرسال</button>
         </div>
     </div>
@@ -167,8 +164,8 @@
     }
 
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل أو ارسم مع سعودي AI...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask or draw with Saudi AI...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل سعودي AI...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask Saudi AI...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -196,11 +193,12 @@
         currentUser = name;
         localStorage.setItem('saudi_ai_user', currentUser);
         
+        // إخفاء نافذة تسجيل الدخول نهائياً وتحديث الواجهة
         document.getElementById('loginOverlay').style.display = 'none';
         
         const currentSession = sessions.find(s => s.id == currentSessionId);
         if (currentSession && currentSession.messages.length === 1) {
-            currentSession.messages.push({ role: "assistant", content: `أهلاً بك يا ${currentUser}! منور اليوم، كيف أقدر أخدمك أو أرسم لك؟` });
+            currentSession.messages.push({ role: "assistant", content: `أهلاً بك يا ${currentUser}! منور اليوم، كيف أقدر أخدمك؟` });
             saveData();
         }
         renderChatBox();
@@ -314,12 +312,7 @@
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
-            
-            if (msg.type === 'image') {
-                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
-            } else {
-                messageDiv.innerText = msg.content || '';
-            }
+            messageDiv.innerText = msg.content || '';
             container.appendChild(messageDiv);
 
             const actionsDiv = document.createElement('div');
@@ -331,17 +324,10 @@
                 delBtn.onclick = () => deleteMessage(i);
                 actionsDiv.appendChild(delBtn);
             } else {
-                if (msg.type === 'image') {
-                    const downloadBtn = document.createElement('button');
-                    downloadBtn.innerText = "تحميل الصورة";
-                    downloadBtn.onclick = () => window.open(msg.imageUrl, '_blank');
-                    actionsDiv.appendChild(downloadBtn);
-                } else {
-                    const copyBtn = document.createElement('button');
-                    copyBtn.innerText = translations[currentLang].copy;
-                    copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
-                    actionsDiv.appendChild(copyBtn);
-                }
+                const copyBtn = document.createElement('button');
+                copyBtn.innerText = translations[currentLang].copy;
+                copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
+                actionsDiv.appendChild(copyBtn);
             }
             
             container.appendChild(actionsDiv);
@@ -395,67 +381,36 @@
         chatBox.appendChild(typingContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // التحقق مما إذا كان المستخدم يطلب رسم صورة
-        const lowerText = text.toLowerCase();
-        const isImageRequest = lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.includes("draw") || lowerText.includes("image of");
+        try {
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${GROQ_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: session.messages
+                })
+            });
 
-        if (isImageRequest) {
-            // استخراج وصف الصورة بعد كلمات الطلب
-            let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
-            if(!promptText) promptText = text;
-            
-            // رابط توليد الصور المجاني والسريع
-            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}`;
-            
-            // محاكاة بسيطة للتحميل
-            setTimeout(() => {
-                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-                sendBtn.disabled = false;
-                
-                const replyText = `سمง يا وليد، هذي هي الصورة بناءً على طلبك: "${promptText}"`;
-                session.messages.push({ 
-                    role: "assistant", 
-                    content: replyText, 
-                    type: "image", 
-                    imageUrl: imageUrl 
-                });
+            const data = await response.json();
+            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+            sendBtn.disabled = false;
+
+            if (data.choices && data.choices.length > 0) {
+                const reply = data.choices[0].message.content;
+                session.messages.push({ role: "assistant", content: reply });
                 saveData();
                 renderChatBox();
-            }, 1200);
-
-        } else {
-            // محادثة نصية طبيعية عبر Groq API
-            try {
-                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${GROQ_API_KEY}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
-                        messages: session.messages
-                    })
-                });
-
-                const data = await response.json();
-                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator'].remove();
-                sendBtn.disabled = false;
-
-                if (data.choices && data.choices.length > 0) {
-                    const reply = data.choices[0].message.content;
-                    session.messages.push({ role: "assistant", content: reply });
-                    saveData();
-                    renderChatBox();
-                } else {
-                    session.messages.push({ role: "assistant", content: "عذراً، لم أستطع الرد." });
-                    renderChatBox();
-                }
-            } catch (error) {
-                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-                sendBtn.disabled = false;
-                alert("حدث خطأ في الاتصال.");
+            } else {
+                session.messages.push({ role: "assistant", content: "عذراً، لم أستطع الرد." });
+                renderChatBox();
             }
+        } catch (error) {
+            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+            sendBtn.disabled = false;
+            alert("حدث خطأ في الاتصال.");
         }
     }
 
