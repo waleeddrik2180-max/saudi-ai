@@ -65,21 +65,9 @@
     const GROQ_API_KEY = "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"; 
     
     let currentLang = 'ar';
-    
-    const defaultSystemPrompt = "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة.";
-    const waleedSystemPrompt = "أنت مساعد ذكي باسم Saudi AI. هذا المستخدم الذي يكلمك هو وليد (مطور هذا التطبيق البطل)، تحدث معه بكل حفاوة وتقدير واعرف أنه مطورك.";
-
-    // استرجاع حالة وضع وليد من التخزين المحلي
-    let isWaleedMode = localStorage.getItem('saudi_ai_is_waleed') === 'true';
-
     let chatHistory = JSON.parse(localStorage.getItem('saudi_ai_history')) || [
-        { role: "system", content: isWaleedMode ? waleedSystemPrompt : defaultSystemPrompt }
+        { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }
     ];
-
-    // التأكد من أن الـ system prompt محدث دائماً بناءً على الوضع الحالي
-    if (chatHistory.length > 0 && chatHistory[0].role === 'system') {
-        chatHistory[0].content = isWaleedMode ? waleedSystemPrompt : defaultSystemPrompt;
-    }
 
     const translations = {
         ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل سعودي AI", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف" },
@@ -144,7 +132,7 @@
     }
 
     function clearChat() {
-        chatHistory = [{ role: "system", content: isWaleedMode ? waleedSystemPrompt : defaultSystemPrompt }];
+        chatHistory = [{ role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }];
         localStorage.removeItem('saudi_ai_history');
         renderChatBox();
     }
@@ -153,31 +141,6 @@
         const userInput = document.getElementById('userInput');
         const text = userInput.value.trim();
         if (!text) return;
-
-        // التحقق من كود تفعيل وضع وليد
-        if (text === "101040") {
-            isWaleedMode = true;
-            localStorage.setItem('saudi_ai_is_waleed', 'true');
-            chatHistory[0].content = waleedSystemPrompt;
-            chatHistory.push({ role: "user", content: text });
-            chatHistory.push({ role: "assistant", content: "أهلاً بك يا وليد! تم التعرف عليك يا مطورنا العزيز، كيف أقدر أساعدك اليوم؟" });
-            userInput.value = '';
-            localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
-            renderChatBox();
-            return;
-        } 
-        // التحقق من كود العودة للمستخدم العادي
-        else if (text === "401010") {
-            isWaleedMode = false;
-            localStorage.setItem('saudi_ai_is_waleed', 'false');
-            chatHistory[0].content = defaultSystemPrompt;
-            chatHistory.push({ role: "user", content: text });
-            chatHistory.push({ role: "assistant", content: "تم التحويل إلى وضع المستخدم العادي بنجاح." });
-            userInput.value = '';
-            localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
-            renderChatBox();
-            return;
-        }
 
         chatHistory.push({ role: "user", content: text });
         userInput.value = '';
