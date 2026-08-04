@@ -5,22 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saudi AI</title>
     <style>
-        body { background-color: #0d1117; font-family: Tahoma, sans-serif; color: #ffffff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        body { background-color: #0d1117; font-family: Tahoma, sans-serif; color: #ffffff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .container { width: 480px; height: 650px; background: #161b22; border: 2px solid #006c35; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0, 108, 53, 0.4); overflow: hidden; position: relative; }
         
-        /* شاشة تسجيل الدخول */
-        #loginOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #161b22; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 20; padding: 20px; box-sizing: border-box; text-align: center; }
-        #loginOverlay h2 { color: #00a859; margin-bottom: 10px; }
-        #loginOverlay p { color: #8b949e; font-size: 14px; margin-bottom: 20px; }
-        #usernameInput { width: 80%; background: #21262d; border: 1px solid #30363d; color: #ffffff; padding: 12px; border-radius: 8px; outline: none; font-size: 14px; margin-bottom: 15px; text-align: center; }
-        #usernameInput:focus { border-color: #006c35; }
-        #loginBtn { background-color: #006c35; color: #ffffff; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; }
-        #loginBtn:hover { background-color: #005a2b; }
-
         /* الهيدر */
         .header { background: linear-gradient(135deg, #006c35, #044e27); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00a859; }
         .header h1 { font-size: 16px; margin: 0; color: #ffffff; font-weight: bold; }
-        .header-btns { display: flex; gap: 6px; align-items: center; }
+        .header-btns { display: flex; gap: 8px; align-items: center; }
         .action-btn { background: #004d25; border: 1px solid #00a859; color: white; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
         .action-btn:hover { background: #006c35; }
 
@@ -35,7 +26,7 @@
         .message.ai { background-color: #21262d; color: #e0e0e0; border-left: 3px solid #00a859; }
 
         /* أزرار التحكم بالرسالة */
-        .msg-actions { display: flex; gap: 12px; margin-top: 4px; font-size: 11px; }
+        .msg-actions { display: flex; gap: 10px; margin-top: 4px; font-size: 11px; }
         .msg-actions button { background: none; border: none; color: #8b949e; cursor: pointer; padding: 0; }
         .msg-actions button:hover { color: #ffffff; text-decoration: underline; }
 
@@ -56,19 +47,8 @@
 <body>
 
 <div class="container" id="appContainer">
-    <!-- نافذة تسجيل الدخول -->
-    <div id="loginOverlay">
-        <h2>أهلاً بك في Saudi AI 🇸🇦</h2>
-        <p>الرجاء إدخال اسمك للبدء بالمحادثة</p>
-        <input type="text" id="usernameInput" placeholder="اكتب اسمك هنا..." />
-        <button id="loginBtn" onclick="handleLogin()">دخول</button>
-    </div>
-
     <div class="header">
-        <div class="header-btns">
-            <button class="action-btn" id="clearBtn" onclick="clearChat()">🗑️ مسح</button>
-            <button class="action-btn" id="logoutBtn" onclick="handleLogout()" style="background: #822; border-color: #a33;">خروج</button>
-        </div>
+        <button class="action-btn" id="clearBtn" onclick="clearChat()">🗑️ مسح</button>
         <h1 id="mainTitle">Saudi AI 🇸🇦</h1>
         <button class="action-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
     </div>
@@ -85,47 +65,14 @@
     const GROQ_API_KEY = "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"; 
     
     let currentLang = 'ar';
-    let currentUser = localStorage.getItem('saudi_ai_user') || '';
     let chatHistory = JSON.parse(localStorage.getItem('saudi_ai_history')) || [
-        { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل احترام وادب." }
+        { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }
     ];
 
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل سعودي AI", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", speak: "🔊 استماع", logout: "خروج" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask Saudi AI", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", speak: "🔊 Speak", logout: "Logout" }
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل سعودي AI", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask Saudi AI", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete" }
     };
-
-    window.onload = function() {
-        if (currentUser) {
-            document.getElementById('loginOverlay').style.display = 'none';
-        }
-        renderChatBox();
-    };
-
-    function handleLogin() {
-        const nameInput = document.getElementById('usernameInput');
-        const name = nameInput.value.trim();
-        if (!name) {
-            alert("الرجاء إدخال الاسم أولاً!");
-            return;
-        }
-        currentUser = name;
-        localStorage.setItem('saudi_ai_user', currentUser);
-        document.getElementById('loginOverlay').style.display = 'none';
-        
-        if (chatHistory.length === 1) {
-            chatHistory.push({ role: "assistant", content: `أهلاً بك يا ${currentUser}! كيف أقدر أخدمك اليوم؟` });
-            localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
-            renderChatBox();
-        }
-    }
-
-    function handleLogout() {
-        localStorage.removeItem('saudi_ai_user');
-        currentUser = '';
-        document.getElementById('usernameInput').value = '';
-        document.getElementById('loginOverlay').style.display = 'flex';
-    }
 
     function toggleLanguage() {
         currentLang = currentLang === 'ar' ? 'en' : 'ar';
@@ -134,21 +81,8 @@
         document.getElementById('userInput').placeholder = translations[currentLang].placeholder;
         document.getElementById('sendBtn').innerText = translations[currentLang].send;
         document.getElementById('clearBtn').innerText = translations[currentLang].clear;
-        document.getElementById('logoutBtn').innerText = translations[currentLang].logout;
         document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
         renderChatBox();
-    }
-
-    function speakText(text) {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
-            utterance.rate = 1.0;
-            window.speechSynthesis.speak(utterance);
-        } else {
-            alert("متصفحك لا يدعم خاصية التحدث الصوتي.");
-        }
     }
 
     function renderChatBox() {
@@ -180,11 +114,6 @@
                 copyBtn.innerText = translations[currentLang].copy;
                 copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
                 actionsDiv.appendChild(copyBtn);
-
-                const speakBtn = document.createElement('button');
-                speakBtn.innerText = translations[currentLang].speak;
-                speakBtn.onclick = () => speakText(msg.content);
-                actionsDiv.appendChild(speakBtn);
             }
             
             container.appendChild(actionsDiv);
@@ -203,7 +132,7 @@
     }
 
     function clearChat() {
-        chatHistory = [{ role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل احترام وادب." }];
+        chatHistory = [{ role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }];
         localStorage.removeItem('saudi_ai_history');
         renderChatBox();
     }
@@ -220,6 +149,7 @@
         const sendBtn = document.getElementById('sendBtn');
         sendBtn.disabled = true;
 
+        // إضافة مؤشر الكتابة
         const chatBox = document.getElementById('chatBox');
         const typingContainer = document.createElement('div');
         typingContainer.className = 'message-container ai';
@@ -265,9 +195,8 @@
         if (e.key === 'Enter') sendMessage();
     });
 
-    document.getElementById('usernameInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleLogin();
-    });
+    // تشغيل المحادثة عند فتح الصفحة
+    renderChatBox();
 </script>
 
 </body>
