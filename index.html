@@ -31,7 +31,7 @@
             position: relative; 
         }
 
-        /* شاشة تسجيل الدخول */
+        /* شاشة تسجيل الدخول مرتبة ومنفصلة تماماً بدون تداخل */
         #loginOverlay { 
             position: absolute; 
             top: 0; 
@@ -78,6 +78,7 @@
         .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
         
+        /* زر قائمة الجوال */
         .menu-toggle { display: none; background: rgba(0, 82, 39, 0.8); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; }
 
         /* الشات */
@@ -105,16 +106,7 @@
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
         /* منطقة الإدخال وزر رفع الصور */
-        .input-area { padding: 12px 15px; background: rgba(10, 17, 13, 0.9); display: flex; flex-direction: column; gap: 8px; border-top: 1px solid rgba(0, 168, 89, 0.2); flex-shrink: 0; }
-        
-        /* معاينة الصورة قبل الإرسال (تظهر فوق خانة الكتابة زي جيمناي) */
-        #imagePreviewContainer { display: none; align-items: center; gap: 10px; background: rgba(22, 33, 26, 0.95); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(0,168,89,0.4); width: fit-content; }
-        #imagePreviewContainer img { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid #00ff88; }
-        #imagePreviewContainer span { font-size: 12px; color: #b8c7be; }
-        #removeImageBtn { background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 14px; font-weight: bold; }
-        #removeImageBtn:hover { color: #ff9999; }
-
-        .input-row { display: flex; flex-direction: row; gap: 8px; align-items: center; width: 100%; }
+        .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; flex-direction: row; gap: 8px; align-items: center; border-top: 1px solid rgba(0, 168, 89, 0.2); flex-shrink: 0; }
         #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
         
@@ -147,7 +139,7 @@
 <body>
 
 <div class="app-wrapper">
-    <!-- شاشة تسجيل الدخول -->
+    <!-- نافذة تسجيل الدخول -->
     <div id="loginOverlay">
         <h2>Saudi AI 🇸🇦</h2>
         <p>الرجاء إدخال اسمك للبدء في المحادثة</p>
@@ -176,21 +168,12 @@
         <div id="chatBox" class="chat-box"></div>
 
         <div class="input-area">
-            <!-- معاينة الصورة المصغرة قبل الإرسال (تختفي بعد الإرسال) -->
-            <div id="imagePreviewContainer">
-                <img id="previewImgElement" src="" alt="Preview">
-                <span>تم إرفاق الصورة</span>
-                <button id="removeImageBtn" onclick="removePendingImage()" title="إزالة الصورة">✕</button>
+            <div class="upload-btn-wrapper">
+                <button class="upload-btn" title="رفع صورة">📷</button>
+                <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)" />
             </div>
-
-            <div class="input-row">
-                <div class="upload-btn-wrapper">
-                    <button class="upload-btn" title="رفع صورة">📷</button>
-                    <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)" />
-                </div>
-                <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
-                <button id="sendBtn" onclick="sendMessage()">إرسال</button>
-            </div>
+            <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
+            <button id="sendBtn" onclick="sendMessage()">إرسال</button>
         </div>
     </div>
 </div>
@@ -201,7 +184,7 @@
     
     let currentLang = 'ar';
     let currentUser = '';
-    let pendingImage = null; // تخزين مؤقت للصورة
+    let pendingImage = null; // تخزين الصورة المرفوعة مؤقتاً قبل الإرسال
 
     let sessions = JSON.parse(localStorage.getItem('saudi_ai_sessions')) || [];
     let currentSessionId = localStorage.getItem('saudi_ai_current_session') || null;
@@ -262,7 +245,6 @@
         };
         sessions.unshift(newSession);
         currentSessionId = newId;
-        removePendingImage();
         saveData();
         renderSessionsList();
         renderChatBox();
@@ -278,7 +260,7 @@
     function switchSession(id) {
         currentSessionId = id;
         localStorage.setItem('saudi_ai_current_session', currentSessionId);
-        removePendingImage();
+        pendingImage = null;
         renderSessionsList();
         renderChatBox();
         if(window.innerWidth <= 768) {
@@ -412,7 +394,7 @@
         const session = getCurrentSession();
         session.messages = [{ role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً." }];
         session.title = "محادثة جديدة";
-        removePendingImage();
+        pendingImage = null;
         saveData();
         renderSessionsList();
         renderChatBox();
@@ -425,17 +407,11 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             pendingImage = e.target.result;
-            document.getElementById('previewImgElement').src = pendingImage;
-            document.getElementById('imagePreviewContainer').style.display = 'flex';
+            document.getElementById('userInput').placeholder = "تم اختيار الصورة، اكتب طلبك عنها واضغط إرسال...";
+            alert("تم رفع الصورة بنجاح! اكتب رسالتك واضغط إرسال لتحليلها.");
         };
         reader.readAsDataURL(file);
         event.target.value = '';
-    }
-
-    function removePendingImage() {
-        pendingImage = null;
-        document.getElementById('imagePreviewContainer').style.display = 'none';
-        document.getElementById('previewImgElement').src = '';
     }
 
     async function sendMessage() {
@@ -445,7 +421,7 @@
 
         const session = getCurrentSession();
         if (session.messages.length === 1 && text) {
-            session.title = text.length > 20 ? text.substring(0, 20) + "..." : text;
+            session.title = text.length > 20 ? text.substring(0, 20) + "..." : "صورة ومحادثة";
             renderSessionsList();
         } else if (session.messages.length === 1 && pendingImage) {
             session.title = "صورة مرفقة";
@@ -453,9 +429,9 @@
         }
 
         const currentImg = pendingImage;
-        removePendingImage(); // مسح المعاينة
+        pendingImage = null;
+        document.getElementById('userInput').placeholder = translations[currentLang].placeholder;
 
-        // حفظ الرسالة في السجل
         if (currentImg) {
             session.messages.push({ 
                 role: "user", 
@@ -510,7 +486,19 @@
                 let apiMessages = [];
                 let systemPrompt = "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً.";
                 
-                if (currentImg) {
+                // البحث في سجل المحادثة العثور على آخر صورة مرفقة لضمان فهم السياق (لو كتب المستخدم "أشرحها لي")
+                let lastImage = currentImg;
+                if (!lastImage) {
+                    for (let i = session.messages.length - 1; i >= 0; i--) {
+                        if (session.messages[i].type === 'user-image' && session.messages[i].imageUrl) {
+                            lastImage = session.messages[i].imageUrl;
+                            break;
+                        }
+                    }
+                }
+
+                if (lastImage && currentImg) {
+                    // إذا كان يرفع صورة جديدة مع رسالة جديدة الآن
                     apiMessages = [
                         { role: "system", content: systemPrompt },
                         {
@@ -518,6 +506,18 @@
                             content: [
                                 { type: "text", text: text || "اشرح لي وش تشوف بهذه الصورة بالتفصيل:" },
                                 { type: "image_url", image_url: { url: currentImg } }
+                            ]
+                        }
+                    ];
+                } else if (lastImage && !currentImg) {
+                    // إذا كان يكتب نص مثل "أشرحها لي" ويبغى الذكاء الاصطناعي يتذكر آخر صورة مرفقة في المحادثة
+                    apiMessages = [
+                        { role: "system", content: systemPrompt },
+                        {
+                            role: "user",
+                            content: [
+                                { type: "text", text: text },
+                                { type: "image_url", image_url: { url: lastImage } }
                             ]
                         }
                     ];
@@ -543,7 +543,7 @@
 
                 const data = await response.json();
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-                sendBtn.disabled, sendBtn.disabled = false;
+                sendBtn.disabled = false;
 
                 if (data.choices && data.choices.length > 0) {
                     const reply = data.choices[0].message.content;
