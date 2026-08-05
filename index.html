@@ -20,7 +20,7 @@
         .app-wrapper { 
             display: flex; 
             width: 780px; 
-            height: 720px; 
+            height: 680px; 
             background: rgba(18, 26, 21, 0.85); 
             backdrop-filter: blur(12px);
             border: 2px solid rgba(0, 168, 89, 0.3); 
@@ -72,19 +72,11 @@
         .container { flex: 1; height: 100%; background: transparent; display: flex; flex-direction: column; position: relative; }
         
         /* الهيدر */
-        .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header h1 { font-size: 16px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; }
-        .header-stats { font-size: 10px; color: #00ff88; font-weight: normal; margin-top: 2px; }
+        .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .header h1 { font-size: 17px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .header-btns { display: flex; gap: 8px; align-items: center; }
-        .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s; }
+        .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
-
-        /* أزرار الاقتراحات السريعة */
-        .quick-prompts { display: flex; gap: 6px; padding: 8px 15px; background: rgba(14, 22, 17, 0.9); overflow-x: auto; border-bottom: 1px solid rgba(0,168,89,0.15); }
-        .quick-prompts::-webkit-scrollbar { height: 3px; }
-        .quick-prompts::-webkit-scrollbar-thumb { background: #006c35; }
-        .quick-chip { background: rgba(0, 108, 53, 0.25); border: 1px solid rgba(0, 255, 136, 0.3); color: #00ff88; padding: 4px 10px; border-radius: 15px; font-size: 11px; cursor: pointer; white-space: nowrap; transition: 0.2s; }
-        .quick-chip:hover { background: rgba(0, 168, 89, 0.5); color: #fff; transform: translateY(-1px); }
 
         /* الشات */
         .chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; }
@@ -146,22 +138,10 @@
                 <button class="action-btn" id="clearBtn" onclick="clearCurrentChat()">🗑️ مسح</button>
                 <button class="action-btn" id="logoutBtn" onclick="handleLogout()" style="background: rgba(130, 34, 34, 0.5); border-color: rgba(200, 50, 50, 0.6);">خروج</button>
             </div>
-            <h1>
-                <span id="mainTitleText">Saudi AI 🇸🇦</span>
-                <span class="header-stats" id="msgCountStats">الرسائل: 0</span>
-            </h1>
+            <h1 id="mainTitle">Saudi AI 🇸🇦</h1>
             <button class="action-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
         </div>
         
-        <!-- أسرع أزرار اقتراحات ورسم -->
-        <div class="quick-prompts">
-            <div class="quick-chip" onclick="sendQuickPrompt('draw a futuristic car')">🚗 سيارة مستقبلية</div>
-            <div class="quick-chip" onclick="sendQuickPrompt('draw a flying eagle')">🦅 صقر يطير</div>
-            <div class="quick-chip" onclick="sendQuickPrompt('draw a cute cat')">🐱 قطة لطيفة</div>
-            <div class="quick-chip" onclick="sendQuickPrompt('draw a wild tiger')">🐅 نمر مفترس</div>
-            <div class="quick-chip" onclick="sendQuickPrompt('draw a night moon')">🌙 قمر الليل</div>
-        </div>
-
         <div id="chatBox" class="chat-box"></div>
 
         <div class="input-area">
@@ -306,7 +286,7 @@
     function toggleLanguage() {
         currentLang = currentLang === 'ar' ? 'en' : 'ar';
         document.getElementById('appContainer').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-        document.getElementById('mainTitleText').innerText = translations[currentLang].title;
+        document.getElementById('mainTitle').innerText = translations[currentLang].title;
         document.getElementById('userInput').placeholder = translations[currentLang].placeholder;
         document.getElementById('sendBtn').innerText = translations[currentLang].send;
         document.getElementById('clearBtn').innerText = translations[currentLang].clear;
@@ -319,20 +299,11 @@
         return sessions.find(s => s.id == currentSessionId) || sessions[0];
     }
 
-    function sendQuickPrompt(promptText) {
-        document.getElementById('userInput').value = promptText;
-        sendMessage();
-    }
-
     function renderChatBox() {
         const chatBox = document.getElementById('chatBox');
         chatBox.innerHTML = '';
         const session = getCurrentSession();
         if (!session) return;
-
-        // تحديث إحصائيات عداد الرسائل
-        const totalMsgs = session.messages.length - 1;
-        document.getElementById('msgCountStats').innerText = currentLang === 'ar' ? `الرسائل: ${totalMsgs < 0 ? 0 : totalMsgs}` : `Messages: ${totalMsgs < 0 ? 0 : totalMsgs}`;
 
         for (let i = 1; i < session.messages.length; i++) {
             const msg = session.messages[i];
@@ -363,7 +334,7 @@
             } else {
                 if (msg.type === 'image') {
                     const downloadBtn = document.createElement('button');
-                    downloadBtn.innerText = currentLang === 'ar' ? "تحميل الصورة" : "Download";
+                    downloadBtn.innerText = "تحميل الصورة";
                     downloadBtn.onclick = () => window.open(msg.imageUrl, '_blank');
                     actionsDiv.appendChild(downloadBtn);
                 } else {
@@ -432,6 +403,7 @@
             let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
             if(!promptText) promptText = text;
             
+            // ربط الصورة بمفتاح API الخاص بك لتوليدها بشكل نظامي
             const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
             
             setTimeout(() => {
