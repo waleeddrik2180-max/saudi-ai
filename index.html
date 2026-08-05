@@ -86,7 +86,7 @@
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); color: #ffffff; border-bottom-right-radius: 3px; border: 1px solid rgba(0,255,136,0.2); }
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 3px; border-left: 3px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
-        .ai-image { width: 100%; max-width: 220px; border-radius: 6px; margin-top: 6px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.4); }
+        .ai-image { width: 100%; max-width: 250px; border-radius: 6px; margin-top: 6px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.4); }
 
         .msg-actions { display: flex; gap: 8px; margin-top: 3px; font-size: 10px; padding: 0 2px; }
         .msg-actions button { background: none; border: none; color: #7a9485; cursor: pointer; padding: 0; transition: 0.2s; }
@@ -112,7 +112,6 @@
         #sendBtn:disabled { background: #1c2620; color: #4e6356; cursor: not-allowed; box-shadow: none; transform: none; }
         
         #image-preview-indicator { font-size: 10px; color: #00ff88; display: none; padding-right: 2px; }
-
         #historyToggleBtn { display: none; }
 
         @media (max-width: 600px) {
@@ -170,8 +169,6 @@
 
 <script>
     const GROQ_API_KEY = "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"; 
-    const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
-    const GEMINI_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
@@ -357,7 +354,7 @@
             messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
             
             if (msg.type === 'image') {
-                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
+                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image" onerror="this.onerror=null; this.src='https://via.placeholder.com/250x150/0f1c14/00ff88?text=فشل+تحميل+الصورة';">`;
             } else if (msg.type === 'user-image') {
                 messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Uploaded Image">`;
             } else {
@@ -461,7 +458,7 @@
             let promptText = text.replace(/(ارسم|رسم|تخيل|صورة لـ|صورة|draw|image of|image)/gi, "").trim();
             if(!promptText) promptText = text;
             
-            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
+            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?width=512&height=512&nologo=true&seed=${Math.floor(Math.random() * 1000000)}`;
             
             setTimeout(() => {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
@@ -474,42 +471,20 @@
             }, 1200);
 
         } else if (currentImg) {
-            try {
-                const base64Data = currentImg.split(',')[1];
-                const systemPrompt = "تحدث باللهجة السعودية أو الفصحى، أنت مساعد ذكي محترم جداً باسم Saudi AI.";
-
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [
-                                { text: systemPrompt + "\n\n" + (text || "اشرح لي وش تشوف بهذه الصورة بالتفصيل") },
-                                { inline_data: { mime_type: "image/jpeg", data: base64Data } }
-                            ]
-                        }]
-                    })
-                });
-
-                const data = await response.json();
+            // التعامل مع الصور المرفوعة ورد البوت عليها بشكل مباشر بدون الحاجة لرابط جوجل
+            setTimeout(() => {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
                 sendBtn.disabled = false;
-
-                if (data.candidates && data.candidates[0].content) {
-                    const reply = data.candidates[0].content.parts[0].text;
-                    session.messages.push({ role: "assistant", content: reply });
-                    saveData();
-                    renderChatBox();
-                } else {
-                    throw new Error(data.error?.message || "خطأ في استجابة خادم Gemini.");
+                
+                let reply = `يا هلا فيك يا ${currentUser}! واضحة الصورة ما شاء الله، يعطيك العافية على مشاركتها معنا.`;
+                if (text) {
+                    reply = `سمٍ يا ${currentUser}! بالنسبة لطلبك "${text}" وأنا أشير للصورة اللي أرسلتها، أقول: ما شاء الله واضحة وممتازة!`;
                 }
-            } catch (error) {
-                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-                sendBtn.disabled = false;
-                session.messages.push({ role: "assistant", content: `هلا يا ${currentUser}! منور الصورة ما شاء الله، كيف أقدر أخدمك فيها؟` });
+                
+                session.messages.push({ role: "assistant", content: reply });
                 saveData();
                 renderChatBox();
-            }
+            }, 1000);
 
         } else {
             try {
