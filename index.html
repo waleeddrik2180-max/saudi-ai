@@ -139,7 +139,7 @@
 <body>
 
 <div class="app-wrapper">
-    <!-- نافذة تسجيل الدخول (تظهر دائماً عند فتح الصفحة) -->
+    <!-- نافذة تسجيل الدخول -->
     <div id="loginOverlay">
         <h2>Saudi AI 🇸🇦</h2>
         <p>الرجاء إدخال اسمك للبدء في المحادثة</p>
@@ -147,7 +147,7 @@
         <button id="loginBtn" onclick="handleLogin()">دخول</button>
     </div>
 
-    <!-- السجل الجانبي للمحادثات -->
+    <!-- القائمة الجانبية لسجل المحادثات -->
     <div class="sidebar" id="sidebar">
         <button class="new-chat-btn" onclick="createNewChat()">+ محادثة جديدة</button>
         <div class="sessions-list" id="sessionsList"></div>
@@ -184,6 +184,7 @@
     
     let currentLang = 'ar';
     let currentUser = '';
+    let pendingImage = null; // تخزين الصورة المؤقتة قبل الإرسال
 
     let sessions = JSON.parse(localStorage.getItem('saudi_ai_sessions')) || [];
     let currentSessionId = localStorage.getItem('saudi_ai_current_session') || null;
@@ -259,6 +260,7 @@
     function switchSession(id) {
         currentSessionId = id;
         localStorage.setItem('saudi_ai_current_session', currentSessionId);
+        pendingImage = null;
         renderSessionsList();
         renderChatBox();
         if(window.innerWidth <= 768) {
@@ -392,6 +394,7 @@
         const session = getCurrentSession();
         session.messages = [{ role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً." }];
         session.title = "محادثة جديدة";
+        pendingImage = null;
         saveData();
         renderSessionsList();
         renderChatBox();
@@ -403,31 +406,9 @@
 
         const reader = new FileReader();
         reader.onload = function(e) {
-            const base64Image = e.target.result;
-            const session = getCurrentSession();
-            
-            if (session.messages.length === 1) {
-                session.title = "صورة مرفقة";
-                renderSessionsList();
-            }
-
-            session.messages.push({ 
-                role: "user", 
-                content: "رفعت هذه الصورة:", 
-                type: "user-image", 
-                imageUrl: base64Image 
-            });
-
-            renderChatBox();
-
-            setTimeout(() => {
-                session.messages.push({ 
-                    role: "assistant", 
-                    content: "يا هلا! وصلتني الصورة، تبي أسوي فيها شي معين ولا أشرحها لك؟" 
-                });
-                saveData();
-                renderChatBox();
-            }, 1000);
+            pendingImage = e.target.result;
+            document.getElementById('userInput').placeholder = "تم اختيار الصورة، اكتب طلبك عنها واضغط إرسال...";
+            alert("تم رفع الصورة بنجاح! اكتب رسالتك واضغط إرسال لتحليلها.");
         };
         reader.readAsDataURL(file);
         event.target.value = '';
@@ -436,15 +417,33 @@
     async function sendMessage() {
         const userInput = document.getElementById('userInput');
         const text = userInput.value.trim();
-        if (!text) return;
+        if (!text && !pendingImage) return;
 
         const session = getCurrentSession();
-        if (session.messages.length === 1) {
-            session.title = text.length > 20 ? text.substring(0, 20) + "..." : text;
+        if (session.messages.length === 1 && text) {
+            session.title = text.length > 20 ? text.substring(0, 20) + "..." : "صورة ومحادثة";
+            renderSessionsList();
+        } else if (session.messages.length === 1 && pendingImage) {
+            session.title = "صورة مرفقة";
             renderSessionsList();
         }
 
-        session.messages.push({ role: "user", content: text });
+        const currentImg = pendingImage;
+        pendingImage = null;
+        document.getElementById('userInput').placeholder = translations[currentLang].placeholder;
+
+        // إضافة الرسالة لسجل الجلسة
+        if (currentImg) {
+            session.messages.push({ 
+                role: "user", 
+                content: text || "تفضل تحليل هذه الصورة:", 
+                type: "user-image", 
+                imageUrl: currentImg 
+            });
+        } else {
+            session.messages.push({ role: "user", content: text });
+        }
+
         userInput.value = '';
         renderChatBox();
 
@@ -460,7 +459,7 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 
         const lowerText = text.toLowerCase();
-        const isImageRequest = lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.includes("draw") || lowerText.includes("image of");
+        const isImageRequest = !currentImg && (lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.includes("draw") || lowerText.includes("image of"));
 
         if (isImageRequest) {
             let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
@@ -485,6 +484,29 @@
 
         } else {
             try {
+                let apiMessages = [];
+                let systemPrompt = "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً.";
+                
+                // تجهيز الرسائل بالشكل المناسب لمودل الرؤية أو النص
+                if (currentImg) {
+                    apiMessages = [
+                        { role: "system", content: systemPrompt },
+                        {
+                            role: "user",
+                            content: [
+                                { type: "text", text: text || "اشرح لي وش تشوف بهذه الصورة بالتفصيل:" },
+                                { type: "image_url", image_url: { url: currentImg } }
+                            ]
+                        }
+                    ];
+                } else {
+                    apiMessages = session.messages.map(m => ({
+                        role: m.role,
+                        content: m.content
+                    }));
+                }
+
+                // استخدام مودل الرؤية الحديث من جروك للصور والنصوص العادية
                 const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
                     headers: {
@@ -492,8 +514,9 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
-                        messages: session.messages
+                        model: "llama-3.2-11b-vision-preview",
+                        messages: apiMessages,
+                        max_tokens: 1024
                     })
                 });
 
