@@ -30,7 +30,7 @@
             position: relative; 
         }
 
-        /* شاشة تسجيل الدخول مرتبة ومنفصلة تماماً بدون تداخل */
+        /* شاشة تسجيل الدخول */
         #loginOverlay { 
             position: absolute; 
             top: 0; 
@@ -54,7 +54,7 @@
         #loginBtn { background: linear-gradient(135deg, #00b359, #006c35); color: #ffffff; border: none; padding: 12px 35px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,179,89,0.3); }
         #loginBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,179,89,0.5); }
 
-        /* القائمة الجانبية لسجل المحادثات */
+        /* القائمة الجانبية */
         .sidebar { width: 240px; background: rgba(10, 17, 13, 0.9); border-left: 1px solid rgba(0, 168, 89, 0.15); display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; }
         .new-chat-btn { background: linear-gradient(135deg, #00a859, #004d25); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 13px; margin-bottom: 15px; text-align: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); }
         .new-chat-btn:hover { opacity: 0.9; transform: scale(1.02); }
@@ -68,17 +68,14 @@
         .session-delete { background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 13px; padding: 0 4px; transition: 0.2s; }
         .session-delete:hover { color: #ff9999; transform: scale(1.1); }
 
-        /* حاوية الشات الرئيسية */
+        /* الشات */
         .container { flex: 1; height: 100%; background: transparent; display: flex; flex-direction: column; position: relative; }
-        
-        /* الهيدر */
         .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .header h1 { font-size: 17px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .header-btns { display: flex; gap: 8px; align-items: center; }
         .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
 
-        /* الشات */
         .chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; }
         .chat-box::-webkit-scrollbar { width: 6px; }
         .chat-box::-webkit-scrollbar-thumb { background: rgba(0,108,53,0.5); border-radius: 4px; }
@@ -91,21 +88,17 @@
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); color: #ffffff; border-bottom-right-radius: 4px; border: 1px solid rgba(0,255,136,0.2); }
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 4px; border-left: 4px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
-        /* تنسيق الصور المتولدة داخل الشات */
         .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
-        /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 12px; margin-top: 5px; font-size: 11px; padding: 0 4px; }
         .msg-actions button { background: none; border: none; color: #7a9485; cursor: pointer; padding: 0; transition: 0.2s; }
         .msg-actions button:hover { color: #00ff88; text-decoration: underline; }
 
-        /* مؤشر الكتابة */
         .typing-indicator span { height: 8px; width: 8px; float: left; margin: 0 3px; background-color: #00ff88; border-radius: 50%; display: inline-block; animation: bounce 1.3s infinite ease-in-out; opacity: 0.7; }
         .typing-indicator span:nth-child(2) { animation-delay: -1.1s; }
         .typing-indicator span:nth-child(3) { animation-delay: -0.9s; }
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
-        /* منطقة الإدخال */
         .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; gap: 10px; border-top: 1px solid rgba(0, 168, 89, 0.2); }
         #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
@@ -125,7 +118,7 @@
         <button id="loginBtn" onclick="handleLogin()">دخول</button>
     </div>
 
-    <!-- السجل الجانبي للمحادثات -->
+    <!-- السجل الجانبي -->
     <div class="sidebar">
         <button class="new-chat-btn" onclick="createNewChat()">+ محادثة جديدة</button>
         <div class="sessions-list" id="sessionsList"></div>
@@ -153,7 +146,6 @@
 
 <script>
     const GROQ_API_KEY = "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"; 
-    const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
@@ -403,8 +395,8 @@
             let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
             if(!promptText) promptText = text;
             
-            // ربط الصورة بمفتاح API الخاص بك لتوليدها بشكل نظامي
-            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
+            // تم تحويل رابط توليد الصور إلى DeepAI ليعمل بسلاسة وثبات
+            const imageUrl = `https://api.deepai.org/job-view-file?url=https://api.deepai.org/gen-file?text=${encodeURIComponent(promptText)}`;
             
             setTimeout(() => {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
