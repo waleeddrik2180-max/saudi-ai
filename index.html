@@ -78,7 +78,7 @@
         .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
         
-        /* زر قائمة الجوال - مخفي بالكمبيوتر */
+        /* زر قائمة الجوال */
         .menu-toggle { display: none; background: rgba(0, 82, 39, 0.8); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; }
 
         /* الشات */
@@ -94,56 +94,43 @@
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); color: #ffffff; border-bottom-right-radius: 4px; border: 1px solid rgba(0,255,136,0.2); }
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 4px; border-left: 4px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
-        /* تنسيق الصور المتولدة داخل الشات */
-        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        .ai-image, .user-uploaded-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
-        /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 12px; margin-top: 5px; font-size: 11px; padding: 0 4px; }
         .msg-actions button { background: none; border: none; color: #7a9485; cursor: pointer; padding: 0; transition: 0.2s; }
         .msg-actions button:hover { color: #00ff88; text-decoration: underline; }
 
-        /* مؤشر الكتابة */
         .typing-indicator span { height: 8px; width: 8px; float: left; margin: 0 3px; background-color: #00ff88; border-radius: 50%; display: inline-block; animation: bounce 1.3s infinite ease-in-out; opacity: 0.7; }
         .typing-indicator span:nth-child(2) { animation-delay: -1.1s; }
         .typing-indicator span:nth-child(3) { animation-delay: -0.9s; }
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
-        /* --- منطقة الإدخال للكمبيوتر (زر الإرسال تحت) --- */
-        .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; flex-direction: column; gap: 10px; border-top: 1px solid rgba(0, 168, 89, 0.2); flex-shrink: 0; }
-        #userInput { width: 100%; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; }
+        /* منطقة الإدخال وزر رفع الصور */
+        .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; flex-direction: row; gap: 8px; align-items: center; border-top: 1px solid rgba(0, 168, 89, 0.2); flex-shrink: 0; }
+        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
-        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); width: 100%; }
+        
+        .upload-btn-wrapper { position: relative; overflow: hidden; display: inline-block; }
+        .upload-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 11px 14px; border-radius: 12px; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .upload-btn:hover { background: #006c35; border-color: #00ff88; }
+        .upload-btn-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
+
+        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); flex-shrink: 0; }
         #sendBtn:hover { transform: translateY(-1px); opacity: 0.9; }
         #sendBtn:disabled { background: #1c2620; color: #4e6356; cursor: not-allowed; box-shadow: none; transform: none; }
 
-        /* ========================================================= */
-        /* --- تخصيص الجوال فقط: زر الإرسال بجانب النص + القائمة المخفية --- */
-        /* ========================================================= */
+        /* تخصيص الجوال */
         @media (max-width: 768px) {
             body { align-items: flex-start; height: 100vh; overflow: hidden; }
             .app-wrapper { width: 100%; height: 100%; max-width: 100%; max-height: 100%; border-radius: 0; border: none; }
             
-            /* القائمة الجانبية تسحب وتظهر */
             .sidebar { position: absolute !important; z-index: 1000; height: 100%; right: -240px; transition: 0.3s ease-in-out; box-shadow: -5px 0 20px rgba(0,0,0,0.8); }
             .sidebar.open { right: 0; }
             .menu-toggle { display: inline-block; }
 
-            /* تحويل منطقة الإدخال بالجوال لتكون بجانب بعضها (Row) */
-            .input-area { 
-                flex-direction: row; 
-                padding: 10px 12px; 
-                gap: 8px; 
-            }
-            #userInput { 
-                padding: 10px 14px; 
-                font-size: 16px; /* منع التكبير التلقائي المزعج بالآيفون */
-            }
-            #sendBtn { 
-                width: auto; 
-                padding: 10px 18px; 
-                font-size: 14px; 
-                flex-shrink: 0; 
-            }
+            .input-area { padding: 10px 12px; }
+            #userInput { padding: 10px 14px; font-size: 16px; }
+            #sendBtn { padding: 10px 16px; font-size: 14px; }
             .message { font-size: 15px; }
             .message-container { max-width: 90%; }
         }
@@ -152,11 +139,11 @@
 <body>
 
 <div class="app-wrapper">
-    <!-- نافذة تسجيل الدخول -->
+    <!-- نافذة تسجيل الدخول (تظهر دائماً عند فتح الصفحة) -->
     <div id="loginOverlay">
         <h2>Saudi AI 🇸🇦</h2>
         <p>الرجاء إدخال اسمك للبدء في المحادثة</p>
-        <input type="text" id="usernameInput" placeholder="اكتب اسمك هنا..." />
+        <input type="text" id="usernameInput" placeholder="اكتب اسمك هنا..." autofocus />
         <button id="loginBtn" onclick="handleLogin()">دخول</button>
     </div>
 
@@ -181,6 +168,10 @@
         <div id="chatBox" class="chat-box"></div>
 
         <div class="input-area">
+            <div class="upload-btn-wrapper">
+                <button class="upload-btn" title="رفع صورة">📷</button>
+                <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)" />
+            </div>
             <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
             <button id="sendBtn" onclick="sendMessage()">إرسال</button>
         </div>
@@ -192,7 +183,7 @@
     const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
-    let currentUser = localStorage.getItem('saudi_ai_user') || '';
+    let currentUser = '';
 
     let sessions = JSON.parse(localStorage.getItem('saudi_ai_sessions')) || [];
     let currentSessionId = localStorage.getItem('saudi_ai_current_session') || null;
@@ -209,22 +200,13 @@
     };
 
     window.addEventListener('DOMContentLoaded', () => {
-        checkLoginState();
+        document.getElementById('loginOverlay').style.display = 'flex';
         renderSessionsList();
         renderChatBox();
     });
 
     function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    function checkLoginState() {
-        const overlay = document.getElementById('loginOverlay');
-        if (currentUser && currentUser.trim() !== "") {
-            overlay.style.display = 'none';
-        } else {
-            overlay.style.display = 'flex';
-        }
     }
 
     function handleLogin() {
@@ -235,8 +217,6 @@
             return;
         }
         currentUser = name;
-        localStorage.setItem('saudi_ai_user', currentUser);
-        
         document.getElementById('loginOverlay').style.display = 'none';
         
         const currentSession = sessions.find(s => s.id == currentSessionId);
@@ -248,7 +228,6 @@
     }
 
     function handleLogout() {
-        localStorage.removeItem('saudi_ai_user');
         currentUser = '';
         document.getElementById('usernameInput').value = '';
         document.getElementById('loginOverlay').style.display = 'flex';
@@ -364,6 +343,8 @@
             
             if (msg.type === 'image') {
                 messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
+            } else if (msg.type === 'user-image') {
+                messageDiv.innerHTML = `${msg.content ? msg.content + '<br>' : ''}<img src="${msg.imageUrl}" class="user-uploaded-image" alt="Uploaded Image">`;
             } else {
                 messageDiv.innerText = msg.content || '';
             }
@@ -414,6 +395,42 @@
         saveData();
         renderSessionsList();
         renderChatBox();
+    }
+
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64Image = e.target.result;
+            const session = getCurrentSession();
+            
+            if (session.messages.length === 1) {
+                session.title = "صورة مرفقة";
+                renderSessionsList();
+            }
+
+            session.messages.push({ 
+                role: "user", 
+                content: "رفعت هذه الصورة:", 
+                type: "user-image", 
+                imageUrl: base64Image 
+            });
+
+            renderChatBox();
+
+            setTimeout(() => {
+                session.messages.push({ 
+                    role: "assistant", 
+                    content: "يا هلا! وصلتني الصورة، تبي أسوي فيها شي معين ولا أشرحها لك؟" 
+                });
+                saveData();
+                renderChatBox();
+            }, 1000);
+        };
+        reader.readAsDataURL(file);
+        event.target.value = '';
     }
 
     async function sendMessage() {
