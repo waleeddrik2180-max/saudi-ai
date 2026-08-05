@@ -92,7 +92,8 @@
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 4px; border-left: 4px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
         /* تنسيق الصور المتولدة داخل الشات */
-        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); cursor: pointer; transition: 0.2s; }
+        .ai-image:hover { opacity: 0.9; transform: scale(1.01); }
 
         /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 12px; margin-top: 5px; font-size: 11px; padding: 0 4px; }
@@ -316,7 +317,7 @@
             messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
             
             if (msg.type === 'image') {
-                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
+                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image" onclick="window.open('${msg.imageUrl}', '_blank')">`;
             } else {
                 messageDiv.innerText = msg.content || '';
             }
@@ -333,23 +334,8 @@
             } else {
                 if (msg.type === 'image') {
                     const downloadBtn = document.createElement('button');
-                    downloadBtn.innerText = "تحميل الصورة";
-                    downloadBtn.onclick = async () => {
-                        try {
-                            const response = await fetch(msg.imageUrl);
-                            const blob = await response.blob();
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = 'saudi-ai-image.jpg';
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            window.URL.revokeObjectURL(url);
-                        } catch (err) {
-                            window.open(msg.imageUrl, '_blank');
-                        }
-                    };
+                    downloadBtn.innerText = "فتح الصورة لحفظها";
+                    downloadBtn.onclick = () => window.open(msg.imageUrl, '_blank');
                     actionsDiv.appendChild(downloadBtn);
                 } else {
                     const copyBtn = document.createElement('button');
@@ -415,6 +401,7 @@
 
         if (isImageRequest) {
             let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
+            if(!promptText) promptText.text = text;
             if(!promptText) promptText = text;
             
             const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}`;
@@ -463,7 +450,7 @@
                 }
             } catch (error) {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-                sendBtn.disabled = false;
+                sendBtn.disabled, sendBtn.disabled = false;
                 alert("حدث خطأ في الاتصال.");
             }
         }
