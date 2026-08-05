@@ -1,136 +1,312 @@
-async function sendMessage() {
-    const userInput = document.getElementById('userInput');
-    const text = userInput.value.trim();
-    if (!text && !pendingImage) return; 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saudi AI - الذكاء الاصطناعي السعودي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            background: #1e293b;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+        h1 {
+            font-size: 1.25rem;
+            color: #38bdf8;
+        }
+        #chatBox {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .message-container.user {
+            align-items: flex-start;
+        }
+        .message-container.ai {
+            align-items: flex-end;
+        }
+        .message {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+        .user .message {
+            background: #0284c7;
+            color: #fff;
+            border-bottom-right-radius: 2px;
+        }
+        .ai .message {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #334155;
+        }
+        .message img {
+            max-width: 200px;
+            border-radius: 8px;
+            margin-top: 8px;
+            display: block;
+        }
+        .input-area {
+            background: #1e293b;
+            padding: 15px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border-top: 1px solid #334155;
+        }
+        textarea {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            resize: none;
+            height: 45px;
+            font-size: 0.95rem;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+        .file-upload-btn {
+            background: #334155;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        #imageInput {
+            display: none;
+        }
+        button#sendBtn {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button#sendBtn:hover {
+            background: #059669;
+        }
+        #image-preview-name {
+            font-size: 0.75rem;
+            color: #38bdf8;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
 
-    const session = getCurrentSession();
-    
-    // تحديث عنوان المحادثة أول ما يبدأ المستخدم بالكتابة
-    if (session.messages.length === 0 && text) {
-        session.title = text.length > 20 ? text.substring(0, 20) + "..." : text;
-        renderSessionsList();
-    } else if (session.messages.length === 0 && pendingImage) {
-        session.title = "صورة مرفقة";
-        renderSessionsList();
-    }
+    <header>
+        <h1>🇸🇦 Saudi AI - الذكاء الاصطناعي السعودي</h1>
+    </header>
 
-    const currentImg = pendingImage;
-    pendingImage = null;
-    
-    const imagePreviewName = document.getElementById('image-preview-name');
-    if (imagePreviewName) imagePreviewName.textContent = "";
+    <div id="chatBox">
+        <div class="message-container ai">
+            <div class="message">حياك الله يا وليد! أنا نظام Saudi AI، جاهز أسولف معك وأشرح صورك. سم وش تبي؟</div>
+        </div>
+    </div>
 
-    if (currentImg) {
-        session.messages.push({ role: "user", content: text || "تفضل تحليل هذه الصورة", type: "user-image", imageUrl: currentImg });
-    } else {
-        session.messages.push({ role: "user", content: text });
-    }
+    <div class="input-area">
+        <label class="file-upload-btn">
+            📁 صورة
+            <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect()">
+        </label>
+        <div style="display: flex; flex-direction: column; flex: 1;">
+            <textarea id="userInput" placeholder="اكتب رسالتك هنا..." onkeydown="checkEnter(event)"></textarea>
+            <div id="image-preview-name"></div>
+        </div>
+        <button id="sendBtn" onclick="sendMessage()">إرسال</button>
+    </div>
 
-    userInput.value = '';
-    renderChatBox();
+    <script>
+        // مفاتيحك الخاصة
+        const GROQ_API_KEY = "حط_مفتاح_قروق_هنا"; // مفتاح الدردشة
+        const GEMINI_IMAGE_API_KEY = "AQ.Ab8RN6JxH8c0ghw_PJ3TQP-IDVWBKUQ-x3dWTEKG4yqgg61FeA"; // مفتاح الصور
+        const POLLINATIONS_API_KEY = ""; // اختياري للرسم
 
-    const sendBtn = document.getElementById('sendBtn');
-    if (sendBtn) sendBtn.disabled = true;
+        let pendingImage = null;
+        let currentSession = { title: "محادثة جديدة", messages: [] };
 
-    const chatBox = document.getElementById('chatBox');
-    const typingContainer = document.createElement('div');
-    typingContainer.className = 'message-container ai';
-    typingContainer.id = 'typingIndicator';
-    typingContainer.innerHTML = `<div class="message">جاري التفكير... ⏳</div>`;
-    chatBox.appendChild(typingContainer);
-    chatBox.scrollTop = chatBox.scrollHeight;
+        function getCurrentSession() {
+            return currentSession;
+        }
 
-    const lowerText = text.toLowerCase();
-    const isImageRequest = !currentImg && (lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.includes("صورة") || lowerText.includes("draw") || lowerText.includes("image of"));
+        function renderChatBox() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.innerHTML = '';
+            currentSession.messages.forEach(m => {
+                const container = document.createElement('div');
+                container.className = `message-container ${m.role === 'user' ? 'user' : 'ai'}`;
+                
+                let contentHtml = m.content.replace(/\n/g, '<br>');
+                if (m.imageUrl) {
+                    contentHtml += `<br><img src="${m.imageUrl}">`;
+                }
+                
+                container.innerHTML = `<div class="message">${contentHtml}</div>`;
+                chatBox.appendChild(container);
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
 
-    if (isImageRequest) {
-        let promptText = text.replace(/^(ارسم|تخيل|draw|image of)\s*/i, "").trim();
-        if (!promptText) promptText = text;
-        const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
-        
-        setTimeout(() => {
-            if (document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-            if (sendBtn) sendBtn.disabled = false;
+        function renderSessionsList() {}
+        function saveData() {}
+
+        function handleImageSelect() {
+            const fileInput = document.getElementById('imageInput');
+            const preview = document.getElementById('image-preview-name');
+            if (fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    pendingImage = e.target.result;
+                    preview.textContent = "تم إرفاق الصورة بنجاح 🖼️";
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        function checkEnter(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const text = userInput.value.trim();
+            if (!text && !pendingImage) return; 
+
+            const session = getCurrentSession();
+            const currentImg = pendingImage;
+            pendingImage = null;
             
-            const replyText = `سم يا وليد، هذي هي الصورة بناءً على طلبك "${promptText}":`;
-            session.messages.push({ role: "assistant", content: replyText, type: "image", imageUrl: imageUrl });
-            saveData();
+            const imagePreviewName = document.getElementById('image-preview-name');
+            if (imagePreviewName) imagePreviewName.textContent = "";
+
+            if (currentImg) {
+                session.messages.push({ role: "user", content: text || "تفضل تحليل هذه الصورة", type: "user-image", imageUrl: currentImg });
+            } else {
+                session.messages.push({ role: "user", content: text });
+            }
+
+            userInput.value = '';
             renderChatBox();
-        }, 1200);
 
-    } else {
-        try {
-            let systemPrompt = "تحدث باللهجة السعودية أو الفصحى، أنت مساعد ذكي محترم جداً باسم Saudi AI. المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً";
-            
-            // تجهيز الرسائل بشكل متوافق تماماً مع Groq Vision API
-            let apiMessages = [{ role: "system", content: systemPrompt }];
-            
-            // نأخذ آخر صورة تم إرسالها إن وجدت في المحادثة
-            let lastImage = currentImg;
-            if (!lastImage) {
-                for (let i = session.messages.length - 1; i >= 0; i--) {
-                    if (session.messages[i].type === "user-image" && session.messages[i].imageUrl) {
-                        lastImage = session.messages[i].imageUrl;
-                        break;
+            const sendBtn = document.getElementById('sendBtn');
+            if (sendBtn) sendBtn.disabled = true;
+
+            const chatBox = document.getElementById('chatBox');
+            const typingContainer = document.createElement('div');
+            typingContainer.className = 'message-container ai';
+            typingContainer.id = 'typingIndicator';
+            typingContainer.innerHTML = `<div class="message">جاري المعالجة... ⏳</div>`;
+            chatBox.appendChild(typingContainer);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                let aiResponse = "";
+                let systemPrompt = "تحدث باللهجة السعودية أو الفصحى، أنت مساعد ذكي محترم جداً باسم Saudi AI. بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً";
+
+                if (currentImg) {
+                    // تحليل الصورة باستخدام مفتاح Gemini المخصص
+                    const base64Data = currentImg.split(',')[1];
+                    
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_IMAGE_API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [
+                                    { text: systemPrompt + "\n\n" + (text || "اشرح لي وش تشوف بهذه الصورة بالتفصيل") },
+                                    { inline_data: { mime_type: "image/jpeg", data: base64Data } }
+                                ]
+                            }]
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0].content) {
+                        aiResponse = data.candidates[0].content.parts[0].text;
+                    } else {
+                        throw new Error(data.error?.message || "خطأ في تحليل الصورة عبر Gemini.");
+                    }
+
+                } else {
+                    // محادثة نصية عبر Groq
+                    let apiMessages = [{ role: "system", content: systemPrompt }];
+                    session.messages.forEach(m => {
+                        if (m.role === 'user' || m.role === 'assistant') {
+                            apiMessages.push({ role: m.role, content: m.content });
+                        }
+                    });
+
+                    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${GROQ_API_KEY}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            model: "llama-3.3-70b-versatile",
+                            messages: apiMessages,
+                            max_tokens: 1024
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.choices && data.choices.length > 0) {
+                        aiResponse = data.choices[0].message.content;
+                    } else {
+                        throw new Error(data.error?.message || "خطأ في استجابة خادم Groq.");
                     }
                 }
-            }
 
-            if (lastImage) {
-                // إذا فيه صورة، ندمج النص والصورة بالشكل الصحيح لـ Groq Vision
-                let chatHistoryText = "";
-                session.messages.forEach(m => {
-                    if (m.role === "user") chatHistoryText += `المستخدم: ${m.content}\n`;
-                    if (m.role === "assistant") chatHistoryText += `المساعد: ${m.content}\n`;
-                });
+                if (document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+                if (sendBtn) sendBtn.disabled = false;
 
-                apiMessages.push({
-                    role: "user",
-                    content: [
-                        { type: "text", text: chatHistoryText + "\n(اشرح لي وش تشوف بهذه الصورة بالتفصيل)" },
-                        { type: "image_url", image_url: { url: lastImage } }
-                    ]
-                });
-            } else {
-                // نص عادي بدون صورة
-                session.messages.forEach(m => {
-                    if (m.role === 'user' || m.role === 'assistant') {
-                        apiMessages.push({ role: m.role, content: m.content });
-                    }
-                });
-            }
-
-            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${GROQ_API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: lastImage ? "llama-3.2-11b-vision-preview" : "llama-3.3-70b-versatile",
-                    messages: apiMessages,
-                    max_tokens: 1024
-                })
-            });
-
-            const data = await response.json();
-            if (document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-            if (sendBtn) sendBtn.disabled = false;
-
-            if (data.choices && data.choices.length > 0) {
-                const reply = data.choices[0].message.content;
-                session.messages.push({ role: "assistant", content: reply });
-                saveData();
+                session.messages.push({ role: "assistant", content: aiResponse });
                 renderChatBox();
-            } else {
-                throw new Error(data.error?.message || "خطأ في استجابة الخادم.");
-            }
 
-        } catch (error) {
-            console.error("Fetch Error:", error);
-            if (document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-            if (sendBtn) sendBtn.disabled = false;
-            alert("حدث خطأ في الاتصال بالشبكة أو الخادم.");
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                if (document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+                if (sendBtn) sendBtn.disabled = false;
+                alert("حدث خطأ: " + error.message);
+            }
         }
-    }
-}
+    </script>
+</body>
+</html>
