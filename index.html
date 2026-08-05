@@ -145,7 +145,7 @@
         <div id="chatBox" class="chat-box"></div>
 
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI (يفضل الإنجليزية للصور)..." />
+            <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
             <button id="sendBtn" onclick="sendMessage()">إرسال</button>
         </div>
     </div>
@@ -334,7 +334,22 @@
                 if (msg.type === 'image') {
                     const downloadBtn = document.createElement('button');
                     downloadBtn.innerText = "تحميل الصورة";
-                    downloadBtn.onclick = () => window.open(msg.imageUrl, '_blank');
+                    downloadBtn.onclick = async () => {
+                        try {
+                            const response = await fetch(msg.imageUrl);
+                            const blob = await response.blob();
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'saudi-ai-image.jpg';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            window.URL.revokeObjectURL(url);
+                        } catch (err) {
+                            window.open(msg.imageUrl, '_blank');
+                        }
+                    };
                     actionsDiv.appendChild(downloadBtn);
                 } else {
                     const copyBtn = document.createElement('button');
@@ -396,14 +411,12 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 
         const lowerText = text.toLowerCase();
-        // الكلمات المفتاحية لتوليد الصور (يدعم الإنجليزية والعربية)
-        const isImageRequest = lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.startsWith("draw") || lowerText.startsWith("image") || lowerText.startsWith("generate");
+        const isImageRequest = lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.includes("draw") || lowerText.includes("image of");
 
         if (isImageRequest) {
-            let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image|generate)\s*/i, "").trim();
+            let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
             if(!promptText) promptText = text;
             
-            // رابط توليد الصور المباشر (يفضل وصف إنجليزي لنتائج أفضل كما طلبت)
             const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}`;
             
             setTimeout(() => {
@@ -419,7 +432,7 @@
                 });
                 saveData();
                 renderChatBox();
-            }, 1000);
+            }, 1200);
 
         } else {
             try {
