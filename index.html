@@ -92,8 +92,7 @@
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 4px; border-left: 4px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
         /* تنسيق الصور المتولدة داخل الشات */
-        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); cursor: pointer; transition: 0.2s; }
-        .ai-image:hover { opacity: 0.9; transform: scale(1.01); }
+        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
         /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 12px; margin-top: 5px; font-size: 11px; padding: 0 4px; }
@@ -154,6 +153,7 @@
 
 <script>
     const GROQ_API_KEY = "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"; 
+    const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
@@ -317,7 +317,7 @@
             messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
             
             if (msg.type === 'image') {
-                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image" onclick="window.open('${msg.imageUrl}', '_blank')">`;
+                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
             } else {
                 messageDiv.innerText = msg.content || '';
             }
@@ -334,7 +334,7 @@
             } else {
                 if (msg.type === 'image') {
                     const downloadBtn = document.createElement('button');
-                    downloadBtn.innerText = "فتح الصورة لحفظها";
+                    downloadBtn.innerText = "تحميل الصورة";
                     downloadBtn.onclick = () => window.open(msg.imageUrl, '_blank');
                     actionsDiv.appendChild(downloadBtn);
                 } else {
@@ -401,16 +401,16 @@
 
         if (isImageRequest) {
             let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
-            if(!promptText) promptText.text = text;
             if(!promptText) promptText = text;
             
-            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}`;
+            // ربط الصورة بمفتاح API الخاص بك لتوليدها بشكل نظامي
+            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
             
             setTimeout(() => {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
                 sendBtn.disabled = false;
                 
-                const replyText = `ابشر يا ${currentUser}، هذي صورتك بناءً على طلبك:`;
+                const replyText = `سمٍ يا وليد، هذي هي الصورة بناءً على طلبك: "${promptText}"`;
                 session.messages.push({ 
                     role: "assistant", 
                     content: replyText, 
@@ -450,7 +450,7 @@
                 }
             } catch (error) {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-                sendBtn.disabled, sendBtn.disabled = false;
+                sendBtn.disabled = false;
                 alert("حدث خطأ في الاتصال.");
             }
         }
