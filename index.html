@@ -19,10 +19,8 @@
         
         .app-wrapper { 
             display: flex; 
-            width: 100%; 
-            height: 100%; 
-            max-width: 900px; 
-            max-height: 750px; 
+            width: 780px; 
+            height: 680px; 
             background: rgba(18, 26, 21, 0.85); 
             backdrop-filter: blur(12px);
             border: 2px solid rgba(0, 168, 89, 0.3); 
@@ -32,27 +30,7 @@
             position: relative; 
         }
 
-        @media (max-width: 768px) {
-            .app-wrapper {
-                max-width: 100%;
-                max-height: 100%;
-                height: 100vh;
-                border-radius: 0;
-                border: none;
-            }
-            .sidebar {
-                position: absolute;
-                z-index: 100;
-                height: 100%;
-                right: -240px;
-                transition: 0.3s ease;
-            }
-            .sidebar.open {
-                right: 0;
-            }
-        }
-
-        /* شاشة تسجيل الدخول */
+        /* شاشة تسجيل الدخول مرتبة ومنفصلة تماماً بدون تداخل */
         #loginOverlay { 
             position: absolute; 
             top: 0; 
@@ -76,8 +54,8 @@
         #loginBtn { background: linear-gradient(135deg, #00b359, #006c35); color: #ffffff; border: none; padding: 12px 35px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,179,89,0.3); }
         #loginBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,179,89,0.5); }
 
-        /* القائمة الجانبية */
-        .sidebar { width: 240px; background: rgba(10, 17, 13, 0.95); border-left: 1px solid rgba(0, 168, 89, 0.15); display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; }
+        /* القائمة الجانبية لسجل المحادثات */
+        .sidebar { width: 240px; background: rgba(10, 17, 13, 0.9); border-left: 1px solid rgba(0, 168, 89, 0.15); display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; }
         .new-chat-btn { background: linear-gradient(135deg, #00a859, #004d25); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 13px; margin-bottom: 15px; text-align: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); }
         .new-chat-btn:hover { opacity: 0.9; transform: scale(1.02); }
         .sessions-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
@@ -91,21 +69,21 @@
         .session-delete:hover { color: #ff9999; transform: scale(1.1); }
 
         /* حاوية الشات الرئيسية */
-        .container { flex: 1; height: 100%; background: transparent; display: flex; flex-direction: column; position: relative; min-width: 0; }
+        .container { flex: 1; height: 100%; background: transparent; display: flex; flex-direction: column; position: relative; }
         
         /* الهيدر */
-        .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header h1 { font-size: 16px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .header-btns { display: flex; gap: 6px; align-items: center; }
-        .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s; }
+        .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .header h1 { font-size: 17px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .header-btns { display: flex; gap: 8px; align-items: center; }
+        .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
 
         /* الشات */
-        .chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; }
+        .chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; }
         .chat-box::-webkit-scrollbar { width: 6px; }
         .chat-box::-webkit-scrollbar-thumb { background: rgba(0,108,53,0.5); border-radius: 4px; }
         
-        .message-container { display: flex; flex-direction: column; max-width: 85%; }
+        .message-container { display: flex; flex-direction: column; max-width: 82%; }
         .message-container.user { align-self: flex-end; }
         .message-container.ai { align-self: flex-start; }
         
@@ -113,15 +91,8 @@
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); color: #ffffff; border-bottom-right-radius: 4px; border: 1px solid rgba(0,255,136,0.2); }
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 4px; border-left: 4px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
-        /* تنسيق الصور */
-        .ai-image { width: 100%; max-width: 260px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-        .user-uploaded-img { width: 100%; max-width: 200px; border-radius: 8px; margin-bottom: 8px; display: block; border: 1px solid rgba(255,255,136,0.3); }
-
-        /* معاينة الصورة المرفوعة */
-        #imagePreviewContainer { display: none; padding: 8px 15px; background: rgba(10, 17, 13, 0.95); border-top: 1px solid rgba(0, 168, 89, 0.2); align-items: center; gap: 10px; }
-        #imagePreviewContainer img { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid #00ff88; }
-        #imagePreviewContainer span { font-size: 12px; color: #8fa396; flex: 1; }
-        #removeImgBtn { background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 14px; }
+        /* تنسيق الصور المتولدة داخل الشات */
+        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
         /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 12px; margin-top: 5px; font-size: 11px; padding: 0 4px; }
@@ -135,12 +106,10 @@
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
         /* منطقة الإدخال */
-        .input-area { padding: 12px 15px; background: rgba(10, 17, 13, 0.9); display: flex; gap: 8px; align-items: center; border-top: 1px solid rgba(0, 168, 89, 0.2); }
-        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 14px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; min-width: 0; }
+        .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; gap: 10px; border-top: 1px solid rgba(0, 168, 89, 0.2); }
+        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
-        .attach-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 10px 12px; border-radius: 12px; cursor: pointer; font-size: 15px; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
-        .attach-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
-        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 12px 18px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); }
+        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 0 22px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); }
         #sendBtn:hover { transform: translateY(-1px); opacity: 0.9; }
         #sendBtn:disabled { background: #1c2620; color: #4e6356; cursor: not-allowed; box-shadow: none; transform: none; }
     </style>
@@ -157,7 +126,7 @@
     </div>
 
     <!-- السجل الجانبي للمحادثات -->
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar">
         <button class="new-chat-btn" onclick="createNewChat()">+ محادثة جديدة</button>
         <div class="sessions-list" id="sessionsList"></div>
     </div>
@@ -166,7 +135,6 @@
     <div class="container" id="appContainer">
         <div class="header">
             <div class="header-btns">
-                <button class="action-btn" onclick="toggleSidebar()">📂 السجل</button>
                 <button class="action-btn" id="clearBtn" onclick="clearCurrentChat()">🗑️ مسح</button>
                 <button class="action-btn" id="logoutBtn" onclick="handleLogout()" style="background: rgba(130, 34, 34, 0.5); border-color: rgba(200, 50, 50, 0.6);">خروج</button>
             </div>
@@ -176,17 +144,8 @@
         
         <div id="chatBox" class="chat-box"></div>
 
-        <!-- معاينة الصورة قبل الإرسال -->
-        <div id="imagePreviewContainer">
-            <img id="previewImg" src="" alt="Preview">
-            <span id="previewText">تم اختيار صورة للإرسال</span>
-            <button id="removeImgBtn" onclick="cancelImage()">✕</button>
-        </div>
-
         <div class="input-area">
-            <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
-            <button class="attach-btn" onclick="document.getElementById('imageInput').click()" title="إرفاق صورة">📎</button>
-            <input type="text" id="userInput" placeholder="اسأل، ارسم، أو ارفق صورة..." />
+            <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
             <button id="sendBtn" onclick="sendMessage()">إرسال</button>
         </div>
     </div>
@@ -198,7 +157,6 @@
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
-    let selectedImageBase64 = null;
 
     let sessions = JSON.parse(localStorage.getItem('saudi_ai_sessions')) || [];
     let currentSessionId = localStorage.getItem('saudi_ai_current_session') || null;
@@ -210,8 +168,8 @@
     }
 
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل، ارسم، أو ارفق صورة...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask, draw, or attach image...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل أو ارسم مع سعودي AI...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask or draw with Saudi AI...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -219,11 +177,6 @@
         renderSessionsList();
         renderChatBox();
     });
-
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('open');
-    }
 
     function checkLoginState() {
         const overlay = document.getElementById('loginOverlay');
@@ -275,7 +228,6 @@
         saveData();
         renderSessionsList();
         renderChatBox();
-        if(window.innerWidth <= 768) toggleSidebar();
     }
 
     function createNewChat() {
@@ -287,7 +239,6 @@
         localStorage.setItem('saudi_ai_current_session', currentSessionId);
         renderSessionsList();
         renderChatBox();
-        if(window.innerWidth <= 768) toggleSidebar();
     }
 
     function deleteSession(id, event) {
@@ -348,25 +299,6 @@
         return sessions.find(s => s.id == currentSessionId) || sessions[0];
     }
 
-    function handleImageSelect(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            selectedImageBase64 = e.target.result;
-            document.getElementById('previewImg').src = selectedImageBase64;
-            document.getElementById('imagePreviewContainer').style.display = 'flex';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function cancelImage() {
-        selectedImageBase64 = null;
-        document.getElementById('imageInput').value = '';
-        document.getElementById('imagePreviewContainer').style.display = 'none';
-    }
-
     function renderChatBox() {
         const chatBox = document.getElementById('chatBox');
         chatBox.innerHTML = '';
@@ -384,16 +316,11 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
             
-            let htmlContent = '';
-            if (msg.userImage) {
-                htmlContent += `<img src="${msg.userImage}" class="user-uploaded-img" alt="Uploaded Image">`;
-            }
             if (msg.type === 'image') {
-                htmlContent += `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
+                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
             } else {
-                htmlContent += msg.content || '';
+                messageDiv.innerText = msg.content || '';
             }
-            messageDiv.innerHTML = htmlContent;
             container.appendChild(messageDiv);
 
             const actionsDiv = document.createElement('div');
@@ -446,24 +373,16 @@
     async function sendMessage() {
         const userInput = document.getElementById('userInput');
         const text = userInput.value.trim();
-        const currentImg = selectedImageBase64;
-
-        if (!text && !currentImg) return;
+        if (!text) return;
 
         const session = getCurrentSession();
-        if (session.messages.length === 1 && text) {
+        if (session.messages.length === 1) {
             session.title = text.length > 20 ? text.substring(0, 20) + "..." : text;
             renderSessionsList();
         }
 
-        const userMsg = { role: "user", content: text || "تفضل هذه الصورة:" };
-        if (currentImg) {
-            userMsg.userImage = currentImg;
-        }
-        session.messages.push(userMsg);
-
+        session.messages.push({ role: "user", content: text });
         userInput.value = '';
-        cancelImage();
         renderChatBox();
 
         const sendBtn = document.getElementById('sendBtn');
@@ -490,7 +409,7 @@
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
                 sendBtn.disabled = false;
                 
-                const replyText = `سمٍ يا وليد، هذي هي الصورة بناءً على طلبك: "${promptText}"`;
+                const replyText = `سمٍ يا ${currentUser}، هذي هي الصورة بناءً على طلبك: "${promptText}"`;
                 session.messages.push({ 
                     role: "assistant", 
                     content: replyText, 
@@ -504,8 +423,15 @@
         } else {
             try {
                 const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                    model: "llama-3.3-70b-versatile",
-                    messages: session.messages
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${GROQ_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: session.messages
+                    })
                 });
 
                 const data = await response.json();
@@ -522,7 +448,7 @@
                     renderChatBox();
                 }
             } catch (error) {
-                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator'].remove();
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
                 sendBtn.disabled = false;
                 alert("حدث خطأ في الاتصال.");
             }
