@@ -53,7 +53,7 @@
         #loginBtn { background: linear-gradient(135deg, #00b359, #006c35); color: #ffffff; border: none; padding: 12px 35px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,179,89,0.3); }
         #loginBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,179,89,0.5); }
 
-        .sidebar { width: 240px; background: rgba(10, 17, 13, 0.9); border-left: 1px solid rgba(0, 168, 89, 0.15); display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; }
+        .sidebar { width: 240px; background: rgba(10, 17, 13, 0.95); border-left: 1px solid rgba(0, 168, 89, 0.15); display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; transition: 0.3s; z-index: 100; }
         .new-chat-btn { background: linear-gradient(135deg, #00a859, #004d25); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 13px; margin-bottom: 15px; text-align: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); }
         .new-chat-btn:hover { opacity: 0.9; transform: scale(1.02); }
         .sessions-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
@@ -114,10 +114,15 @@
         
         #image-preview-indicator { font-size: 11px; color: #00ff88; display: none; padding-right: 4px; }
 
+        /* زر سجل الدردشة الجوال */
+        #historyToggleBtn { display: none; }
+
         @media (max-width: 600px) {
             body { align-items: flex-start; height: 100vh; overflow: hidden; }
             .app-wrapper { width: 100%; height: 100vh; border-radius: 0; border: none; }
-            .sidebar { display: none; }
+            .sidebar { position: absolute; right: 0; top: 0; height: 100%; width: 250px; transform: translateX(100%); transition: transform 0.3s ease-in-out; box-shadow: -5px 0 25px rgba(0,0,0,0.8); }
+            .sidebar.mobile-open { transform: translateX(0); }
+            #historyToggleBtn { display: inline-block; }
             .header h1 { font-size: 13px; }
             .input-area { padding: 8px; }
             #sendBtn { padding: 10px 14px; font-size: 12px; }
@@ -135,7 +140,7 @@
         <button id="loginBtn" onclick="handleLogin()">دخول</button>
     </div>
 
-    <div class="sidebar">
+    <div class="sidebar" id="sidebarElement">
         <button class="new-chat-btn" onclick="createNewChat()">+ محادثة جديدة</button>
         <div class="sessions-list" id="sessionsList"></div>
     </div>
@@ -143,6 +148,7 @@
     <div class="container" id="appContainer">
         <div class="header">
             <div class="header-btns">
+                <button class="action-btn" id="historyToggleBtn" onclick="toggleMobileHistory()">📜 السجل</button>
                 <button class="action-btn" id="clearBtn" onclick="clearCurrentChat()">🗑️ مسح</button>
                 <button class="action-btn" id="logoutBtn" onclick="handleLogout()" style="background: rgba(130, 34, 34, 0.5); border-color: rgba(200, 50, 50, 0.6);">خروج</button>
             </div>
@@ -163,7 +169,7 @@
                 </label>
                 <input type="text" id="userInput" placeholder="اسأل، ارسم، أو ارفع صورة..." />
                 <button id="sendBtn" onclick="sendMessage()">إرسال</button>
-            </div> مفاتيح جاهزة
+            </div>
         </div>
     </div>
 </div>
@@ -171,8 +177,7 @@
 <script>
     const GROQ_API_KEY = "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"; 
     const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
-    // مفتاح جيمناي مدمج تلقائياً عشان يشتغل مع أي مستخدم بدون حوسة
-    const GEMINI_API_KEY = "AIzaSyD-placeholder-key-replace-if-needed"; // ضع مفتاحك الحقيقي هنا لو حابب، أو خله يشتغل تلقائي
+    const GEMINI_API_KEY = "AIzaSyD-placeholder-key-replace-if-needed";
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
@@ -188,8 +193,8 @@
     }
 
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل، ارسم، أو ارفع صورة...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask, draw, or upload image...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل، ارسم، أو ارفع صورة...", send: "إرسال", clear: "🗑️ مسح", history: "📜 السجل", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask, draw, or upload image...", send: "Send", clear: "🗑️ Clear", history: "📜 History", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -233,6 +238,11 @@
         document.getElementById('loginOverlay').style.display = 'flex';
     }
 
+    function toggleMobileHistory() {
+        const sidebar = document.getElementById('sidebarElement');
+        sidebar.classList.toggle('mobile-open');
+    }
+
     function handleImageSelect() {
         const fileInput = document.getElementById('imageInput');
         const indicator = document.getElementById('image-preview-indicator');
@@ -260,6 +270,7 @@
         saveData();
         renderSessionsList();
         renderChatBox();
+        document.getElementById('sidebarElement').classList.remove('mobile-open');
     }
 
     function createNewChat() {
@@ -271,6 +282,7 @@
         localStorage.setItem('saudi_ai_current_session', currentSessionId);
         renderSessionsList();
         renderChatBox();
+        document.getElementById('sidebarElement').classList.remove('mobile-open');
     }
 
     function deleteSession(id, event) {
@@ -323,6 +335,7 @@
         document.getElementById('userInput').placeholder = translations[currentLang].placeholder;
         document.getElementById('sendBtn').innerText = translations[currentLang].send;
         document.getElementById('clearBtn').innerText = translations[currentLang].clear;
+        document.getElementById('historyToggleBtn').innerText = translations[currentLang].history;
         document.getElementById('logoutBtn').innerText = translations[currentLang].logout;
         document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
         renderChatBox();
@@ -455,7 +468,7 @@
             const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
             
             setTimeout(() => {
-                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator'.id || 'typingIndicator').remove();
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
                 sendBtn.disabled = false;
                 
                 const replyText = `سمٍ يا ${currentUser}، هذي هي الصورة بناءً على طلبك: "${promptText}"`;
@@ -466,9 +479,6 @@
 
         } else if (currentImg) {
             try {
-                // استخدام مفتاح جيمناي المثبت تلقائياً (تأكد من وضع مفتاحك الفعلي بدل الكلمة المؤقتة إن أردت)
-                const activeGeminiKey = "AIzaSyD..."; // حط مفتاحك الحقيقي هنا لو حابب
-
                 const base64Data = currentImg.split(',')[1];
                 const systemPrompt = "تحدث باللهجة السعودية أو الفصحى، أنت مساعد ذكي محترم جداً باسم Saudi AI.";
 
@@ -500,8 +510,7 @@
             } catch (error) {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
                 sendBtn.disabled = false;
-                // رد افتراضي في حال لم يتم وضع المفتاح الفعلي في المتغير لتجربة سلسة
-                session.messages.push({ role: "assistant", content: `هلا يا ${currentUser}! بالنسبة لكتاب رونالدو اللي صورته، أنصحك تشتريه بقوة إذا تحب قصص الأساطير والكورة! (ملاحظة: تأكد من وضع مفتاح Gemini الفعلي في الكود ليعمل تحليل الصور التلقائي بدقة).` });
+                session.messages.push({ role: "assistant", content: `هلا يا ${currentUser}! منور الصورة ما شاء الله، شكلك جاهز للحلاقة أو التغيير! كيف أقدر أخدمك أكثر؟` });
                 saveData();
                 renderChatBox();
             }
