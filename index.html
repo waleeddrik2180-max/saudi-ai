@@ -68,51 +68,52 @@
 
         .container { flex: 1; height: 100%; background: transparent; display: flex; flex-direction: column; position: relative; }
         
-        .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); flex-wrap: wrap; gap: 5px; }
-        .header h1 { font-size: 15px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .header-btns { display: flex; gap: 6px; align-items: center; }
-        .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s; }
+        /* هيدر متوازن ومناسب للجوال والكمبيوتر */
+        .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); gap: 4px; }
+        .header h1 { font-size: 14px; margin: 0; color: #ffffff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .header-btns { display: flex; gap: 4px; align-items: center; }
+        .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; transition: 0.2s; white-space: nowrap; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
 
-        .chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; }
+        .chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
         .chat-box::-webkit-scrollbar { width: 6px; }
         .chat-box::-webkit-scrollbar-thumb { background: rgba(0,108,53,0.5); border-radius: 4px; }
         
-        .message-container { display: flex; flex-direction: column; max-width: 82%; }
+        .message-container { display: flex; flex-direction: column; max-width: 85%; }
         .message-container.user { align-self: flex-end; }
         .message-container.ai { align-self: flex-start; }
         
-        .message { padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .message { padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); color: #ffffff; border-bottom-right-radius: 4px; border: 1px solid rgba(0,255,136,0.2); }
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 4px; border-left: 4px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
-        .ai-image { width: 100%; max-width: 260px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        .ai-image { width: 100%; max-width: 240px; border-radius: 8px; margin-top: 8px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
-        .msg-actions { display: flex; gap: 12px; margin-top: 5px; font-size: 11px; padding: 0 4px; }
+        .msg-actions { display: flex; gap: 10px; margin-top: 4px; font-size: 11px; padding: 0 2px; }
         .msg-actions button { background: none; border: none; color: #7a9485; cursor: pointer; padding: 0; transition: 0.2s; }
         .msg-actions button:hover { color: #00ff88; text-decoration: underline; }
 
-        .typing-indicator span { height: 8px; width: 8px; float: left; margin: 0 3px; background-color: #00ff88; border-radius: 50%; display: inline-block; animation: bounce 1.3s infinite ease-in-out; opacity: 0.7; }
+        .typing-indicator span { height: 7px; width: 7px; float: left; margin: 0 2px; background-color: #00ff88; border-radius: 50%; display: inline-block; animation: bounce 1.3s infinite ease-in-out; opacity: 0.7; }
         .typing-indicator span:nth-child(2) { animation-delay: -1.1s; }
         .typing-indicator span:nth-child(3) { animation-delay: -0.9s; }
-        @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+        @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
 
         /* منطقة الإدخال */
-        .input-area { padding: 10px 12px; background: rgba(10, 17, 13, 0.9); display: flex; gap: 8px; flex-direction: column; border-top: 1px solid rgba(0, 168, 89, 0.2); }
+        .input-area { padding: 8px 10px; background: rgba(10, 17, 13, 0.9); display: flex; gap: 6px; flex-direction: column; border-top: 1px solid rgba(0, 168, 89, 0.2); }
         .input-row { display: flex; width: 100%; gap: 6px; align-items: center; }
         
-        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 10px 12px; border-radius: 10px; outline: none; font-size: 13px; transition: 0.3s; }
+        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 9px 10px; border-radius: 9px; outline: none; font-size: 13px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
         
-        .file-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.5); color: #00ff88; padding: 9px 12px; border-radius: 10px; cursor: pointer; font-size: 14px; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .file-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.5); color: #00ff88; padding: 8px 10px; border-radius: 9px; cursor: pointer; font-size: 13px; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
         .file-btn:hover { background: #006c35; color: #fff; }
         #imageInput { display: none; }
 
-        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); white-space: nowrap; }
+        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 9px 14px; border-radius: 9px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); white-space: nowrap; }
         #sendBtn:hover { transform: translateY(-1px); opacity: 0.9; }
         #sendBtn:disabled { background: #1c2620; color: #4e6356; cursor: not-allowed; box-shadow: none; transform: none; }
         
-        #image-preview-indicator { font-size: 11px; color: #00ff88; display: none; padding-right: 4px; }
+        #image-preview-indicator { font-size: 11px; color: #00ff88; display: none; padding-right: 2px; }
 
         /* زر سجل الدردشة الجوال */
         #historyToggleBtn { display: none; }
@@ -120,13 +121,15 @@
         @media (max-width: 600px) {
             body { align-items: flex-start; height: 100vh; overflow: hidden; }
             .app-wrapper { width: 100%; height: 100vh; border-radius: 0; border: none; }
-            .sidebar { position: absolute; right: 0; top: 0; height: 100%; width: 250px; transform: translateX(100%); transition: transform 0.3s ease-in-out; box-shadow: -5px 0 25px rgba(0,0,0,0.8); }
+            .sidebar { position: absolute; right: 0; top: 0; height: 100%; width: 230px; transform: translateX(100%); transition: transform 0.3s ease-in-out; box-shadow: -5px 0 25px rgba(0,0,0,0.8); }
             .sidebar.mobile-open { transform: translateX(0); }
             #historyToggleBtn { display: inline-block; }
-            .header h1 { font-size: 13px; }
-            .input-area { padding: 8px; }
-            #sendBtn { padding: 10px 14px; font-size: 12px; }
-            #userInput { font-size: 12px; padding: 9px 10px; }
+            .header { padding: 6px 10px; }
+            .header h1 { font-size: 12px; }
+            .action-btn { padding: 4px 6px; font-size: 9.5px; }
+            .input-area { padding: 6px; }
+            #sendBtn { padding: 8px 12px; font-size: 11px; }
+            #userInput { font-size: 12px; padding: 8px; }
         }
     </style>
 </head>
@@ -153,7 +156,7 @@
                 <button class="action-btn" id="logoutBtn" onclick="handleLogout()" style="background: rgba(130, 34, 34, 0.5); border-color: rgba(200, 50, 50, 0.6);">خروج</button>
             </div>
             <h1 id="mainTitle">Saudi AI 🇸🇦</h1>
-            <div style="display: flex; gap: 5px; align-items: center;">
+            <div style="display: flex; gap: 4px; align-items: center;">
                 <button class="action-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
             </div>
         </div>
