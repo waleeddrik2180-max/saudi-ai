@@ -24,6 +24,9 @@
         .message { padding: 10px 14px; border-radius: 10px; font-size: 14px; line-height: 1.4; word-wrap: break-word; white-space: pre-wrap; }
         .message.user { background-color: #006c35; color: #ffffff; }
         .message.ai { background-color: #21262d; color: #e0e0e0; border-left: 3px solid #00a859; }
+        
+        /* تنسيق الصورة المولدة */
+        .message img { max-width: 100%; border-radius: 8px; margin-top: 6px; border: 1px solid #30363d; display: block; }
 
         /* أزرار التحكم بالرسالة */
         .msg-actions { display: flex; gap: 10px; margin-top: 4px; font-size: 11px; }
@@ -56,7 +59,7 @@
     <div id="chatBox" class="chat-box"></div>
 
     <div class="input-area">
-        <input type="text" id="userInput" placeholder="اسأل سعودي AI" />
+        <input type="text" id="userInput" placeholder="اسأل أو اكتب draw لتوليد صورة..." />
         <button id="sendBtn" onclick="sendMessage()">إرسال</button>
     </div>
 </div>
@@ -65,13 +68,23 @@
     const GROQ_API_KEY = "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"; 
     
     let currentLang = 'ar';
+    
+    const defaultSystemPrompt = "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة.";
+    const waleedSystemPrompt = "أنت مساعد ذكي باسم Saudi AI. هذا المستخدم الذي يكلمك هو وليد (مطور هذا التطبيق)، تحدث معه بكل حفاوة وتقدير واعرف أنه مطورك.";
+
+    let isWaleedMode = localStorage.getItem('saudi_ai_is_waleed') === 'true';
+
     let chatHistory = JSON.parse(localStorage.getItem('saudi_ai_history')) || [
-        { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }
+        { role: "system", content: isWaleedMode ? waleedSystemPrompt : defaultSystemPrompt }
     ];
 
+    if (chatHistory.length > 0 && chatHistory[0].role === 'system') {
+        chatHistory[0].content = isWaleedMode ? waleedSystemPrompt : defaultSystemPrompt;
+    }
+
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل سعودي AI", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask Saudi AI", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete" }
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل أو اكتب draw لتوليد صورة...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask or type draw for images...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete" }
     };
 
     function toggleLanguage() {
@@ -98,7 +111,14 @@
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
-            messageDiv.innerText = msg.content || '';
+            
+            // التحقق إذا كانت الرسالة عبارة عن صورة مخزنة
+            if (msg.isImage) {
+                messageDiv.innerHTML = `تم توليد الصورة بناءً على طلبك:<br><img src="${msg.content}" alt="Generated Image">`;
+            } else {
+                messageDiv.innerText = msg.content || '';
+            }
+            
             container.appendChild(messageDiv);
 
             const actionsDiv = document.createElement('div');
@@ -110,10 +130,12 @@
                 delBtn.onclick = () => deleteMessage(i);
                 actionsDiv.appendChild(delBtn);
             } else {
-                const copyBtn = document.createElement('button');
-                copyBtn.innerText = translations[currentLang].copy;
-                copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
-                actionsDiv.appendChild(copyBtn);
+                if (!msg.isImage) {
+                    const copyBtn = document.createElement('button');
+                    copyBtn.innerText = translations[currentLang].copy;
+                    copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
+                    actionsDiv.appendChild(copyBtn);
+                }
             }
             
             container.appendChild(actionsDiv);
@@ -132,7 +154,7 @@
     }
 
     function clearChat() {
-        chatHistory = [{ role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة." }];
+        chatHistory = [{ role: "system", content: isWaleedMode ? waleedSystemPrompt : defaultSystemPrompt }];
         localStorage.removeItem('saudi_ai_history');
         renderChatBox();
     }
@@ -142,6 +164,47 @@
         const text = userInput.value.trim();
         if (!text) return;
 
+        // الأكواد السرية
+        if (text === "101040") {
+            isWaleedMode = true;
+            localStorage.setItem('saudi_ai_is_waleed', 'true');
+            chatHistory[0].content = waleedSystemPrompt;
+            chatHistory.push({ role: "user", content: text });
+            chatHistory.push({ role: "assistant", content: "أهلاً بك يا وليد! تم تفعيل وضع المطور بنجاح." });
+            userInput.value = '';
+            localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+            renderChatBox();
+            return;
+        } else if (text === "401010") {
+            isWaleedMode = false;
+            localStorage.setItem('saudi_ai_is_waleed', 'false');
+            chatHistory[0].content = defaultSystemPrompt;
+            chatHistory.push({ role: "user", content: text });
+            chatHistory.push({ role: "assistant", content: "تم التحويل إلى وضع المستخدم العادي." });
+            userInput.value = '';
+            localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+            renderChatBox();
+            return;
+        }
+
+        // فحص إذا طلب المستخدم توليد صورة (يبدأ بـ draw أو image)
+        const lowerText = text.toLowerCase();
+        if (lowerText.startsWith("draw ") || lowerText.startsWith("image ") || lowerText.startsWith("generate ")) {
+            chatHistory.push({ role: "user", content: text });
+            userInput.value = '';
+            renderChatBox();
+
+            // استخراج الوصف وإرساله لرابط مولد الصور المباشر
+            const promptQuery = encodeURIComponent(text.replace(/^(draw|image|generate)\s+/i, ''));
+            const imageUrl = `https://image.pollinations.ai/prompt/${promptQuery}`;
+
+            chatHistory.push({ role: "assistant", content: imageUrl, isImage: true });
+            localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+            renderChatBox();
+            return;
+        }
+
+        // إرسال الرسالة العادية للذكاء الاصطناعي
         chatHistory.push({ role: "user", content: text });
         userInput.value = '';
         renderChatBox();
@@ -149,7 +212,6 @@
         const sendBtn = document.getElementById('sendBtn');
         sendBtn.disabled = true;
 
-        // إضافة مؤشر الكتابة
         const chatBox = document.getElementById('chatBox');
         const typingContainer = document.createElement('div');
         typingContainer.className = 'message-container ai';
@@ -173,7 +235,7 @@
 
             const data = await response.json();
             document.getElementById('typingIndicator').remove();
-            sendBtn.disabled = false;
+            sendBtn.disabled = boolean = false; // تصحيح بسيط للزر
 
             if (data.choices && data.choices.length > 0) {
                 const reply = data.choices[0].message.content;
@@ -186,7 +248,7 @@
             }
         } catch (error) {
             if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-            sendBtn.disabled = false;
+            document.getElementById('sendBtn').disabled = false;
             alert("حدث خطأ في الاتصال.");
         }
     }
@@ -195,7 +257,6 @@
         if (e.key === 'Enter') sendMessage();
     });
 
-    // تشغيل المحادثة عند فتح الصفحة
     renderChatBox();
 </script>
 
