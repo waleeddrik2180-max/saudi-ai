@@ -20,7 +20,7 @@
         .app-wrapper { 
             display: flex; 
             width: 740px; 
-            height: 520px; /* تم تقصير الارتفاع لتصير أصغر وأنحف */
+            height: 520px; 
             background: rgba(18, 26, 21, 0.85); 
             backdrop-filter: blur(12px);
             border: 2px solid rgba(0, 168, 89, 0.3); 
@@ -86,7 +86,7 @@
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); color: #ffffff; border-bottom-right-radius: 3px; border: 1px solid rgba(0,255,136,0.2); }
         .message.ai { background: rgba(26, 38, 30, 0.9); color: #e2ede8; border-bottom-left-radius: 3px; border-left: 3px solid #00ff88; border-top: 1px solid rgba(0,168,89,0.2); border-right: 1px solid rgba(0,168,89,0.2); border-bottom: 1px solid rgba(0,168,89,0.2); }
 
-        .ai-image { width: 100%; max-width: 200px; border-radius: 6px; margin-top: 6px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.4); }
+        .ai-image { width: 100%; max-width: 220px; border-radius: 6px; margin-top: 6px; border: 1px solid rgba(0,255,136,0.3); display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.4); }
 
         .msg-actions { display: flex; gap: 8px; margin-top: 3px; font-size: 10px; padding: 0 2px; }
         .msg-actions button { background: none; border: none; color: #7a9485; cursor: pointer; padding: 0; transition: 0.2s; }
@@ -171,7 +171,7 @@
 <script>
     const GROQ_API_KEY = "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"; 
     const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
-    const GEMINI_API_KEY = "AIzaSyD-placeholder-key-replace-if-needed";
+    const GEMINI_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
@@ -339,27 +339,6 @@
         return sessions.find(s => s.id == currentSessionId) || sessions[0];
     }
 
-    async function downloadImageFile(imageUrl) {
-        try {
-            const response = await fetch(imageUrl);
-            const blob = await response.blob();
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = `SaudiAI_Image_${Date.now()}.jpg`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(blobUrl);
-        } catch (e) {
-            const a = document.createElement('a');
-            a.href = imageUrl;
-            a.target = '_blank';
-            a.download = 'image.jpg';
-            a.click();
-        }
-    }
-
     function renderChatBox() {
         const chatBox = document.getElementById('chatBox');
         chatBox.innerHTML = '';
@@ -395,12 +374,7 @@
                 delBtn.onclick = () => deleteMessage(i);
                 actionsDiv.appendChild(delBtn);
             } else {
-                if (msg.type === 'image') {
-                    const downloadBtn = document.createElement('button');
-                    downloadBtn.innerText = "تحميل الصورة";
-                    downloadBtn.onclick = () => downloadImageFile(msg.imageUrl);
-                    actionsDiv.appendChild(downloadBtn);
-                } else {
+                if (msg.type !== 'image') {
                     const copyBtn = document.createElement('button');
                     copyBtn.innerText = translations[currentLang].copy;
                     copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
@@ -474,10 +448,17 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 
         const lowerText = text.toLowerCase();
-        const isImageRequest = !currentImg && (lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.includes("draw") || lowerText.includes("image of"));
+        const isImageRequest = !currentImg && (
+            lowerText.includes("ارسم") || 
+            lowerText.includes("رسم") || 
+            lowerText.includes("تخيل") || 
+            lowerText.includes("صورة") || 
+            lowerText.includes("draw") || 
+            lowerText.includes("image")
+        );
 
         if (isImageRequest) {
-            let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
+            let promptText = text.replace(/(ارسم|رسم|تخيل|صورة لـ|صورة|draw|image of|image)/gi, "").trim();
             if(!promptText) promptText = text;
             
             const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
