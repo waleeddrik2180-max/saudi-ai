@@ -97,22 +97,29 @@
         .typing-indicator span:nth-child(3) { animation-delay: -0.9s; }
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
-        /* تعديلات منطقة الإدخال وزر الإرسال لتناسب الجوال والشاشات الصغيرة */
+        /* منطقة الإدخال وزر الصور الجديد */
         .input-area { padding: 10px 12px; background: rgba(10, 17, 13, 0.9); display: flex; gap: 8px; flex-direction: column; border-top: 1px solid rgba(0, 168, 89, 0.2); }
         .input-row { display: flex; width: 100%; gap: 6px; align-items: center; }
         
         #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 10px 12px; border-radius: 10px; outline: none; font-size: 13px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
         
+        .file-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.5); color: #00ff88; padding: 9px 12px; border-radius: 10px; cursor: pointer; font-size: 14px; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .file-btn:hover { background: #006c35; color: #fff; }
+        #imageInput { display: none; }
+
         #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); white-space: nowrap; }
         #sendBtn:hover { transform: translateY(-1px); opacity: 0.9; }
         #sendBtn:disabled { background: #1c2620; color: #4e6356; cursor: not-allowed; box-shadow: none; transform: none; }
+        
+        #image-preview-indicator { font-size: 11px; color: #00ff88; display: none; }
+        .extra-settings { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .key-input-small { background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0,168,89,0.3); color: #fff; padding: 3px 6px; border-radius: 6px; font-size: 11px; width: 140px; outline: none; }
 
-        /* التجاوب مع الجوال والشاشات الضيقة */
         @media (max-width: 600px) {
             body { align-items: flex-start; height: 100vh; overflow: hidden; }
             .app-wrapper { width: 100%; height: 100vh; border-radius: 0; border: none; }
-            .sidebar { display: none; } /* إخفاء القائمة الجانبية في الجوال لتوفير المساحة، أو يمكنك إظهارها حسب الحاجة */
+            .sidebar { display: none; }
             .header h1 { font-size: 13px; }
             .input-area { padding: 8px; }
             #sendBtn { padding: 10px 14px; font-size: 12px; }
@@ -150,8 +157,16 @@
         <div id="chatBox" class="chat-box"></div>
 
         <div class="input-area">
+            <div class="extra-settings">
+                <div id="image-preview-indicator">📁 تم إرفاق الصورة بنجاح</div>
+                <input type="password" id="geminiKeyInput" class="key-input-small" placeholder="مفتاح Gemini لتحليل الصور" />
+            </div>
             <div class="input-row">
-                <input type="text" id="userInput" placeholder="اسأل، أو اكتب طلبك هنا..." />
+                <label class="file-btn" title="رفع صورة">
+                    📁
+                    <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect()" />
+                </label>
+                <input type="text" id="userInput" placeholder="اسأل، ارسم، أو اكتب طلبك..." />
                 <button id="sendBtn" onclick="sendMessage()">إرسال</button>
             </div>
         </div>
@@ -160,9 +175,11 @@
 
 <script>
     const GROQ_API_KEY = "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"; 
+    const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
+    let pendingImage = null;
 
     let sessions = JSON.parse(localStorage.getItem('saudi_ai_sessions')) || [];
     let currentSessionId = localStorage.getItem('saudi_ai_current_session') || null;
@@ -174,8 +191,8 @@
     }
 
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل، أو اكتب طلبك هنا...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask, or type your request...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل، ارسم، أو اكتب طلبك...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask, draw, or type request...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat" }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -217,6 +234,19 @@
         currentUser = '';
         document.getElementById('usernameInput').value = '';
         document.getElementById('loginOverlay').style.display = 'flex';
+    }
+
+    function handleImageSelect() {
+        const fileInput = document.getElementById('imageInput');
+        const indicator = document.getElementById('image-preview-indicator');
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                pendingImage = e.target.result;
+                indicator.style.display = 'block';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
     }
 
     function createNewSession(title) {
@@ -321,7 +351,14 @@
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
-            messageDiv.innerText = msg.content || '';
+            
+            if (msg.type === 'image') {
+                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Generated Image">`;
+            } else if (msg.type === 'user-image') {
+                messageDiv.innerHTML = `${msg.content}<br><img src="${msg.imageUrl}" class="ai-image" alt="Uploaded Image">`;
+            } else {
+                messageDiv.innerText = msg.content || '';
+            }
             container.appendChild(messageDiv);
 
             const actionsDiv = document.createElement('div');
@@ -333,10 +370,17 @@
                 delBtn.onclick = () => deleteMessage(i);
                 actionsDiv.appendChild(delBtn);
             } else {
-                const copyBtn = document.createElement('button');
-                copyBtn.innerText = translations[currentLang].copy;
-                copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
-                actionsDiv.appendChild(copyBtn);
+                if (msg.type === 'image') {
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.innerText = "تحميل الصورة";
+                    downloadBtn.onclick = () => window.open(msg.imageUrl, '_blank');
+                    actionsDiv.appendChild(downloadBtn);
+                } else {
+                    const copyBtn = document.createElement('button');
+                    copyBtn.innerText = translations[currentLang].copy;
+                    copyBtn.onclick = () => navigator.clipboard.writeText(msg.content);
+                    actionsDiv.appendChild(copyBtn);
+                }
             }
             
             container.appendChild(actionsDiv);
@@ -367,16 +411,30 @@
     async function sendMessage() {
         const userInput = document.getElementById('userInput');
         const text = userInput.value.trim();
+        const geminiKey = document.getElementById('geminiKeyInput').value.trim();
 
-        if (!text) return;
+        if (!text && !pendingImage) return;
 
         const session = getCurrentSession();
-        if (session.messages.length === 1) {
+        if (session.messages.length === 1 && text) {
             session.title = text.length > 20 ? text.substring(0, 20) + "..." : text;
+            renderSessionsList();
+        } else if (session.messages.length === 1 && pendingImage) {
+            session.title = "صورة مرفقة";
             renderSessionsList();
         }
 
-        session.messages.push({ role: "user", content: text });
+        const currentImg = pendingImage;
+        pendingImage = null;
+        document.getElementById('image-preview-indicator').style.display = 'none';
+        document.getElementById('imageInput').value = '';
+
+        if (currentImg) {
+            session.messages.push({ role: "user", content: text || "تفضل تحليل هذه الصورة", type: "user-image", imageUrl: currentImg });
+        } else {
+            session.messages.push({ role: "user", content: text });
+        }
+
         userInput.value = '';
         renderChatBox();
 
@@ -391,43 +449,106 @@
         chatBox.appendChild(typingContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        try {
-            let apiMessages = [];
-            session.messages.forEach(m => {
-                if (m.role === 'system' || m.role === 'user' || m.role === 'assistant') {
-                    apiMessages.push({ role: m.role, content: m.content });
-                }
-            });
+        const lowerText = text.toLowerCase();
+        const isImageRequest = !currentImg && (lowerText.startsWith("ارسم") || lowerText.startsWith("تخيل") || lowerText.includes("صورة لـ") || lowerText.includes("draw") || lowerText.includes("image of"));
 
-            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${GROQ_API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    messages: apiMessages
-                })
-            });
-
-            const data = await response.json();
-            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-            sendBtn.disabled = false;
-
-            if (data.choices && data.choices.length > 0) {
-                const reply = data.choices[0].message.content;
-                session.messages.push({ role: "assistant", content: reply });
+        if (isImageRequest) {
+            let promptText = text.replace(/^(ارسم|تخيل|صورة لـ|draw|image of)\s*/i, "").trim();
+            if(!promptText) promptText = text;
+            
+            const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(promptText)}?key=${POLLINATIONS_API_KEY}`;
+            
+            setTimeout(() => {
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+                sendBtn.disabled = false;
+                
+                const replyText = `سمٍ يا ${currentUser}، هذي هي الصورة بناءً على طلبك: "${promptText}"`;
+                session.messages.push({ role: "assistant", content: replyText, type: "image", imageUrl: imageUrl });
                 saveData();
                 renderChatBox();
-            } else {
-                session.messages.push({ role: "assistant", content: "عذراً، لم أستطع الرد." });
-                renderChatBox();
+            }, 1200);
+
+        } else if (currentImg) {
+            try {
+                if (!geminiKey) {
+                    throw new Error("الرجاء إدخال مفتاح Gemini في خانة التحليل تحت أولاً!");
+                }
+
+                const base64Data = currentImg.split(',')[1];
+                const systemPrompt = "تحدث باللهجة السعودية أو الفصحى، أنت مساعد ذكي محترم جداً باسم Saudi AI.";
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: systemPrompt + "\n\n" + (text || "اشرح لي وش تشوف بهذه الصورة بالتفصيل") },
+                                { inline_data: { mime_type: "image/jpeg", data: base64Data } }
+                            ]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+                sendBtn.disabled = false;
+
+                if (data.candidates && data.candidates[0].content) {
+                    const reply = data.candidates[0].content.parts[0].text;
+                    session.messages.push({ role: "assistant", content: reply });
+                    saveData();
+                    renderChatBox();
+                } else {
+                    throw new Error(data.error?.message || "خطأ في استجابة خادم Gemini.");
+                }
+            } catch (error) {
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+                sendBtn.disabled = false;
+                alert("حدث خطأ: " + error.message);
             }
-        } catch (error) {
-            if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-            sendBtn.disabled = false;
-            alert("حدث خطأ في الاتصال.");
+
+        } else {
+            try {
+                let apiMessages = [];
+                session.messages.forEach(m => {
+                    if (m.role === 'system' || m.role === 'user' || m.role === 'assistant') {
+                        if (m.type !== 'user-image' && m.type !== 'image') {
+                            apiMessages.push({ role: m.role, content: m.content });
+                        }
+                    }
+                });
+
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${GROQ_API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: apiMessages
+                    })
+                });
+
+                const data = await response.json();
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+                sendBtn.disabled = false;
+
+                if (data.choices && data.choices.length > 0) {
+                    const reply = data.choices[0].message.content;
+                    session.messages.push({ role: "assistant", content: reply });
+                    saveData();
+                    renderChatBox();
+                } else {
+                    session.messages.push({ role: "assistant", content: "عذراً، لم أستطع الرد." });
+                    renderChatBox();
+                }
+            } catch (error) {
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
+                sendBtn.disabled = false;
+                alert("حدث خطأ في الاتصال.");
+            }
         }
     }
 
