@@ -155,7 +155,7 @@
 </div>
 
 <script>
-    const GROQ_API_KEY = "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"; 
+    const GROQ_API_KEY = "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"; 
     const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
@@ -200,7 +200,6 @@
         currentUser = name;
         localStorage.setItem('saudi_ai_user', currentUser);
         
-        // إخفاء نافذة الدخول مباشرة وبشكل مؤكد
         document.getElementById('loginOverlay').style.display = 'none';
         
         const currentSession = sessions.find(s => s.id == currentSessionId);
@@ -224,7 +223,6 @@
 
     function createNewSession(title) {
         const newId = Date.now();
-        // تم قفل النظام بحيث يجبر الذكاء الاصطناعي على الرد باللغة العربية فقط لمنع ظهور أي لغة أخرى
         const systemPrompt = "أنت مساعد ذكي ودود باسم Saudi AI. مهمتك الأساسية هي الرد باللغة العربية فقط (باللهجة السعودية أو الفصحى المبسطة). ممنوع منعاً باتاً كتابة أي كلمات بلغات أخرى مثل الروسية أو البرتغالية أو غيرها أثناء الرد، والتزم باللغة العربية طوال المحادثة.";
         
         const newSession = {
