@@ -5,25 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saudi AI</title>
     <style>
-        /* [التنسيقات كما هي في كودك السابق تماماً] */
-        body { background: radial-gradient(circle at center, #0f1c14 0%, #080d0a 100%); font-family: Tahoma, sans-serif; color: #ffffff; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        .app-wrapper { display: flex; width: 780px; height: 680px; background: rgba(18, 26, 21, 0.85); backdrop-filter: blur(12px); border: 2px solid rgba(0, 168, 89, 0.3); border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 108, 53, 0.2); overflow: hidden; position: relative; }
-        #loginOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0d1611; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; padding: 30px; box-sizing: border-box; text-align: center; }
-        #loginOverlay h2 { color: #00ff88; margin-bottom: 12px; font-size: 26px; text-shadow: 0 0 12px rgba(0,255,136,0.4); }
-        #usernameInput { width: 80%; max-width: 320px; background: rgba(26, 38, 30, 0.95); border: 2px solid rgba(0, 168, 89, 0.6); color: #ffffff; padding: 14px 18px; border-radius: 12px; outline: none; font-size: 16px; margin-bottom: 20px; text-align: center; }
+        body { 
+            background: radial-gradient(circle at center, #0f1c14 0%, #080d0a 100%); 
+            font-family: Tahoma, sans-serif; 
+            color: #ffffff; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+        
+        .app-wrapper { 
+            display: flex; 
+            width: 780px; 
+            height: 680px; 
+            background: rgba(18, 26, 21, 0.85); 
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(0, 168, 89, 0.3); 
+            border-radius: 20px; 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 108, 53, 0.2); 
+            overflow: hidden; 
+            position: relative; 
+        }
+
+        #loginOverlay { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #0d1611; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999; 
+            padding: 30px; 
+            box-sizing: border-box; 
+            text-align: center; 
+        }
+        #loginOverlay h2 { color: #00ff88; margin-bottom: 12px; font-size: 26px; }
+        #usernameInput { width: 80%; max-width: 320px; background: rgba(26, 38, 30, 0.95); border: 2px solid rgba(0, 168, 89, 0.6); color: #ffffff; padding: 14px 18px; border-radius: 12px; outline: none; margin-bottom: 20px; text-align: center; }
         #loginBtn { background: linear-gradient(135deg, #00b359, #006c35); color: #ffffff; border: none; padding: 12px 35px; border-radius: 12px; cursor: pointer; font-weight: bold; }
+
         .sidebar { width: 240px; background: rgba(10, 17, 13, 0.9); border-left: 1px solid rgba(0, 168, 89, 0.15); display: flex; flex-direction: column; padding: 15px; }
         .new-chat-btn { background: linear-gradient(135deg, #00a859, #004d25); color: white; border: none; padding: 10px; border-radius: 10px; cursor: pointer; margin-bottom: 15px; }
+        .sessions-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .session-item { padding: 10px 12px; background: rgba(22, 33, 26, 0.6); border-radius: 8px; font-size: 13px; cursor: pointer; color: #b8c7be; }
+        .session-item.active { background: linear-gradient(135deg, #006c35, #004d25); color: white; font-weight: bold; }
+
         .container { flex: 1; height: 100%; display: flex; flex-direction: column; }
         .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); }
+        .header h1 { font-size: 17px; margin: 0; color: #ffffff; }
+        
         .chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
-        .message { padding: 12px 16px; border-radius: 14px; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .message { padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; }
         .message.user { background: linear-gradient(135deg, #007a3d, #005228); align-self: flex-end; }
         .message.ai { background: rgba(26, 38, 30, 0.9); align-self: flex-start; border-left: 4px solid #00ff88; }
-        .ai-image { width: 100%; max-width: 280px; border-radius: 10px; margin-top: 8px; }
-        .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; gap: 10px; }
-        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px; border-radius: 12px; outline: none; }
-        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: white; border: none; padding: 0 22px; border-radius: 12px; cursor: pointer; }
+
+        .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; gap: 10px; border-top: 1px solid rgba(0, 168, 89, 0.2); }
+        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; }
+        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 0 22px; border-radius: 12px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -42,28 +86,65 @@
 
     <div class="container">
         <div class="header">
-            <h1 id="mainTitle">Saudi AI 🇸🇦</h1>
+            <h1>Saudi AI 🇸🇦</h1>
         </div>
         <div id="chatBox" class="chat-box"></div>
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
+            <input type="text" id="userInput" placeholder="اكتب رسالتك هنا..." />
             <button id="sendBtn" onclick="sendMessage()">إرسال</button>
         </div>
     </div>
 </div>
 
 <script>
-    // هذه المفاتيح كما طلبتها
     const GROQ_API_KEY = "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"; 
     
-    let sessions = JSON.parse(localStorage.getItem('saudi_ai_sessions')) || [];
-    let currentSessionId = localStorage.getItem('saudi_ai_current_session') || Date.now();
+    let currentUser = localStorage.getItem('saudi_ai_user') || '';
+    let chatHistory = JSON.parse(localStorage.getItem('saudi_ai_history')) || [
+        { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تتحدث باللهجة السعودية بكل أدب واحترام." }
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (currentUser) {
+            document.getElementById('loginOverlay').style.display = 'none';
+        }
+        renderChat();
+    });
 
     function handleLogin() {
         const name = document.getElementById('usernameInput').value.trim();
-        if (!name) return alert("الرجاء إدخال الاسم!");
-        localStorage.setItem('saudi_ai_user', name);
+        if (!name) return alert("اكتب اسمك لاهنت!");
+        
+        currentUser = name;
+        localStorage.setItem('saudi_ai_user', currentUser);
         document.getElementById('loginOverlay').style.display = 'none';
+        
+        if (chatHistory.length === 1) {
+            chatHistory.push({ role: "assistant", content: `ياهلا فيك يا ${currentUser}! سم, كيف أقدر أخدمك اليوم؟` });
+            localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+            renderChat();
+        }
+    }
+
+    function createNewChat() {
+        chatHistory = [
+            { role: "system", content: "أنت مساعد ذكي باسم Saudi AI، تتحدث باللهجة السعودية بكل أدب واحترام." },
+            { role: "assistant", content: `أهلاً بك يا ${currentUser || 'صديقي'}، ابدأ المحادثة الجديدة!` }
+        ];
+        localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+        renderChat();
+    }
+
+    function renderChat() {
+        const chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML = '';
+        
+        for (let i = 1; i < chatHistory.length; i++) {
+            const msg = chatHistory[i];
+            const isUser = msg.role === 'user';
+            chatBox.innerHTML += `<div class="message ${isUser ? 'user' : 'ai'}">${msg.content}</div>`;
+        }
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     async function sendMessage() {
@@ -71,37 +152,38 @@
         const text = userInput.value.trim();
         if (!text) return;
 
-        const chatBox = document.getElementById('chatBox');
-        chatBox.innerHTML += `<div class="message user">${text}</div>`;
+        chatHistory.push({ role: "user", content: text });
         userInput.value = '';
+        renderChat();
 
-        const isImageRequest = text.startsWith("ارسم") || text.includes("صورة");
+        try {
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${GROQ_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: chatHistory
+                })
+            });
 
-        if (isImageRequest) {
-            // رابط توليد الصور بدون مفتاح لضمان العمل فوري
-            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(text)}?width=512&height=512&nologo=true`;
-            chatBox.innerHTML += `<div class="message ai">سمٍ، هذي هي الصورة:<br><img src="${imageUrl}" class="ai-image"></div>`;
-        } else {
-            // إرسال لـ Groq
-            try {
-                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                    method: "POST",
-                    headers: { "Authorization": `Bearer ${GROQ_API_KEY}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
-                        messages: [{ role: "user", content: text }]
-                    })
-                });
-                const data = await response.json();
+            const data = await response.json();
+            if (data.choices && data.choices.length > 0) {
                 const reply = data.choices[0].message.content;
-                chatBox.innerHTML += `<div class="message ai">${reply}</div>`;
-            } catch (e) {
-                chatBox.innerHTML += `<div class="message ai">عذراً، حدث خطأ في الاتصال.</div>`;
+                chatHistory.push({ role: "assistant", content: reply });
+                localStorage.setItem('saudi_ai_history', JSON.stringify(chatHistory));
+                renderChat();
             }
+        } catch (err) {
+            chatBox.innerHTML += `<div class="message ai">عذراً، صار فيه مشكلة بالاتصال.</div>`;
         }
-        chatBox.scrollTop = chatBox.scrollHeight;
     }
-</script>
 
+    document.getElementById('userInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
 </body>
 </html>
