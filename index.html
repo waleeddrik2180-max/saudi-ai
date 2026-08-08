@@ -63,7 +63,7 @@
         #loginBtn { background: linear-gradient(135deg, #00b359, #006c35); color: #ffffff; border: none; padding: 12px 35px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,179,89,0.3); }
         #loginBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,179,89,0.5); }
 
-        /* القائمة الجانبية (تتفاعل مع الجوال) */
+        /* القائمة الجانبية */
         .sidebar { width: 220px; background: rgba(10, 17, 13, 0.95); border-left: 1px solid rgba(0, 168, 89, 0.15); display: flex; flex-direction: column; padding: 12px; box-sizing: border-box; position: absolute; right: -220px; top: 0; height: 100%; z-index: 100; transition: 0.3s ease; }
         .sidebar.open { right: 0; box-shadow: -5px 0 25px rgba(0,0,0,0.7); }
         
@@ -92,7 +92,6 @@
         .action-btn { background: rgba(0, 82, 39, 0.6); border: 1px solid rgba(0, 168, 89, 0.6); color: white; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.2s; }
         .action-btn:hover { background: #006c35; border-color: #00ff88; }
 
-        /* زر القائمة للجوال */
         #menuToggleBtn { display: inline-block; }
         @media (min-width: 768px) {
             #menuToggleBtn { display: none; }
@@ -123,7 +122,7 @@
         .typing-indicator span:nth-child(3) { animation-delay: -0.9s; }
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
 
-        /* منطقة الإدخال وزر الإرسال الواضح والمميز */
+        /* منطقة الإدخال وزر الإرسال */
         .input-area { padding: 12px 15px; background: rgba(10, 17, 13, 0.95); display: flex; gap: 8px; border-top: 1px solid rgba(0, 168, 89, 0.3); align-items: center; }
         #userInput { flex: 1; background: rgba(22, 33, 26, 0.95); border: 2px solid rgba(0, 168, 89, 0.4); color: #ffffff; padding: 12px 14px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 12px rgba(0,255,136,0.3); }
@@ -152,40 +151,37 @@
 <body>
 
 <div class="app-wrapper">
-    <!-- نافذة تسجيل الدخول -->
     <div id="loginOverlay">
         <h2>Saudi AI 🇸🇦</h2>
         <p>الرجاء إدخال اسمك ومفتاح Groq API للبدء</p>
         <input type="text" id="usernameInput" class="login-input" placeholder="اكتب اسمك هنا..." />
         <input type="password" id="apiKeyInput" class="login-input" placeholder="الصق مفتاح Groq API هنا..." />
-        <button id="loginBtn" onclick="handleLogin()">دخول</button>
+        <button id="loginBtn">دخول</button>
     </div>
 
-    <!-- السجل الجانبي للمحادثات -->
     <div class="sidebar" id="sidebar">
-        <button class="new-chat-btn" onclick="createNewChat()">+ محادثة جديدة</button>
+        <button class="new-chat-btn" id="newChatBtn">📁 محادثة جديدة</button>
         <div class="sessions-list" id="sessionsList"></div>
     </div>
 
-    <!-- واجهة المحادثة -->
     <div class="container" id="appContainer">
         <div class="header">
             <div class="header-btns">
-                <button class="action-btn" id="menuToggleBtn" onclick="toggleSidebar()">📁 المحادثات</button>
-                <button class="action-btn" id="clearBtn" onclick="clearCurrentChat()">🗑️ مسح</button>
+                <button class="action-btn" id="menuToggleBtn">المحادثات</button>
+                <button class="action-btn" id="clearBtn">🗑️ مسح</button>
             </div>
             <h1 id="mainTitle">Saudi AI 🇸🇦</h1>
             <div class="header-btns">
-                <button class="action-btn" id="langBtn" onclick="toggleLanguage()">EN</button>
-                <button class="action-btn" id="logoutBtn" onclick="handleLogout()" style="background: rgba(130, 34, 34, 0.6);">خروج</button>
+                <button class="action-btn" id="langBtn">EN</button>
+                <button class="action-btn" id="logoutBtn" style="background: rgba(130, 34, 34, 0.6);">خروج</button>
             </div>
         </div>
         
-        <div id="chatBox" class="chat-box" onclick="closeSidebarOnMobile()"></div>
+        <div id="chatBox" class="chat-box"></div>
 
         <div class="input-area">
             <input type="text" id="userInput" placeholder="اسأل أو ارسم مع سعودي AI..." />
-            <button id="sendBtn" onclick="sendMessage()">
+            <button id="sendBtn">
                 <span>إرسال</span> 📤
             </button>
         </div>
@@ -194,7 +190,6 @@
 
 <script>
     let GROQ_API_KEY = localStorage.getItem('saudi_ai_key') || '';
-    
     let currentLang = 'ar';
     let currentUser = localStorage.getItem('saudi_ai_user') || '';
 
@@ -208,15 +203,40 @@
     }
 
     const translations = {
-        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل أو ارسم مع سعودي AI...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "+ محادثة جديدة", chats: "📁 المحادثات" },
-        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask or draw with Saudi AI...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "+ New Chat", chats: "📁 Chats" }
+        ar: { title: "Saudi AI 🇸🇦", placeholder: "اسأل أو ارسم مع سعودي AI...", send: "إرسال", clear: "🗑️ مسح", copy: "نسخ", delete: "حذف", logout: "خروج", newChat: "📁 محادثة جديدة", chats: "المحادثات" },
+        en: { title: "Saudi AI 🇸🇦", placeholder: "Ask or draw with Saudi AI...", send: "Send", clear: "🗑️ Clear", copy: "Copy", delete: "Delete", logout: "Logout", newChat: "📁 New Chat", chats: "Chats" }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
         checkLoginState();
         renderSessionsList();
         renderChatBox();
+        initEventListeners();
     });
+
+    function initEventListeners() {
+        document.getElementById('loginBtn').addEventListener('click', handleLogin);
+        document.getElementById('newChatBtn').addEventListener('click', createNewChat);
+        document.getElementById('menuToggleBtn').addEventListener('click', toggleSidebar);
+        document.getElementById('clearBtn').addEventListener('click', clearCurrentChat);
+        document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+        document.getElementById('langBtn').addEventListener('click', toggleLanguage);
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
+        
+        document.getElementById('chatBox').addEventListener('click', closeSidebarOnMobile);
+
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        document.getElementById('usernameInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('apiKeyInput').focus();
+        });
+
+        document.getElementById('apiKeyInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+    }
 
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
@@ -358,6 +378,7 @@
         document.getElementById('sendBtn').innerHTML = `<span>${translations[currentLang].send}</span> 📤`;
         document.getElementById('clearBtn').innerText = translations[currentLang].clear;
         document.getElementById('logoutBtn').innerText = translations[currentLang].logout;
+        document.getElementById('newChatBtn').innerText = translations[currentLang].newChat;
         document.getElementById('menuToggleBtn').innerText = translations[currentLang].chats;
         document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
         renderChatBox();
@@ -525,24 +546,12 @@
                     renderChatBox();
                 }
             } catch (error) {
-                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator'].remove();
+                if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
                 sendBtn.disabled = false;
                 alert("حدث خطأ في الاتصال.");
             }
         }
     }
-
-    document.getElementById('userInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendMessage();
-    });
-
-    document.getElementById('usernameInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') document.getElementById('apiKeyInput').focus();
-    });
-
-    document.getElementById('apiKeyInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleLogin();
-    });
 </script>
 
 </body>
