@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saudi AI</title>
     <style>
         body { 
@@ -69,7 +69,7 @@
         .session-delete:hover { color: #ff9999; transform: scale(1.1); }
 
         /* حاوية الشات الرئيسية */
-        .container { flex: 1; height: 100%; background: transparent; display: flex; flex-direction: column; position: relative; min-width: 0; }
+        .container { flex: 1; height: 100%; background: transparent; display: flex; flex-direction: column; position: relative; }
         
         /* الهيدر */
         .header { background: linear-gradient(135deg, #005c2d, #022b16); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0, 168, 89, 0.4); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
@@ -107,70 +107,11 @@
 
         /* منطقة الإدخال */
         .input-area { padding: 15px; background: rgba(10, 17, 13, 0.8); display: flex; gap: 10px; border-top: 1px solid rgba(0, 168, 89, 0.2); }
-        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; min-width: 0; }
+        #userInput { flex: 1; background: rgba(22, 33, 26, 0.9); border: 1px solid rgba(0, 168, 89, 0.3); color: #ffffff; padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s; }
         #userInput:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
-        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 0 22px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); white-space: nowrap; }
+        #sendBtn { background: linear-gradient(135deg, #00a859, #004d25); color: #ffffff; border: none; padding: 0 22px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,108,53,0.3); }
         #sendBtn:hover { transform: translateY(-1px); opacity: 0.9; }
         #sendBtn:disabled { background: #1c2620; color: #4e6356; cursor: not-allowed; box-shadow: none; transform: none; }
-
-        /* --- إضافات التجاوب مع الجوال (Responsive) --- */
-        @media (max-width: 768px) {
-            body {
-                align-items: stretch;
-                height: 100vh;
-            }
-            .app-wrapper {
-                width: 100%;
-                height: 100vh;
-                border-radius: 0;
-                border: none;
-                flex-direction: column-reverse; /* يجعل الشات فوق والقائمة تحتاه أو العكس، نقدر نخليه عمودي */
-            }
-            /* ترتيب العناصر داخل الجوال لتكون الشاشة بالكامل مخصصة للشات والتحكم */
-            .app-wrapper {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: 55px;
-                flex-direction: row;
-                align-items: center;
-                overflow-x: auto;
-                padding: 8px 10px;
-                gap: 8px;
-                border-left: none;
-                border-bottom: 1px solid rgba(0, 168, 89, 0.2);
-            }
-            .new-chat-btn {
-                margin-bottom: 0;
-                padding: 6px 12px;
-                font-size: 11px;
-                white-space: nowrap;
-            }
-            .sessions-list {
-                flex-direction: row;
-                gap: 5px;
-                overflow-x: auto;
-                overflow-y: hidden;
-            }
-            .session-item {
-                padding: 6px 10px;
-                font-size: 11px;
-                min-width: 90px;
-            }
-            .input-area {
-                padding: 10px;
-                gap: 8px;
-            }
-            #userInput {
-                padding: 10px 12px;
-                font-size: 13px;
-            }
-            #sendBtn {
-                padding: 0 15px;
-                font-size: 13px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -211,7 +152,7 @@
 </div>
 
 <script>
-    const GROQ_API_KEY = "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"; 
+    const GROQ_API_KEY = "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"; 
     const POLLINATIONS_API_KEY = "sk_QDpz3oPjrMciSh9Tt0ll0CWSNQ1hDDvE";
     
     let currentLang = 'ar';
@@ -508,7 +449,7 @@
                 }
             } catch (error) {
                 if(document.getElementById('typingIndicator')) document.getElementById('typingIndicator').remove();
-                sendBtn.disabled, sendBtn.disabled = false;
+                sendBtn.disabled = false;
                 alert("حدث خطأ في الاتصال.");
             }
         }
