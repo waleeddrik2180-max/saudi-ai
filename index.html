@@ -144,7 +144,7 @@
             gap: 5px;
             white-space: nowrap;
         }
-        #sendBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,255,136,0.6); background: linear-gradient(135deg, #1aff99, #00a859); }
+        #sendBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,255,136,0.6); background: linear-gradient(135dates, #1aff99, #00a859); }
         #sendBtn:disabled { background: #1c2620; color: #4e6356; cursor: not-allowed; box-shadow: none; transform: none; }
     </style>
 </head>
@@ -305,7 +305,7 @@
             id: newId,
             title: title,
             messages: [
-                { role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً." }
+                { role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI. تحدث حصرياً باللغة العربية الفصحى المبسطة أو باللهجة السعودية الواضحة والصحيحة. ممنوع منعاً باتاً خلط لغات أخرى أو إدخال كلمات غريبة أو أجنبية (مثل auch أو غيرها) داخل الردود. كن دقيقاً، ودوداً، والتزم بالأدب التام." }
             ]
         };
         sessions.unshift(newSession);
@@ -452,7 +452,7 @@
 
     function clearCurrentChat() {
         const session = getCurrentSession();
-        session.messages = [{ role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI، تحدث باللهجة السعودية أو الفصحى المبسطة بكل أدب واحترام وابتعد عن الألفاظ البذيئة تماماً." }];
+        session.messages = [{ role: "system", content: "أنت مساعد ذكي محترم جداً باسم Saudi AI. تحدث حصرياً باللغة العربية الفصحى المبسطة أو باللهجة السعودية الواضحة والصحيحة. ممنوع منعاً باتاً خلط لغات أخرى أو إدخال كلمات غريبة أو أجنبية (مثل auch أو غيرها) داخل الردود. كن دقيقاً، ودوداً، والتزم بالأدب التام." }];
         session.title = "محادثة جديدة";
         saveData();
         renderSessionsList();
