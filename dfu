@@ -152,14 +152,14 @@
             <div class="text-center max-w-3xl mx-auto mb-12">
                 <span class="text-emerald-400 font-bold tracking-wider text-sm uppercase">قائمة الطعام</span>
                 <h2 class="text-3xl sm:text-4xl font-black mt-2 mb-3">اختر ما تشتهيه من أصنافنا</h2>
-                <p class="text-slate-400 text-sm">تم تحديث الأقسام بالكامل حسب الطلب (التسعيرة توضع لاحقاً).</p>
+                <p class="text-slate-400 text-sm">الأسعار والتسعيرات المعتمدة لمطعم أمواج الخليج</p>
             </div>
 
             <!-- Category Filter Buttons -->
             <div class="flex flex-wrap justify-center gap-3 mb-12">
                 <button onclick="filterMenu('all')" class="menu-tab active-tab bg-emerald-600 text-white font-bold px-5 py-2 rounded-full transition-all shadow-md">الكل</button>
+                <button onclick="filterMenu('meat')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم اللحوم</button>
                 <button onclick="filterMenu('chicken')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الدجاج</button>
-                <button onclick="filterMenu('meat')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم اللحم</button>
                 <button onclick="filterMenu('stews')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الإدامات</button>
                 <button onclick="filterMenu('salads')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">السلطات والمشروبات</button>
                 <button onclick="filterMenu('desserts')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الحلى</button>
@@ -168,258 +168,142 @@
             <!-- Menu Grid -->
             <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <!-- 1. قسم الدجاج -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مندي</h3>
-                    <p class="text-slate-400 text-sm mb-4">دجاج طازج مطهو بفرن الحطب التقليدي مع الأرز المزفر.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مندي" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج شواية</h3>
-                    <p class="text-slate-400 text-sm mb-4">دجاج مشوي على السيخ بتتبيلة مميزة ومقرمشة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20شواية" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج على الفحم</h3>
-                    <p class="text-slate-400 text-sm mb-4">دجاج مشوي على الفحم بنكهة ورائحة لا تقاوم.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20على%20الفحم" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مظبي</h3>
-                    <p class="text-slate-400 text-sm mb-4">دجاج مشوي على الحصى الحار ببهارات شعبية فاخرة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مظبي" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مضغوط</h3>
-                    <p class="text-slate-400 text-sm mb-4">دجاج مضغوط بالقدر الخاص مع رز غني بالمرق والبهارات.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مضغوط" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 2. قسم اللحم -->
+                <!-- 1. قسم اللحوم -->
                 <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">لحم برمة</h3>
-                    <p class="text-slate-400 text-sm mb-4">لحم طازج مطهو بالقدر الفخاري بمرق الصفا والبهارات الخاصة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20لحم%20برمة" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحوم</span>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">الذبايح والولائم (مندي)</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>ربع تيس مندي:</span> <strong class="text-amber-400">340 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص تيس مندي:</span> <strong class="text-amber-400">680 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>تيس كامل مندي:</span> <strong class="text-amber-400">1360 ر.س</strong></li>
+                        <li class="flex justify-between"><span>تيس عزايم:</span> <strong class="text-amber-400">1450 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20من%20قسم%20اللحوم" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
                 <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">لحم مندي</h3>
-                    <p class="text-slate-400 text-sm mb-4">لحم طازج متبل ومطبوخ بالمندي على أصوله.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20لحم%20مندي" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحوم</span>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">أنفار اللحم والبرمة</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر لحم مندي:</span> <strong class="text-amber-400">85 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر لحم مضغوط:</span> <strong class="text-amber-400">65 ر.س</strong></li>
+                        <li class="flex justify-between"><span>برمة لحم:</span> <strong class="text-amber-400">50 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20نفر%20لحم%20أو%20برمة" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">تيس مندي</h3>
-                    <p class="text-slate-400 text-sm mb-4">تيس مندي طازج ومعدة للولائم والعزائم الخاصة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20تيس%20مندي" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                <!-- 2. قسم الدجاج -->
+                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
+                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مندي والملاحق</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر رز مندي:</span> <strong class="text-amber-400">7 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص حبة مندي:</span> <strong class="text-amber-400">21 ر.س</strong></li>
+                        <li class="flex justify-between"><span>حبة مندي:</span> <strong class="text-amber-400">42 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مندي" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">لحم مضغوط</h3>
-                    <p class="text-slate-400 text-sm mb-4">مضغوط لحم طازج بنكهة غنية ومرق متشرب بالأرز.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20لحم%20مضغوط" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
+                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مظبي وشعبي</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر رز شعبي:</span> <strong class="text-amber-400">7 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص مظبي:</span> <strong class="text-amber-400">21 ر.س</strong></li>
+                        <li class="flex justify-between"><span>حبة مظبي:</span> <strong class="text-amber-400">42 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مظبي" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
+                    </div>
+                </div>
+
+                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
+                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج شواية ومضغوط</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص شواية / مضغوط:</span> <strong class="text-amber-400">21 ر.س</strong></li>
+                        <li class="flex justify-between"><span>حبة شواية / مضغوط:</span> <strong class="text-amber-400">42 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20شواية%20أو%20مضغوط" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
                 <!-- 3. قسم الإدامات -->
                 <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
                     <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مشكل خضار</h3>
-                    <p class="text-slate-400 text-sm mb-4">خضار مشكلة طازجة ومطبوخة بمرق الخضار والبهارات.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20مشكل%20خضار" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مشكل خضار وفرن</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل خضار (كبير):</span> <strong class="text-amber-400">8 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل خضار (صغير):</span> <strong class="text-amber-400">5 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل فرن (كبير):</span> <strong class="text-amber-400">8 ر.س</strong></li>
+                        <li class="flex justify-between"><span>مشكل فرن (صغير):</span> <strong class="text-amber-400">5 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20إدام%20خضار" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
                 <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
                     <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مشكل فرن</h3>
-                    <p class="text-slate-400 text-sm mb-4">خضار بالفرن محمرة ومتبلة بخلطة مطاعمنا الخاصة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20مشكل%20فرن" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مسقعة وبامية وملوخية</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مسقعة (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>بامية (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
+                        <li class="flex justify-between"><span>ملوخية (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20إدام" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
-                    <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مسقعة</h3>
-                    <p class="text-slate-400 text-sm mb-4">مسقعة باذنجان باللحم المفروم وصلصة الطماطم الشهية.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20مسقعة" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
-                    <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">بامية</h3>
-                    <p class="text-slate-400 text-sm mb-4">إدام بامية طازج ومطهو بعصير الطماطم والكزبرة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20بامية" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
-                    <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">ملوخية</h3>
-                    <p class="text-slate-400 text-sm mb-4">ملوخية طازجة ومفرومة بالتقلية والكزبرة والثوم.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20ملوخية" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 4. قسم السلطات والمشروبات -->
+                <!-- 4. السلطات والمشروبات -->
                 <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
                     <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">سلطة طحينة</h3>
-                    <p class="text-slate-400 text-sm mb-4">طحينة كريمية منعشة ومحضرة بالبهارات والليمون.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20سلطة%20طحينة" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">السلطات والمقبلات</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة طحينة:</span> <strong class="text-amber-400">3 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة حارة:</span> <strong class="text-amber-400">3 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة لبن:</span> <strong class="text-amber-400">3 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة خضار:</span> <strong class="text-amber-400">3 ر.س</strong></li>
+                        <li class="flex justify-between"><span>عشار عدني:</span> <strong class="text-amber-400">4 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20سلطات" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
                 <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
                     <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">سلطة حارة</h3>
-                    <p class="text-slate-400 text-sm mb-4">دقوس حار ومميز يفتح النفس مع المشويات.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20سلطة%20حارة" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">سلطة لبن</h3>
-                    <p class="text-slate-400 text-sm mb-4">لبن بالخيار الطازج والنعناع البارد.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20سلطة%20لبن" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">سلطة خضار</h3>
-                    <p class="text-slate-400 text-sm mb-4">خضار طازجة مقطعة مع الليمون وزيت الزيتون.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20سلطة%20خضار" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">عشار عدني</h3>
-                    <p class="text-slate-400 text-sm mb-4">عشار عدني حار ومتبل على الطريقة الأصلية.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20عشار%20عدني" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">لبن القريه (صغير / كبير)</h3>
-                    <p class="text-slate-400 text-sm mb-4">لبن القرية الطازج والبارد.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20لبن%20القرية" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">ببسي (صغير / كبير)</h3>
-                    <p class="text-slate-400 text-sm mb-4">مشروب غازي بارد ومنعش.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20ببسي" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">المشروبات</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>لبن القرية:</span> <strong class="text-amber-400">3 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>لبن المراعي (صغير / كبير):</span> <strong class="text-amber-400">2 / 3 ر.س</strong></li>
+                        <li class="flex justify-between"><span>ببسي (صغير / وسط / كبير):</span> <strong class="text-amber-400">2.5 / 5 / 9 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20مشروبات" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
                 <!-- 5. قسم الحلى -->
                 <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-purple-500" data-category="desserts">
                     <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">قسم الحلى</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">كنافة بالقشطة</h3>
-                    <p class="text-slate-400 text-sm mb-4">كنافة ساخنة ومحشوة بالقشطة الطازجة ومسقية بالشيرة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20كنافة%20بالقشطة" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-purple-500" data-category="desserts">
-                    <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">قسم الحلى</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">تشيز كيك</h3>
-                    <p class="text-slate-400 text-sm mb-4">تشيز كيك لذيذ بطبقة التوت أو الفراولة.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20تشيز%20كيك" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-purple-500" data-category="desserts">
-                    <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">قسم الحلى</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">كريم كراميل</h3>
-                    <p class="text-slate-400 text-sm mb-4">كريم كراميل بارد وناعم.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20كريم%20كراميل" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-purple-500" data-category="desserts">
-                    <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">قسم الحلى</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مهلبية</h3>
-                    <p class="text-slate-400 text-sm mb-4">مهلبية تقليدية مزينة بالمستكة والفستق.</p>
-                    <div class="flex justify-between items-center pt-3 border-t border-slate-800">
-                        <span class="text-amber-400 font-bold text-sm">التسعيرة لاحقاً</span>
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20مهلبية" target="_blank" class="bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all border border-emerald-500/40">طلب واتساب</a>
+                    <h3 class="text-xl font-bold text-white mt-3 mb-1">الحلى والحلويات</h3>
+                    <ul class="text-slate-300 text-sm space-y-2 my-4">
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>كنافة بالقشطة:</span> <strong class="text-amber-400">8 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>تشيز كيك:</span> <strong class="text-amber-400">5 ر.س</strong></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>كريم كراميل:</span> <strong class="text-amber-400">3 ر.س</strong></li>
+                        <li class="flex justify-between"><span>مهلبية:</span> <strong class="text-amber-400">3 ر.س</strong></li>
+                    </ul>
+                    <div class="pt-3 border-t border-slate-800 text-center">
+                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20حلى" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
                     </div>
                 </div>
 
