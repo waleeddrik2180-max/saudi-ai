@@ -54,6 +54,7 @@
 
         <!-- Horizontal Categories Navigation -->
         <div class="max-w-xl mx-auto mt-4 flex gap-2 overflow-x-auto no-scrollbar px-1 py-1">
+            <button onclick="switchTab('fav')" id="tab-fav" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#222] text-amber-400 transition border border-amber-500/40 shadow-md flex items-center gap-1">⭐ المفضلة السريعة</button>
             <button onclick="switchTab('hot')" id="tab-hot" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-black transition shadow-md">☕ الساخنة</button>
             <button onclick="switchTab('cold')" id="tab-cold" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#222] text-gray-300 transition border border-gray-800">🥤 الباردة</button>
             <button onclick="switchTab('mojito')" id="tab-mojito" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#222] text-gray-300 transition border border-gray-800">🍹 موهيتو وعصائر</button>
@@ -70,6 +71,18 @@
             <h2 id="greeting-text" class="text-lg font-black text-amber-400 leading-relaxed">
                 مرحباً، وش ودك تطلب اليوم؟
             </h2>
+        </div>
+
+        <!-- 0. المفضلة السريعة (تتحدث تلقائياً حسب طلباتك المتكررة) -->
+        <div id="section-fav" class="menu-section space-y-3 hidden">
+            <h2 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 px-1">
+                <span>⭐</span> طلباتك المتكررة والمفضلة
+            </h2>
+            <div id="favorites-container" class="space-y-2.5">
+                <div class="bg-[#171717] p-5 rounded-2xl border border-amber-500/10 text-center text-gray-400 text-xs">
+                    لم تقم بإضافة طلبات للمفضلة بعد. الأطباق التي تطلبها بكرّة ستظهر هنا تلقائياً لطلبها بضغطة زر!
+                </div>
+            </div>
         </div>
 
         <!-- 1. القهوة الساخنة -->
@@ -315,14 +328,21 @@
     <!-- JavaScript -->
     <script>
         let currentUserName = '';
+        let favorites = {};
 
-        // Check if name already exists in localStorage on load
+        // Check localStorage on load
         window.addEventListener('DOMContentLoaded', () => {
             const savedName = localStorage.getItem('cafe_user_name');
             if (savedName) {
                 currentUserName = savedName;
                 document.getElementById('welcome-modal').classList.add('hidden');
                 updateGreeting();
+            }
+
+            const savedFavs = localStorage.getItem('cafe_favorites');
+            if (savedFavs) {
+                favorites = JSON.parse(savedFavs);
+                updateFavoritesUI();
             }
         });
 
@@ -363,7 +383,7 @@
             activeBtn.classList.add('bg-amber-500', 'text-black');
         }
 
-        // Cart Logic
+        // Cart & Favorites Logic
         let cart = {};
 
         function addItem(name, price) {
@@ -372,6 +392,12 @@
             } else {
                 cart[name] = { price: price, qty: 1 };
             }
+            
+            // Track item count for favorites (automatically counts how many times you order it)
+            favorites[name] = (favorites[name] || 0) + 1;
+            localStorage.setItem('cafe_favorites', JSON.stringify(favorites));
+            updateFavoritesUI();
+
             updateCartUI();
         }
 
@@ -390,6 +416,47 @@
                 delete cart[name];
             }
             updateCartUI();
+        }
+
+        function updateFavoritesUI() {
+            let container = document.getElementById('favorites-container');
+            
+            // Sort favorites by frequency
+            let sortedFavs = Object.keys(favorites).sort((a, b) => favorites[b] - favorites[a]);
+
+            if (sortedFavs.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-[#171717] p-5 rounded-2xl border border-amber-500/10 text-center text-gray-400 text-xs">
+                        لم تقم بإضافة طلبات للمفضلة بعد. الأطباق التي تطلبها بكترة ستظهر هنا تلقائياً لطلبها بضغطة زر!
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            sortedFavs.forEach(item => {
+                // Approximate price mapping or default price
+                let price = 12; // default fallback
+                if (item.includes('كابتشينو') || item.includes('لاتيه')) price = 10;
+                else if (item.includes('فلات وايت')) price = 12;
+                else if (item.includes('سبانش')) price = 14;
+                else if (item.includes('إسبريسو')) price = 10;
+                else if (item.includes('قهوة اليوم')) price = 5;
+
+                let row = document.createElement('div');
+                row.className = 'flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg';
+                row.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="font-bold text-sm text-white">${item}</span>
+                        <span class="text-[10px] text-amber-400">تم طلبه ${favorites[item]} مرات</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold text-sm">${price} ر.س</span>
+                        <button onclick="addItem('${item}', ${price})" class="bg-amber-500 hover:bg-amber-400 text-black px-3 py-1.5 rounded-xl font-black text-xs flex items-center gap-1 transition shadow">طلب سريع +</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
         }
 
         function updateCartUI() {
