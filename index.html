@@ -3,388 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطاعم ومطابخ أمواج الخليج | حي المطار - المدينة المنورة</title>
+    <title>كافي ونس | 65 Coffee Shop</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        oceanDark: '#111827',
-                        oceanDeep: '#0B0F19',
-                        oceanTeal: '#059669',
-                        oceanCyan: '#10B981',
-                        sandyGold: '#D97706',
-                        sandyAmber: '#B45309',
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts: Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #0B0F19;
-            color: #F8FAFC;
-            overflow-x: hidden;
-        }
-        .ocean-glow {
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-        }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-        }
-        .glass-card:hover {
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 0 10px 30px -10px rgba(5, 150, 105, 0.3);
-        }
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #111827;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #059669;
-            border-radius: 5px;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
         }
     </style>
 </head>
-<body class="bg-oceanDeep text-slate-100">
+<body class="bg-[#121212] min-h-screen pb-24">
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-oceanDark/90 backdrop-blur-md border-b border-emerald-500/20 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo & Brand -->
-                <div class="flex items-center space-x-3 space-x-reverse">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-600 to-amber-500 flex items-center justify-center shadow-lg shadow-emerald-600/30">
-                        <i class="fa-solid fa-fire-burner text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <span class="text-2xl font-black bg-gradient-to-r from-amber-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent">أمواج الخليج</span>
-                        <p class="text-xs text-emerald-400/80 tracking-widest">مطاعم ومطابخ المندي والذبايح</p>
-                    </div>
-                </div>
-
-                <!-- Desktop Menu Links -->
-                <div class="hidden md:flex items-center space-x-8 space-x-reverse font-semibold">
-                    <a href="#hero" class="hover:text-emerald-400 transition-colors">الرئيسية</a>
-                    <a href="#menu" class="hover:text-emerald-400 transition-colors">قائمة الطعام</a>
-                    <a href="#location" class="hover:text-emerald-400 transition-colors">الموقع</a>
-                    <a href="#contact" class="hover:text-emerald-400 transition-colors">اتصل بنا</a>
-                </div>
-
-                <!-- Action Button -->
-                <div class="hidden md:flex items-center space-x-4 space-x-reverse">
-                    <a href="https://wa.me/966508320104" target="_blank" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold px-6 py-2.5 rounded-full shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2 space-x-reverse">
-                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                        <span>طلب سريع</span>
-                    </a>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-slate-200 hover:text-emerald-400 focus:outline-none text-2xl p-2">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                </div>
+    <!-- Header -->
+    <header class="bg-[#1a1a1a] border-b border-amber-600/30 py-6 px-4 text-center sticky top-0 z-50 shadow-lg">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-3xl font-black text-amber-500 tracking-wider">كافي ونس</h1>
+            <p class="text-sm text-gray-400 mt-1">65 COFFEE SHOP • حي المطار</p>
+            <div class="mt-3 inline-block bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full border border-amber-500/20">
+                قائمة المشروبات والحلويات
             </div>
         </div>
+    </header>
 
-        <!-- Mobile Menu Drawer -->
-        <div id="mobile-menu" class="hidden md:hidden bg-oceanDark/95 border-b border-emerald-500/20 px-6 pt-4 pb-6 space-y-4 shadow-2xl backdrop-blur-xl">
-            <a href="#hero" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">الرئيسية</a>
-            <a href="#menu" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">قائمة الطعام</a>
-            <a href="#location" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">الموقع</a>
-            <a href="#contact" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">اتصل بنا</a>
-            <div class="pt-2">
-                <a href="https://wa.me/966508320104" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl flex items-center justify-center space-x-2 space-x-reverse shadow-lg">
-                    <i class="fa-brands fa-whatsapp text-xl"></i>
-                    <span>طلب سريع عبر واتساب</span>
-                </a>
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto px-4 py-6 space-y-8">
+
+        <!-- القهوة الساخنة -->
+        <section class="bg-[#1e1e1e] rounded-2xl p-5 border border-gray-800 shadow-md">
+            <h2 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+                ☕ القهوة الساخنة
+            </h2>
+            <div class="space-y-3" id="hot-coffee">
+                <!-- Items injected via HTML structure -->
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">كابتشينو</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">10 ر.س</span>
+                        <button onclick="addItem('كابتشينو', 10)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">لاتيه</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">10 ر.س</span>
+                        <button onclick="addItem('لاتيه', 10)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">فلات وايت</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">12 ر.س</span>
+                        <button onclick="addItem('فلات وايت', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">سبانش لاتيه</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">14 ر.س</span>
+                        <button onclick="addItem('سبانش لاتيه', 14)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">إيطالي</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">10 ر.س</span>
+                        <button onclick="addItem('إيطالي', 10)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">موكا</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">10 ر.س</span>
+                        <button onclick="addItem('موكا', 10)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">فرنسي</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">9 ر.س</span>
+                        <button onclick="addItem('فرنسي', 9)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">أمريكانو</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">10 ر.س</span>
+                        <button onclick="addItem('أمريكانو', 10)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">إسبريسو سنجل</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">7 ر.س</span>
+                        <button onclick="addItem('إسبريسو سنجل', 7)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">إسبريسو دبل</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">10 ر.س</span>
+                        <button onclick="addItem('إسبريسو دبل', 10)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">قهوة اليوم (حار صغير)</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">5 ر.س</span>
+                        <button onclick="addItem('قهوة اليوم', 5)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">تركي حليب</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">9 ر.س</span>
+                        <button onclick="addItem('تركي حليب', 9)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">تركي سادة</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">7 ر.س</span>
+                        <button onclick="addItem('تركي سادة', 7)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">شاي أخضر / أحمر / لقيمة</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">4-5 ر.س</span>
+                        <button onclick="addItem('شاي (أخضر/أحمر/لقيمة)', 4)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center pb-2">
+                    <div><span class="font-medium">V60 ساخن</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">12 ر.س</span>
+                        <button onclick="addItem('V60 ساخن', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- المشروبات الباردة -->
+        <section class="bg-[#1e1e1e] rounded-2xl p-5 border border-gray-800 shadow-md">
+            <h2 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+                🥤 المشروبات الباردة
+            </h2>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس كراميل ماكياتو</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">14 ر.س</span>
+                        <button onclick="addItem('آيس كراميل ماكياتو', 14)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">سبانش بارد</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">14 ر.س</span>
+                        <button onclick="addItem('سبانش بارد', 14)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس موكا</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">14 ر.س</span>
+                        <button onclick="addItem('آيس موكا', 14)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس موكا أوريو</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">16 ر.س</span>
+                        <button onclick="addItem('آيس موكا أوريو', 16)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس بستانشيو</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">13 ر.س</span>
+                        <button onclick="addItem('آيس بستانشيو', 13)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس ماتشا</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">14 ر.س</span>
+                        <button onclick="addItem('آيس ماتشا', 14)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس كركديه</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">12 ر.س</span>
+                        <button onclick="addItem('آيس كركديه', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس V60</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">12 ر.س</span>
+                        <button onclick="addItem('آيس V60', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">آيس لاتيه</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">12 ر.س</span>
+                        <button onclick="addItem('آيس لاتيه', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center pb-2">
+                    <div><span class="font-medium">آيس شيكن</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">17 ر.س</span>
+                        <button onclick="addItem('آيس شيكن', 17)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الموهيتو والعصائر -->
+        <section class="bg-[#1e1e1e] rounded-2xl p-5 border border-gray-800 shadow-md">
+            <h2 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+                🍹 الموهيتو والعصائر
+            </h2>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">موهيتو توين تبيربو / عصير ليمون نعناع / ريلاكس</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">12 ر.س</span>
+                        <button onclick="addItem('موهيتو/عصير منعش', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">عصير كود رد أحمر / أخضر / بلاك / حبحب / سفن</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">12-13 ر.س</span>
+                        <button onclick="addItem('موهيتو طاقة/نكهات', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">موهيتو باشن فروت</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">13 ر.س</span>
+                        <button onclick="addItem('موهيتو باشن فروت', 13)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">ريد بول</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">17 ر.س</span>
+                        <button onclick="addItem('ريد بول', 17)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الكيك والحلويات -->
+        <section class="bg-[#1e1e1e] rounded-2xl p-5 border border-gray-800 shadow-md">
+            <h2 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+                🍰 الكيك والتشيز كيك
+            </h2>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">كيكة زعفران / سينابون</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">8-12 ر.س</span>
+                        <button onclick="addItem('كيكة زعفران/سينابون', 10)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">كيكة عسل / ليدو / تشيز كيك (بستاشيو/كنافة/بلو بيري)</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">13-15 ر.س</span>
+                        <button onclick="addItem('تشيز كيك أو كيكة عسل', 14)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center pb-2">
+                    <div><span class="font-medium">سان سباستيان</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">16 ر.س</span>
+                        <button onclick="addItem('سان سباستيان', 16)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الكريب والوافل -->
+        <section class="bg-[#1e1e1e] rounded-2xl p-5 border border-gray-800 shadow-md">
+            <h2 class="text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+                🧇 الكريب والوافل والبلا كيك
+            </h2>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">كريب شوكولاتة / مكس</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">13-16 ر.س</span>
+                        <button onclick="addItem('كريب شوكولاتة/مكس', 15)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <div><span class="font-medium">وافل بلجيكي شوكولاتة / مكس</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">13-16 ر.س</span>
+                        <button onclick="addItem('وافل بلجيكي', 15)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center pb-2">
+                    <div><span class="font-medium">بان كيك (كبير / صغير)</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold">11-13 ر.س</span>
+                        <button onclick="addItem('بان كيك', 12)" class="bg-amber-600 hover:bg-amber-500 text-white w-8 h-8 rounded-full font-bold text-lg flex items-center justify-center transition">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating Cart & Checkout Footer -->
+    <div id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-amber-600/30 p-4 shadow-2xl transform translate-y-full transition-transform duration-300 z-50">
+        <div class="max-w-2xl mx-auto flex flex-col gap-3">
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-300 font-medium">سلة الطلبات:</span>
+                <span id="cart-items-summary" class="text-amber-400 font-bold">لا توجد طلبات</span>
+            </div>
+            <div class="flex justify-between items-center border-t border-gray-800 pt-2">
+                <span class="text-lg font-bold text-white">المجموع الكلي: <span id="total-price" class="text-amber-500">0</span> ر.س</span>
+                <button onclick="sendOrder()" class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg transition">
+                    إرسال الطلب عبر الواتساب 📱
+                </button>
             </div>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section id="hero" class="relative min-h-[70vh] flex items-center justify-center pt-28 pb-16 overflow-hidden bg-gradient-to-b from-oceanDark via-oceanDeep to-oceanDark">
-        <div class="absolute inset-0 opacity-15 pointer-events-none">
-            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-emerald-600 rounded-full blur-[140px]"></div>
-            <div class="absolute bottom-10 right-10 w-96 h-96 bg-amber-500 rounded-full blur-[120px]"></div>
-        </div>
-
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-            <div class="inline-flex items-center space-x-2 space-x-reverse bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full mb-6 backdrop-blur-md">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-                <span class="text-emerald-400 text-sm font-semibold">حي المطار - المدينة المنورة</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">
-                مطاعم ومطابخ <span class="bg-gradient-to-r from-amber-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent ocean-glow">أمواج الخليج</span>
-            </h1>
-
-            <p class="max-w-2xl mx-auto text-lg text-slate-300 mb-8 font-light">
-                أصالة المندي، اللحوم الطازجة، الإدامات الشهية، والسلطات والمشروبات والحلى الطازج.
-            </p>
-
-            <div class="flex justify-center gap-4">
-                <a href="#menu" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold px-8 py-3.5 rounded-xl shadow-xl shadow-emerald-500/20 transition-all">
-                    تصفح القائمة كاملة
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu Section -->
-    <section id="menu" class="py-20 bg-oceanDeep relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-emerald-400 font-bold tracking-wider text-sm uppercase">قائمة الطعام</span>
-                <h2 class="text-3xl sm:text-4xl font-black mt-2 mb-3">اختر ما تشتهيه من أصنافنا</h2>
-                <p class="text-slate-400 text-sm">الأسعار والتسعيرات المعتمدة لمطعم أمواج الخليج</p>
-            </div>
-
-            <!-- Category Filter Buttons -->
-            <div class="flex flex-wrap justify-center gap-3 mb-12">
-                <button onclick="filterMenu('all')" class="menu-tab active-tab bg-emerald-600 text-white font-bold px-5 py-2 rounded-full transition-all shadow-md">الكل</button>
-                <button onclick="filterMenu('meat')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم اللحوم</button>
-                <button onclick="filterMenu('chicken')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الدجاج</button>
-                <button onclick="filterMenu('stews')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الإدامات</button>
-                <button onclick="filterMenu('salads')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">السلطات والمشروبات</button>
-                <button onclick="filterMenu('desserts')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الحلى</button>
-            </div>
-
-            <!-- Menu Grid -->
-            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- 1. قسم اللحوم -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحوم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">الذبايح والولائم (مندي)</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>ربع تيس مندي:</span> <strong class="text-amber-400">340 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص تيس مندي:</span> <strong class="text-amber-400">680 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>تيس كامل مندي:</span> <strong class="text-amber-400">1360 ر.س</strong></li>
-                        <li class="flex justify-between"><span>تيس عزايم:</span> <strong class="text-amber-400">1450 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20من%20قسم%20اللحوم" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحوم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">أنفار اللحم والبرمة</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر لحم مندي:</span> <strong class="text-amber-400">85 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر لحم مضغوط:</span> <strong class="text-amber-400">65 ر.س</strong></li>
-                        <li class="flex justify-between"><span>برمة لحم:</span> <strong class="text-amber-400">50 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20نفر%20لحم%20أو%20برمة" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 2. قسم الدجاج -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مندي والملاحق</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر رز مندي:</span> <strong class="text-amber-400">7 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص حبة مندي:</span> <strong class="text-amber-400">21 ر.س</strong></li>
-                        <li class="flex justify-between"><span>حبة مندي:</span> <strong class="text-amber-400">42 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مندي" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مظبي وشعبي</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر رز شعبي:</span> <strong class="text-amber-400">7 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص مظبي:</span> <strong class="text-amber-400">21 ر.س</strong></li>
-                        <li class="flex justify-between"><span>حبة مظبي:</span> <strong class="text-amber-400">42 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مظبي" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج شواية ومضغوط</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص شواية / مضغوط:</span> <strong class="text-amber-400">21 ر.س</strong></li>
-                        <li class="flex justify-between"><span>حبة شواية / مضغوط:</span> <strong class="text-amber-400">42 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20شواية%20أو%20مضغوط" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 3. قسم الإدامات -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
-                    <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مشكل خضار وفرن</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل خضار (كبير):</span> <strong class="text-amber-400">8 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل خضار (صغير):</span> <strong class="text-amber-400">5 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل فرن (كبير):</span> <strong class="text-amber-400">8 ر.س</strong></li>
-                        <li class="flex justify-between"><span>مشكل فرن (صغير):</span> <strong class="text-amber-400">5 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20إدام%20خضار" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
-                    <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مسقعة وبامية وملوخية</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مسقعة (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>بامية (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
-                        <li class="flex justify-between"><span>ملوخية (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20إدام" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 4. السلطات والمشروبات -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">السلطات والمقبلات</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة طحينة:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة حارة:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة لبن:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة خضار:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between"><span>عشار عدني:</span> <strong class="text-amber-400">4 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20سلطات" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">المشروبات</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>لبن القرية:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>لبن المراعي (صغير / كبير):</span> <strong class="text-amber-400">2 / 3 ر.س</strong></li>
-                        <li class="flex justify-between"><span>ببسي (صغير / وسط / كبير):</span> <strong class="text-amber-400">2.5 / 5 / 9 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20مشروبات" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 5. قسم الحلى -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-purple-500" data-category="desserts">
-                    <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">قسم الحلى</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">الحلى والحلويات</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>كنافة بالقشطة:</span> <strong class="text-amber-400">8 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>تشيز كيك:</span> <strong class="text-amber-400">5 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>كريم كراميل:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between"><span>مهلبية:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20حلى" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Location & Contact Section -->
-    <section id="location" class="py-20 bg-oceanDark relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-emerald-400 font-bold tracking-wider text-sm uppercase">الموقع</span>
-                <h2 class="text-3xl font-black mt-2 mb-3">موقعنا في المدينة المنورة</h2>
-                <p class="text-slate-300 text-sm">حي المطار - شارع عبد الله بن وديعة</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass-card p-6 rounded-2xl text-center">
-                    <i class="fa-solid fa-location-dot text-3xl text-emerald-400 mb-3"></i>
-                    <h3 class="font-bold text-white mb-1">العنوان</h3>
-                    <p class="text-slate-300 text-sm">حي المطار، المدينة المنورة</p>
-                </div>
-                <div class="glass-card p-6 rounded-2xl text-center">
-                    <i class="fa-regular fa-clock text-3xl text-amber-400 mb-3"></i>
-                    <h3 class="font-bold text-white mb-1">أوقات العمل</h3>
-                    <p class="text-slate-300 text-sm">حتى الساعة 2:00 صباحاً</p>
-                </div>
-                <div class="glass-card p-6 rounded-2xl text-center">
-                    <i class="fa-solid fa-phone text-3xl text-emerald-400 mb-3"></i>
-                    <h3 class="font-bold text-white mb-1">رقم التواصل</h3>
-                    <p class="text-slate-300 text-sm" dir="ltr">050 832 0104</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="bg-oceanDeep border-t border-emerald-500/20 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-slate-400 text-sm">جميع الحقوق محفوظة © 2026 مطاعم ومطابخ أمواج الخليج - حي المطار، المدينة المنورة</p>
-        </div>
-    </footer>
-
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/966508320104" target="_blank" class="fixed bottom-6 left-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/50 transition-all transform hover:scale-110">
-        <i class="fa-brands fa-whatsapp text-3xl"></i>
-    </a>
-
-    <!-- JavaScript -->
+    <!-- JavaScript for Calculator & WhatsApp Order -->
     <script>
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        let cart = {};
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        function addItem(name, price) {
+            if (cart[name]) {
+                cart[name].qty += 1;
+            } else {
+                cart[name] = { price: price, qty: 1 };
+            }
+            updateCartUI();
+        }
 
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
+        function updateCartUI() {
+            let total = 0;
+            let summaryText = [];
+            let hasItems = false;
 
-        function filterMenu(category) {
-            const items = document.querySelectorAll('.menu-item');
-            const tabs = document.querySelectorAll('.menu-tab');
+            for (let item in cart) {
+                hasItems = true;
+                total += cart[item].price * cart[item].qty;
+                summaryText.push(`${item} (${cart[item].qty})`);
+            }
 
-            tabs.forEach(tab => {
-                tab.classList.remove('bg-emerald-600', 'text-white');
-                tab.classList.add('bg-oceanDark/80', 'text-slate-200');
-            });
-            event.target.classList.remove('bg-oceanDark/80', 'text-slate-200');
-            event.target.classList.add('bg-emerald-600', 'text-white');
+            const footer = document.getElementById('cart-footer');
+            if (hasItems) {
+                footer.classList.remove('translate-y-full');
+            } else {
+                footer.classList.add('translate-y-full');
+            }
 
-            items.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+            document.getElementById('cart-items-summary').innerText = summaryText.join(' ، ');
+            document.getElementById('total-price').innerText = total;
+        }
+
+        function sendOrder() {
+            let text = "السلام عليكم، حاب أطلب من كافي ونس:\n\n";
+            let total = 0;
+
+            for (let item in cart) {
+                let itemTotal = cart[item].price * cart[item].qty;
+                total += itemTotal;
+                text += `- ${item} × ${cart[item].qty} = ${itemTotal} ر.س\n`;
+            }
+
+            text += `\nالمجموع الكلي: ${total} ر.س`;
+            
+            let encodedText = encodeURIComponent(text);
+            // رقم الواتساب المذكور في المنيو للتطبيقات والطلبات
+            let whatsappUrl = `https://wa.me/966533614226?text=${encodedText}`;
+            
+            window.open(whatsappUrl, '_blank');
         }
     </script>
 </body>
