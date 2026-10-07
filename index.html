@@ -20,12 +20,6 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        @keyframes slideLeft {
-            0% { transform: translateX(100%); opacity: 0; }
-            10% { transform: translateX(0); opacity: 1; }
-            90% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(-100%); opacity: 0; }
-        }
         .slider-img {
             display: none;
             position: absolute;
@@ -76,8 +70,8 @@
             <p class="text-[10px] text-gray-300">القائمة الرقمية التفاعلية</p>
         </div>
 
-        <!-- Dynamic Image Slider Banner -->
-        <div class="max-w-xl mx-auto mt-3 relative h-36 rounded-2xl overflow-hidden shadow-lg border border-emerald-500/20 bg-slate-900">
+        <!-- Dynamic Image Slider Banner (تم تعديل الارتفاع إلى h-48 أو h-56 عشان تطلع الصور أفقية وكويسة) -->
+        <div class="max-w-xl mx-auto mt-3 relative h-48 sm:h-56 rounded-2xl overflow-hidden shadow-lg border border-emerald-500/20 bg-slate-900">
             <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLdpFLwcyH_nFG3vVGpqtyNmzDJwWOeFqtVzfxyhPSQZ42HKp2IFq2UdP7n02Zf1-E6P7AH9Ru86E4mXcn9yD0rS-NFXyecB-4zxPH-aVWooMrsR48jFrQgLEVGTPauWQt38PCDIV0ZRuDBP=w172-h224-p-k-no" class="slider-img active" alt="صورة حلا 1">
             <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLfYLroDcelvcmMqMt5WVd-WBNwUW9ciFYH-9GeGE5fV0nUF_mxcudp3PAU1sbFCVqXa08861o-8DKPBHPB8SNcbl88Xo-ncUqGmQR7vlNqJ9XvE5BCmqX4cvP2hag8Ej6I8cUMwGNw__xnU=w172-h224-p-k-no" class="slider-img" alt="صورة حلا 2">
             <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLdzp0XAF1pCAFajOaatdk3mwLKod3zD58fX3NA5eWLxqvixW7DjzAq0sPnORyUZcG2HRt7etH2j9_ufuwPuhIbmozjbEMOe7b-bZX7Q6HK60aFy5u4GDvDg4svoiQHOQrJi-QB74s_DgsaH=w172-h224-p-k-no" class="slider-img" alt="صورة حلا 3">
@@ -405,243 +399,173 @@
 
             <div class="flex justify-between items-center border-t border-slate-700 pt-2">
                 <span class="text-sm font-bold text-white">المجموع: <span id="total-price" class="text-emerald-400">0</span> ر.س</span>
-                
-                <div class="flex gap-2">
-                    <!-- Share Order with Friend Button -->
-                    <button onclick="shareOrder()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-xl font-bold flex items-center gap-1 shadow-lg transition text-xs cursor-pointer" title="مشاركة الطلب مع صديق">
-                        <span>📤 مشاركة</span>
-                    </button>
-
-                    <!-- Send to WhatsApp Button -->
-                    <button onclick="sendOrder()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 shadow-lg transition text-xs cursor-pointer">
-                        <span>إرسال للواتساب</span>
-                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                    </button>
-                </div>
+                <button onclick="checkoutWhatsApp()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-1.5 cursor-pointer">
+                    <span>إرسال الطلب واتساب</span> 📲
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- JavaScript logic -->
     <script>
-        let currentUserName = '';
-        let favorites = {};
+        let userName = "";
+        let cart = {};
+        let favorites = [];
 
-        // Image Slider Auto-play Logic
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slider-img');
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
-        setInterval(nextSlide, 3500);
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedName = localStorage.getItem('sayyar_user_name');
-            if (savedName) {
-                currentUserName = savedName;
-                document.getElementById('welcome-modal').classList.add('hidden');
-                updateGreeting();
-            }
-
-            const savedFavs = localStorage.getItem('sayyar_favorites');
-            if (savedFavs) {
-                favorites = JSON.parse(savedFavs);
-                updateFavoritesUI();
-            }
-        });
-
+        // Save Name from Modal
         function saveName() {
             const input = document.getElementById('user-name-input');
-            const name = input.value.trim();
-            if (name !== '') {
-                currentUserName = name;
-                localStorage.setItem('sayyar_user_name', name);
+            if(input.value.trim() !== "") {
+                userName = input.value.trim();
+                document.getElementById('greeting-text').innerText = `مرحباً ${userName}، وش ودك تطلب اليوم؟`;
                 document.getElementById('welcome-modal').classList.add('hidden');
-                updateGreeting();
             } else {
-                input.focus();
-                input.classList.add('border-red-500');
+                alert("الرجاء إدخال الاسم الكريم!");
             }
         }
 
-        function updateGreeting() {
-            document.getElementById('greeting-text').innerHTML = `مرحباً ${currentUserName}، وش ودك تطلب اليوم؟`;
-        }
-
-        function switchTab(categoryId) {
+        // Switch Tabs Function
+        function switchTab(tabId) {
             document.querySelectorAll('.menu-section').forEach(sec => sec.classList.add('hidden'));
-            document.getElementById('section-' + categoryId).classList.remove('hidden');
-
             document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-600', 'text-white');
-                btn.classList.add('bg-[#0f172a]', 'text-gray-300', 'border', 'border-slate-700');
+                btn.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-500/40');
+                btn.classList.add('bg-[#0f172a]', 'text-gray-300', 'border-slate-700');
             });
 
-            const activeBtn = document.getElementById('tab-' + categoryId);
-            activeBtn.classList.remove('bg-[#0f172a]', 'text-gray-300', 'border', 'border-slate-700');
-            activeBtn.classList.add('bg-emerald-600', 'text-white');
+            document.getElementById('search-results-section').classList.add('hidden');
+            document.getElementById('search-input').value = '';
+
+            if(tabId === 'fav') {
+                document.getElementById('section-fav').classList.remove('hidden');
+                document.getElementById('tab-fav').classList.add('bg-emerald-600', 'text-white', 'border-emerald-500/40');
+                document.getElementById('tab-fav').classList.remove('bg-[#0f172a]', 'text-gray-300', 'border-slate-700');
+                renderFavorites();
+            } else {
+                document.getElementById('section-' + tabId).classList.remove('hidden');
+                const activeBtn = document.getElementById('tab-' + tabId);
+                activeBtn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-500/40');
+                activeBtn.classList.remove('bg-[#0f172a]', 'text-gray-300', 'border-slate-700');
+            }
         }
 
-        // Live Search Feature
-        function searchMenu() {
-            let query = document.getElementById('search-input').value.toLowerCase().trim();
-            let resultsSection = document.getElementById('search-results-section');
-            let resultsContainer = document.getElementById('search-container-items');
+        // Add Item to Cart
+        function addItem(name, price) {
+            if(cart[name]) {
+                cart[name].qty += 1;
+            } else {
+                cart[name] = { price: price, qty: 1 };
+            }
+            updateCartUI();
+        }
 
-            if (query === '') {
+        // Update Cart UI
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const footer = document.getElementById('cart-footer');
+            container.innerHTML = '';
+            
+            let total = 0;
+            let count = 0;
+            
+            for(let name in cart) {
+                let item = cart[name];
+                total += item.price * item.qty;
+                count += item.qty;
+
+                container.innerHTML += `
+                    <div class="flex justify-between items-center py-1 text-xs">
+                        <span class="font-bold text-white">${name}</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-emerald-400 font-bold">${(item.price * item.qty).toFixed(2)} ر.س</span>
+                            <div class="flex items-center gap-1 bg-slate-800 rounded-lg px-2 py-0.5 border border-slate-700">
+                                <button onclick="decreaseItem('${name}')" class="text-red-400 font-bold px-1">-</button>
+                                <span class="text-white font-bold">${item.qty}</span>
+                                <button onclick="increaseItem('${name}')" class="text-emerald-400 font-bold px-1">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('total-price').innerText = total.toFixed(2);
+
+            if(count > 0) {
+                footer.classList.remove('translate-y-full');
+            } else {
+                footer.classList.add('translate-y-full');
+            }
+        }
+
+        function increaseItem(name) {
+            cart[name].qty += 1;
+            updateCartUI();
+        }
+
+        function decreaseItem(name) {
+            cart[name].qty -= 1;
+            if(cart[name].qty <= 0) {
+                delete cart[name];
+            }
+            updateCartUI();
+        }
+
+        // Search Menu Function
+        function searchMenu() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const resultsSection = document.getElementById('search-results-section');
+            const searchContainer = document.getElementById('search-container-items');
+            
+            if(query === "") {
                 resultsSection.classList.add('hidden');
                 return;
             }
 
             resultsSection.classList.remove('hidden');
-            resultsContainer.innerHTML = '';
+            searchContainer.innerHTML = '';
 
-            let items = document.querySelectorAll('.menu-item');
+            const allItems = document.querySelectorAll('.menu-item');
             let found = false;
 
-            items.forEach(item => {
-                let name = item.getAttribute('data-name');
-                if (name.toLowerCase().includes(query)) {
+            allItems.forEach(item => {
+                const name = item.getAttribute('data-name');
+                if(name.toLowerCase().includes(query)) {
                     found = true;
-                    let clone = item.cloneNode(true);
-                    resultsContainer.appendChild(clone);
+                    const clone = item.cloneNode(true);
+                    searchContainer.appendChild(clone);
                 }
             });
 
-            if (!found) {
-                resultsContainer.innerHTML = `<div class="bg-[#1e293b] p-4 rounded-2xl text-center text-gray-400 text-xs">عذراً، لم نجد هذا الطلب!</div>`;
+            if(!found) {
+                searchContainer.innerHTML = `<div class="bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 text-center text-gray-400 text-xs">عذراً، لم نجد طلب مطابق لبحثك.</div>`;
             }
         }
 
-        let cart = {};
-
-        function addItem(name, price) {
-            if (cart[name]) {
-                cart[name].qty += 1;
-            } else {
-                cart[name] = { price: price, qty: 1 };
-            }
-            
-            favorites[name] = (favorites[name] || 0) + 1;
-            localStorage.setItem('sayyar_favorites', JSON.stringify(favorites));
-            updateFavoritesUI();
-            updateCartUI();
-        }
-
-        function removeItem(name) {
-            if (cart[name]) {
-                cart[name].qty -= 1;
-                if (cart[name].qty <= 0) delete cart[name];
-            }
-            updateCartUI();
-        }
-
-        function deleteItemCompletely(name) {
-            delete cart[name];
-            updateCartUI();
-        }
-
-        function updateFavoritesUI() {
-            let container = document.getElementById('favorites-container');
-            let sortedFavs = Object.keys(favorites).sort((a, b) => favorites[b] - favorites[a]);
-
-            if (sortedFavs.length === 0) {
-                container.innerHTML = `<div class="bg-[#1e293b] p-4 rounded-2xl border border-slate-700/50 text-center text-gray-400 text-xs">لم تقم بإضافة طلبات للمفضلة بعد.</div>`;
-                return;
-            }
-
-            container.innerHTML = '';
-            sortedFavs.forEach(item => {
-                let price = 9;
-                if (item.includes('قهوة اليوم')) price = 5.50;
-                else if (item.includes('بوكس')) price = 43;
-                else if (item.includes('براونيز') || item.includes('ماريل')) price = 7.50;
-
-                let row = document.createElement('div');
-                row.className = 'flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md';
-                row.innerHTML = `
-                    <div class="flex flex-col">
-                        <span class="font-bold text-xs sm:text-sm text-white">${item}</span>
-                        <span class="text-[10px] text-emerald-400">تم طلبه ${favorites[item]} مرات</span>
-                    </div>
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">${price} ر.س</span>
-                        <button onclick="addItem('${item}', ${price})" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-xl font-black text-xs transition shadow">طلب سريع +</button>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function updateCartUI() {
-            let total = 0, hasItems = false;
-            let container = document.getElementById('cart-items-container');
-            container.innerHTML = '';
-
-            for (let item in cart) {
-                hasItems = true;
-                let itemTotal = cart[item].price * cart[item].qty;
-                total += itemTotal;
-
-                let row = document.createElement('div');
-                row.className = 'flex justify-between items-center pt-2 first:pt-0 text-xs';
-                row.innerHTML = `
-                    <div class="flex flex-col">
-                        <span class="font-bold text-white">${item}</span>
-                        <span class="text-emerald-400">${itemTotal.toFixed(2)} ر.س (${cart[item].price} × ${cart[item].qty})</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-[#0f172a] rounded-xl border border-slate-700 overflow-hidden">
-                            <button onclick="removeItem('${item}')" class="px-2 py-0.5 text-gray-300 hover:bg-slate-700 font-bold">-</button>
-                            <span class="px-2 text-white font-bold">${cart[item].qty}</span>
-                            <button onclick="addItem('${item}', ${cart[item].price})" class="px-2 py-0.5 text-emerald-400 hover:bg-slate-700 font-bold">+</button>
-                        </div>
-                        <button onclick="deleteItemCompletely('${item}')" class="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white p-1.5 rounded-xl transition">✕</button>
-                    </div>
-                `;
-                container.appendChild(row);
-            }
-
-            const footer = document.getElementById('cart-footer');
-            if (hasItems) footer.classList.remove('translate-y-full');
-            else footer.classList.add('translate-y-full');
-
-            document.getElementById('total-price').innerText = total.toFixed(2);
-        }
-
-        function sendOrder() {
-            let text = `السلام عليكم، حاب أطلب من سيار (العميل: ${currentUserName || 'بدون اسم'}):\n\n`;
+        // WhatsApp Checkout
+        function checkoutWhatsApp() {
+            let message = `مرحباً، معكم العميل: *${userName}* ☕\nأرغب في طلب الآتي:\n\n`;
             let total = 0;
-            for (let item in cart) {
-                let itemTotal = cart[item].price * cart[item].qty;
-                total += itemTotal;
-                text += `- ${item} × ${cart[item].qty} = ${itemTotal.toFixed(2)} ر.س\n`;
+
+            for(let name in cart) {
+                let item = cart[name];
+                message += `• ${name} (عدد: ${item.qty}) - ${(item.price * item.qty).toFixed(2)} ر.س\n`;
+                total += item.price * item.qty;
             }
-            text += `\nالمجموع الكلي: ${total.toFixed(2)} ر.س`;
-            window.open(`https://wa.me/966550260244?text=${encodeURIComponent(text)}`, '_blank');
+
+            message += `\n*الإجمالي الكلي: ${total.toFixed(2)} ر.س*`;
+
+            const phone = "966500000000"; // استبدل الرقم برقم الواتساب الخاص بك
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
         }
 
-        function shareOrder() {
-            let text = `شوف طلبي من سيار ☕:\n`;
-            let total = 0;
-            for (let item in cart) {
-                let itemTotal = cart[item].price * cart[item].qty;
-                total += itemTotal;
-                text += `- ${item} (${cart[item].qty})\n`;
-            }
-            text += `المجموع: ${total.toFixed(2)} ر.س\nتبي أطلب لك معي؟`;
-
-            if (navigator.share) {
-                navigator.share({
-                    title: 'طلبي من سيار',
-                    text: text
-                }).catch(() => {});
-            } else {
-                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-            }
-        }
+        // Image Slider Auto Rotation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider-img');
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 3500);
     </script>
 </body>
 </html>
