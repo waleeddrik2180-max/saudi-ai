@@ -20,6 +20,31 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        @keyframes slideLeft {
+            0% { transform: translateX(100%); opacity: 0; }
+            10% { transform: translateX(0); opacity: 1; }
+            90% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(-100%); opacity: 0; }
+        }
+        .slider-img {
+            display: none;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease-in-out;
+        }
+        .slider-img.active {
+            display: block;
+            animation: fadeInOut 3s infinite;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(1.05); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.95); }
+        }
     </style>
 </head>
 <body class="bg-[#0f172a] min-h-screen pb-40">
@@ -42,25 +67,581 @@
     </div>
 
     <!-- Header -->
-    <header class="bg-[#1e293b] border-b border-emerald-500/20 py-5 px-4 text-center sticky top-0 z-40 shadow-2xl backdrop-blur-md bg-opacity-95">
+    <header class="bg-[#1e293b] border-b border-emerald-500/20 py-4 px-4 text-center sticky top-0 z-40 shadow-2xl backdrop-blur-md bg-opacity-95">
         <div class="max-w-xl mx-auto">
-            <div class="inline-block bg-emerald-600 text-white font-black text-xs px-2.5 py-0.5 rounded-full mb-1.5 shadow-md">
+            <div class="inline-block bg-emerald-600 text-white font-black text-xs px-2.5 py-0.5 rounded-full mb-1 shadow-md">
                 SAYYAR
             </div>
-            <h1 class="text-2xl font-black text-emerald-400 tracking-wider">سيار</h1>
-            <p class="text-[11px] text-gray-300 mt-0.5">القائمة الرقمية التفاعلية</p>
+            <h1 class="text-xl font-black text-emerald-400 tracking-wider">سيار</h1>
+            <p class="text-[10px] text-gray-300">القائمة الرقمية التفاعلية</p>
+        </div>
+
+        <!-- Dynamic Image Slider Banner -->
+        <div class="max-w-xl mx-auto mt-3 relative h-36 rounded-2xl overflow-hidden shadow-lg border border-emerald-500/20 bg-slate-900">
+            <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLdpFLwcyH_nFG3vVGpqtyNmzDJwWOeFqtVzfxyhPSQZ42HKp2IFq2UdP7n02Zf1-E6P7AH9Ru86E4mXcn9yD0rS-NFXyecB-4zxPH-aVWooMrsR48jFrQgLEVGTPauWQt38PCDIV0ZRuDBP=w172-h224-p-k-no" class="slider-img active" alt="صورة حلا 1">
+            <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLfYLroDcelvcmMqMt5WVd-WBNwUW9ciFYH-9GeGE5fV0nUF_mxcudp3PAU1sbFCVqXa08861o-8DKPBHPB8SNcbl88Xo-ncUqGmQR7vlNqJ9XvE5BCmqX4cvP2hag8Ej6I8cUMwGNw__xnU=w172-h224-p-k-no" class="slider-img" alt="صورة حلا 2">
+            <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLdzp0XAF1pCAFajOaatdk3mwLKod3zD58fX3NA5eWLxqvixW7DjzAq0sPnORyUZcG2HRt7etH2j9_ufuwPuhIbmozjbEMOe7b-bZX7Q6HK60aFy5u4GDvDg4svoiQHOQrJi-QB74s_DgsaH=w172-h224-p-k-no" class="slider-img" alt="صورة حلا 3">
+            <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLd-rzoLubWVA5Jl92mu45BWk2_vJ6nrd2B9FW6WBxXL9vxVabqvI8xw17MkN-6S1Yh8LW67aHXracgvCHWIz7LPLcyXpb7GHVves-l-_eCEfEFCYOLP2zMzYhjocQQtLHITCYj2LdN1PWsq=w172-h224-p-k-no" class="slider-img" alt="صورة حلا 4">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3">
+                <span class="text-white text-xs font-bold bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-lg border border-white/10">✨ ألذ الحلويات والمشروبات في سيار</span>
+            </div>
         </div>
 
         <!-- Search Bar Feature -->
         <div class="max-w-xl mx-auto px-4 mt-3">
-            <input type="text" id="search-input" oninput="searchMenu()" placeholder="🔍 ابحث عن مشروبك أو حلاك المفضلة..." class="w-full bg-[#0f172a] border border-slate-700/60 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 shadow-inner">
+            <input type="text" id="search-input" oninput="searchMenu()" placeholder="🔍 ابحث عن مشروبك أو حلاك المفضلة..." class="w-full bg-[#0f172a] border border-slate-700/65 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 shadow-inner">
         </div>
 
         <!-- Horizontal Categories Navigation -->
-        <div class="max-w-xl mx-auto mt-3 flex gap-2 overflow-x-auto no-scrollbar px-4 py-1">
-            <button onclick="switchTab('fav')" id="tab-fav" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-emerald-400 transition border border-emerald-500/40 shadow-md flex items-center gap-1">⭐ المفضلة</button>
-            <button onclick="switchTab('specialty')" id="tab-specialty" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white transition shadow-md">☕ قهوة مختصة</button>
-            <button onclick="switchTab('espresso')" id="tab-espresso" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-gray-300 transition border border-slate-700">🥤 إسبريسو</button>
-            <button onclick="switchTab('cold')" id="tab-cold" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-gray-300 transition border border-slate-700">🧊 باردة</button>
-            <button onclick="switchTab('sweets')" id="tab-sweets" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-gray-300 transition border border-slate-700">🍰 الحلويات</button>
-            <button onclick="switchTab('icecream')" id="tab-icecream" class="category-btn whitespace-nowrap px-4 py-1.
+        <div class="max-w-xl mx-auto mt-2.5 flex gap-2 overflow-x-auto no-scrollbar px-4 py-1">
+            <button onclick="switchTab('fav')" id="tab-fav" class="category-btn whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-emerald-400 transition border border-emerald-500/40 shadow-md flex items-center gap-1">⭐ المفضلة</button>
+            <button onclick="switchTab('specialty')" id="tab-specialty" class="category-btn whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white transition shadow-md">☕ قهوة مختصة</button>
+            <button onclick="switchTab('espresso')" id="tab-espresso" class="category-btn whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-gray-300 transition border border-slate-700">🥤 إسبريسو</button>
+            <button onclick="switchTab('cold')" id="tab-cold" class="category-btn whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-gray-300 transition border border-slate-700">🧊 باردة</button>
+            <button onclick="switchTab('sweets')" id="tab-sweets" class="category-btn whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-gray-300 transition border border-slate-700">🍰 الحلويات</button>
+            <button onclick="switchTab('icecream')" id="tab-icecream" class="category-btn whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[#0f172a] text-gray-300 transition border border-slate-700">🍦 آيس كريم</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-xl mx-auto px-4 py-5">
+
+        <!-- Personalized Greeting Banner -->
+        <div id="greeting-banner" class="bg-gradient-to-r from-emerald-600/15 to-transparent border-r-4 border-emerald-500 p-3.5 rounded-2xl mb-5 shadow-lg">
+            <h2 id="greeting-text" class="text-base font-black text-emerald-300 leading-relaxed">
+                مرحباً، وش ودك تطلب اليوم؟
+            </h2>
+        </div>
+
+        <!-- Search Results Container (Hidden by default) -->
+        <div id="search-results-section" class="space-y-3 mb-5 hidden">
+            <h2 class="text-sm font-bold text-emerald-400 flex items-center gap-2 px-1">
+                <span>🔎</span> نتائج البحث
+            </h2>
+            <div id="search-container-items" class="space-y-2"></div>
+        </div>
+
+        <!-- 0. المفضلة -->
+        <div id="section-fav" class="menu-section space-y-3 hidden">
+            <h2 class="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2 px-1">
+                <span>⭐</span> طلباتك المفضلة
+            </h2>
+            <div id="favorites-container" class="space-y-2">
+                <div class="bg-[#1e293b] p-4 rounded-2xl border border-slate-700/50 text-center text-gray-400 text-xs">
+                    لم تقم بإضافة طلبات للمفضلة بعد.
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. قهوة مختصة -->
+        <div id="section-specialty" class="menu-section space-y-2.5">
+            <h2 class="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2 px-1">
+                <span>☕</span> القهوة المختصة
+            </h2>
+            <div class="space-y-2">
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="قهوة اليوم حار صغير">
+                    <div><span class="font-bold text-xs sm:text-sm">قهوة اليوم حار صغير</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">5.50 ر.س</span>
+                        <button onclick="addItem('قهوة اليوم حار صغير', 5.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="قهوة اليوم بارد صغير">
+                    <div><span class="font-bold text-xs sm:text-sm">قهوة اليوم بارد صغير</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">5.50 ر.س</span>
+                        <button onclick="addItem('قهوة اليوم بارد صغير', 5.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="قهوة اليوم حار كبير">
+                    <div><span class="font-bold text-xs sm:text-sm">قهوة اليوم حار كبير</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">7.50 ر.س</span>
+                        <button onclick="addItem('قهوة اليوم حار كبير', 7.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="قهوة اليوم بارد كبير">
+                    <div><span class="font-bold text-xs sm:text-sm">قهوة اليوم بارد كبير</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">7.50 ر.س</span>
+                        <button onclick="addItem('قهوة اليوم بارد كبير', 7.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="بوكس قهوة الجمعات 1.5 لتر">
+                    <div><span class="font-bold text-xs sm:text-sm">بوكس قهوة الجمعات (1.5 لتر)</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">43.00 ر.س</span>
+                        <button onclick="addItem('بوكس قهوة الجمعات 1.5 لتر', 43)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. مشروبات الاسبريسو -->
+        <div id="section-espresso" class="menu-section space-y-2.5 hidden">
+            <h2 class="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2 px-1">
+                <span>🥤</span> مشروبات الاسبريسو
+            </h2>
+            <div class="space-y-2">
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="شاي">
+                    <div><span class="font-bold text-xs sm:text-sm">شاي</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">4.00 ر.س</span>
+                        <button onclick="addItem('شاي', 4)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="اسبريسو">
+                    <div><span class="font-bold text-xs sm:text-sm">اسبريسو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('اسبريسو', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="ميكاتو">
+                    <div><span class="font-bold text-xs sm:text-sm">ميكاتو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('ميكاتو', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="كورتادو">
+                    <div><span class="font-bold text-xs sm:text-sm">كورتادو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('كورتادو', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="فلات وايت">
+                    <div><span class="font-bold text-xs sm:text-sm">فلات وايت</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('فلات وايت', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="كابتشينو">
+                    <div><span class="font-bold text-xs sm:text-sm">كابتشينو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('كابتشينو', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="لاتيه">
+                    <div><span class="font-bold text-xs sm:text-sm">لاتيه</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('لاتيه', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="سبانش لاتيه ساخن">
+                    <div><span class="font-bold text-xs sm:text-sm">سبانش لاتيه ساخن</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('سبانش لاتيه ساخن', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="امريكانو">
+                    <div><span class="font-bold text-xs sm:text-sm">امريكانو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('امريكانو', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="شوكلاتة ساخنة">
+                    <div><span class="font-bold text-xs sm:text-sm">شوكلاتة ساخنة</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">12.00 ر.س</span>
+                        <button onclick="addItem('شوكلاتة ساخنة', 12)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. المشروبات الباردة -->
+        <div id="section-cold" class="menu-section space-y-2.5 hidden">
+            <h2 class="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2 px-1">
+                <span>🧊</span> المشروبات الباردة
+            </h2>
+            <div class="space-y-2">
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="كركديه">
+                    <div><span class="font-bold text-xs sm:text-sm">كركديه</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.00 ر.س</span>
+                        <button onclick="addItem('كركديه', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="سبانش لاتيه بارد">
+                    <div><span class="font-bold text-xs sm:text-sm">سبانش لاتيه بارد</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">12.00 ر.س</span>
+                        <button onclick="addItem('سبانش لاتيه بارد', 12)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="آيس لاتيه">
+                    <div><span class="font-bold text-xs sm:text-sm">آيس لاتيه</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">12.00 ر.س</span>
+                        <button onclick="addItem('آيس لاتيه', 12)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="آيس امريكانو">
+                    <div><span class="font-bold text-xs sm:text-sm">آيس امريكانو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">12.00 ر.س</span>
+                        <button onclick="addItem('آيس امريكانو', 12)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="آيس الفريدو">
+                    <div><span class="font-bold text-xs sm:text-sm">آيس الفريدو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">12.00 ر.س</span>
+                        <button onclick="addItem('آيس الفريدو', 12)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="آيس تي باشن فروت">
+                    <div><span class="font-bold text-xs sm:text-sm">آيس تي باشن فروت</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">12.00 ر.س</span>
+                        <button onclick="addItem('آيس تي باشن فروت', 12)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. الحلويات -->
+        <div id="section-sweets" class="menu-section space-y-2.5 hidden">
+            <h2 class="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2 px-1">
+                <span>🍰</span> الحلويات
+            </h2>
+            <div class="space-y-2">
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="براونيز">
+                    <div><span class="font-bold text-xs sm:text-sm">براونيز</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">7.50 ر.س</span>
+                        <button onclick="addItem('براونيز', 7.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="ماريل كيك">
+                    <div><span class="font-bold text-xs sm:text-sm">ماريل كيك</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">7.50 ر.س</span>
+                        <button onclick="addItem('ماريل كيك', 7.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="كلاسيك كوكيز">
+                    <div><span class="font-bold text-xs sm:text-sm">كلاسيك كوكيز</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">8.50 ر.س</span>
+                        <button onclick="addItem('كلاسيك كوكيز', 8.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="ترافل كنافة">
+                    <div><span class="font-bold text-xs sm:text-sm">ترافل كنافة</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.50 ر.س</span>
+                        <button onclick="addItem('ترافل كنافة', 9.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="بودينق شوكلت">
+                    <div><span class="font-bold text-xs sm:text-sm">بودينق شوكلت</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.50 ر.س</span>
+                        <button onclick="addItem('بودينق شوكلت', 9.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="ترافل مانجو">
+                    <div><span class="font-bold text-xs sm:text-sm">ترافل مانجو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">9.50 ر.س</span>
+                        <button onclick="addItem('ترافل مانجو', 9.50)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. آيس كريم -->
+        <div id="section-icecream" class="menu-section space-y-2.5 hidden">
+            <h2 class="text-sm font-bold text-emerald-400 mb-2 flex items-center gap-2 px-1">
+                <span>🍦</span> آيس كريم
+            </h2>
+            <div class="space-y-2">
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="آيسكريم فانيليا">
+                    <div><span class="font-bold text-xs sm:text-sm">آيسكريم فانيليا</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">3 / 5 / 9 ر.س</span>
+                        <button onclick="addItem('آيسكريم فانيليا', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="آيسكريم مانجو">
+                    <div><span class="font-bold text-xs sm:text-sm">آيسكريم مانجو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">3 / 5 / 9 ر.س</span>
+                        <button onclick="addItem('آيسكريم مانجو', 9)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="menu-item flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md" data-name="آيسكريم اسبريسو">
+                    <div><span class="font-bold text-xs sm:text-sm">آيسكريم اسبريسو</span></div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">14.00 ر.س</span>
+                        <button onclick="addItem('آيسكريم اسبريسو', 14)" class="bg-emerald-600 hover:bg-emerald-500 text-white w-7 h-7 rounded-xl font-black text-sm flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Floating Cart & WhatsApp Footer -->
+    <div id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-[#1e293b] border-t border-emerald-500/20 p-3.5 shadow-2xl transform translate-y-full transition-transform duration-300 z-40 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-xl mx-auto flex flex-col gap-2.5">
+            <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                    🛒 السلة الحالية
+                </span>
+                <span class="text-[10px] text-gray-300">تعديل أو حذف الطلبات</span>
+            </div>
+
+            <!-- Cart Items Container -->
+            <div id="cart-items-container" class="max-h-36 overflow-y-auto space-y-1.5 pr-1 divide-y divide-slate-700/60"></div>
+
+            <div class="flex justify-between items-center border-t border-slate-700 pt-2">
+                <span class="text-sm font-bold text-white">المجموع: <span id="total-price" class="text-emerald-400">0</span> ر.س</span>
+                
+                <div class="flex gap-2">
+                    <!-- Share Order with Friend Button -->
+                    <button onclick="shareOrder()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-xl font-bold flex items-center gap-1 shadow-lg transition text-xs cursor-pointer" title="مشاركة الطلب مع صديق">
+                        <span>📤 مشاركة</span>
+                    </button>
+
+                    <!-- Send to WhatsApp Button -->
+                    <button onclick="sendOrder()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 shadow-lg transition text-xs cursor-pointer">
+                        <span>إرسال للواتساب</span>
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let currentUserName = '';
+        let favorites = {};
+
+        // Image Slider Auto-play Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slider-img');
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        setInterval(nextSlide, 3500);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('sayyar_user_name');
+            if (savedName) {
+                currentUserName = savedName;
+                document.getElementById('welcome-modal').classList.add('hidden');
+                updateGreeting();
+            }
+
+            const savedFavs = localStorage.getItem('sayyar_favorites');
+            if (savedFavs) {
+                favorites = JSON.parse(savedFavs);
+                updateFavoritesUI();
+            }
+        });
+
+        function saveName() {
+            const input = document.getElementById('user-name-input');
+            const name = input.value.trim();
+            if (name !== '') {
+                currentUserName = name;
+                localStorage.setItem('sayyar_user_name', name);
+                document.getElementById('welcome-modal').classList.add('hidden');
+                updateGreeting();
+            } else {
+                input.focus();
+                input.classList.add('border-red-500');
+            }
+        }
+
+        function updateGreeting() {
+            document.getElementById('greeting-text').innerHTML = `مرحباً ${currentUserName}، وش ودك تطلب اليوم؟`;
+        }
+
+        function switchTab(categoryId) {
+            document.querySelectorAll('.menu-section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById('section-' + categoryId).classList.remove('hidden');
+
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-600', 'text-white');
+                btn.classList.add('bg-[#0f172a]', 'text-gray-300', 'border', 'border-slate-700');
+            });
+
+            const activeBtn = document.getElementById('tab-' + categoryId);
+            activeBtn.classList.remove('bg-[#0f172a]', 'text-gray-300', 'border', 'border-slate-700');
+            activeBtn.classList.add('bg-emerald-600', 'text-white');
+        }
+
+        // Live Search Feature
+        function searchMenu() {
+            let query = document.getElementById('search-input').value.toLowerCase().trim();
+            let resultsSection = document.getElementById('search-results-section');
+            let resultsContainer = document.getElementById('search-container-items');
+
+            if (query === '') {
+                resultsSection.classList.add('hidden');
+                return;
+            }
+
+            resultsSection.classList.remove('hidden');
+            resultsContainer.innerHTML = '';
+
+            let items = document.querySelectorAll('.menu-item');
+            let found = false;
+
+            items.forEach(item => {
+                let name = item.getAttribute('data-name');
+                if (name.toLowerCase().includes(query)) {
+                    found = true;
+                    let clone = item.cloneNode(true);
+                    resultsContainer.appendChild(clone);
+                }
+            });
+
+            if (!found) {
+                resultsContainer.innerHTML = `<div class="bg-[#1e293b] p-4 rounded-2xl text-center text-gray-400 text-xs">عذراً، لم نجد هذا الطلب!</div>`;
+            }
+        }
+
+        let cart = {};
+
+        function addItem(name, price) {
+            if (cart[name]) {
+                cart[name].qty += 1;
+            } else {
+                cart[name] = { price: price, qty: 1 };
+            }
+            
+            favorites[name] = (favorites[name] || 0) + 1;
+            localStorage.setItem('sayyar_favorites', JSON.stringify(favorites));
+            updateFavoritesUI();
+            updateCartUI();
+        }
+
+        function removeItem(name) {
+            if (cart[name]) {
+                cart[name].qty -= 1;
+                if (cart[name].qty <= 0) delete cart[name];
+            }
+            updateCartUI();
+        }
+
+        function deleteItemCompletely(name) {
+            delete cart[name];
+            updateCartUI();
+        }
+
+        function updateFavoritesUI() {
+            let container = document.getElementById('favorites-container');
+            let sortedFavs = Object.keys(favorites).sort((a, b) => favorites[b] - favorites[a]);
+
+            if (sortedFavs.length === 0) {
+                container.innerHTML = `<div class="bg-[#1e293b] p-4 rounded-2xl border border-slate-700/50 text-center text-gray-400 text-xs">لم تقم بإضافة طلبات للمفضلة بعد.</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            sortedFavs.forEach(item => {
+                let price = 9;
+                if (item.includes('قهوة اليوم')) price = 5.50;
+                else if (item.includes('بوكس')) price = 43;
+                else if (item.includes('براونيز') || item.includes('ماريل')) price = 7.50;
+
+                let row = document.createElement('div');
+                row.className = 'flex justify-between items-center bg-[#1e293b] p-3 rounded-2xl border border-slate-700/50 shadow-md';
+                row.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="font-bold text-xs sm:text-sm text-white">${item}</span>
+                        <span class="text-[10px] text-emerald-400">تم طلبه ${favorites[item]} مرات</span>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold text-xs sm:text-sm">${price} ر.س</span>
+                        <button onclick="addItem('${item}', ${price})" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-xl font-black text-xs transition shadow">طلب سريع +</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function updateCartUI() {
+            let total = 0, hasItems = false;
+            let container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            for (let item in cart) {
+                hasItems = true;
+                let itemTotal = cart[item].price * cart[item].qty;
+                total += itemTotal;
+
+                let row = document.createElement('div');
+                row.className = 'flex justify-between items-center pt-2 first:pt-0 text-xs';
+                row.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="font-bold text-white">${item}</span>
+                        <span class="text-emerald-400">${itemTotal.toFixed(2)} ر.س (${cart[item].price} × ${cart[item].qty})</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center bg-[#0f172a] rounded-xl border border-slate-700 overflow-hidden">
+                            <button onclick="removeItem('${item}')" class="px-2 py-0.5 text-gray-300 hover:bg-slate-700 font-bold">-</button>
+                            <span class="px-2 text-white font-bold">${cart[item].qty}</span>
+                            <button onclick="addItem('${item}', ${cart[item].price})" class="px-2 py-0.5 text-emerald-400 hover:bg-slate-700 font-bold">+</button>
+                        </div>
+                        <button onclick="deleteItemCompletely('${item}')" class="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white p-1.5 rounded-xl transition">✕</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            }
+
+            const footer = document.getElementById('cart-footer');
+            if (hasItems) footer.classList.remove('translate-y-full');
+            else footer.classList.add('translate-y-full');
+
+            document.getElementById('total-price').innerText = total.toFixed(2);
+        }
+
+        function sendOrder() {
+            let text = `السلام عليكم، حاب أطلب من سيار (العميل: ${currentUserName || 'بدون اسم'}):\n\n`;
+            let total = 0;
+            for (let item in cart) {
+                let itemTotal = cart[item].price * cart[item].qty;
+                total += itemTotal;
+                text += `- ${item} × ${cart[item].qty} = ${itemTotal.toFixed(2)} ر.س\n`;
+            }
+            text += `\nالمجموع الكلي: ${total.toFixed(2)} ر.س`;
+            window.open(`https://wa.me/966550260244?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function shareOrder() {
+            let text = `شوف طلبي من سيار ☕:\n`;
+            let total = 0;
+            for (let item in cart) {
+                let itemTotal = cart[item].price * cart[item].qty;
+                total += itemTotal;
+                text += `- ${item} (${cart[item].qty})\n`;
+            }
+            text += `المجموع: ${total.toFixed(2)} ر.س\nتبي أطلب لك معي؟`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'طلبي من سيار',
+                    text: text
+                }).catch(() => {});
+            } else {
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
