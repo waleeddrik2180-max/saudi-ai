@@ -23,7 +23,7 @@
         }
     </style>
 </head>
-<body class="bg-[#0d0d0d] min-h-screen pb-32">
+<body class="bg-[#0d0d0d] min-h-screen pb-40">
 
     <!-- Header -->
     <header class="bg-[#161616] border-b border-amber-500/20 py-5 px-4 text-center sticky top-0 z-50 shadow-2xl backdrop-blur-md bg-opacity-95">
@@ -265,12 +265,20 @@
 
     <!-- Floating Cart & WhatsApp Footer -->
     <div id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-[#161616] border-t border-amber-500/20 p-4 shadow-2xl transform translate-y-full transition-transform duration-300 z-50 backdrop-blur-md bg-opacity-95">
-        <div class="max-w-xl mx-auto flex flex-col gap-2.5">
-            <div class="flex justify-between items-center text-xs">
-                <span class="text-gray-300 font-medium">الطلبات المحددة:</span>
-                <span id="cart-items-summary" class="text-amber-400 font-bold truncate max-w-[200px]">لا توجد طلبات</span>
+        <div class="max-w-xl mx-auto flex flex-col gap-3">
+            <div class="flex justify-between items-center">
+                <span class="text-sm font-bold text-amber-400 flex items-center gap-1.5">
+                    🛒 السلة الحالية
+                </span>
+                <span class="text-xs text-gray-400">يمكنك تعديل الكميات أو الحذف مباشرة</span>
             </div>
-            <div class="flex justify-between items-center border-t border-gray-800 pt-2">
+
+            <!-- Cart Items Container -->
+            <div id="cart-items-container" class="max-h-40 overflow-y-auto space-y-2 pr-1 divide-y divide-gray-800/60">
+                <!-- Items will be injected dynamically here -->
+            </div>
+
+            <div class="flex justify-between items-center border-t border-gray-800 pt-3">
                 <span class="text-base font-bold text-white">المجموع: <span id="total-price" class="text-amber-400">0</span> ر.س</span>
                 <button onclick="sendOrder()" class="bg-green-600 hover:bg-green-500 text-white px-5 py-2.5 rounded-2xl font-bold flex items-center gap-2 shadow-lg transition text-sm">
                     <span>إرسال الطلب عبر الواتساب</span>
@@ -284,14 +292,11 @@
     <script>
         // Tab Switching Logic
         function switchTab(categoryId) {
-            // Hide all sections
             const sections = document.querySelectorAll('.menu-section');
             sections.forEach(sec => sec.classList.add('hidden'));
 
-            // Show selected section
             document.getElementById('section-' + categoryId).classList.remove('hidden');
 
-            // Update button styles
             const buttons = document.querySelectorAll('.category-btn');
             buttons.forEach(btn => {
                 btn.classList.remove('bg-amber-500', 'text-black');
@@ -315,15 +320,53 @@
             updateCartUI();
         }
 
+        function removeItem(name) {
+            if (cart[name]) {
+                cart[name].qty -= 1;
+                if (cart[name].qty <= 0) {
+                    delete cart[name];
+                }
+            }
+            updateCartUI();
+        }
+
+        function deleteItemCompletely(name) {
+            if (cart[name]) {
+                delete cart[name];
+            }
+            updateCartUI();
+        }
+
         function updateCartUI() {
             let total = 0;
-            let summaryText = [];
             let hasItems = false;
+            let container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
 
             for (let item in cart) {
                 hasItems = true;
-                total += cart[item].price * cart[item].qty;
-                summaryText.push(`${item} (${cart[item].qty})`);
+                let itemTotal = cart[item].price * cart[item].qty;
+                total += itemTotal;
+
+                let row = document.createElement('div');
+                row.className = 'flex justify-between items-center pt-2 first:pt-0 text-xs';
+                row.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="font-bold text-white">${item}</span>
+                        <span class="text-amber-400">${itemTotal} ر.س (${cart[item].price} × ${cart[item].qty})</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center bg-[#222] rounded-xl border border-gray-700 overflow-hidden">
+                            <button onclick="removeItem('${item}')" class="px-2 py-1 text-gray-300 hover:bg-gray-700 transition font-bold">-</button>
+                            <span class="px-2 text-white font-bold">${cart[item].qty}</span>
+                            <button onclick="addItem('${item}', ${cart[item].price})" class="px-2 py-1 text-amber-400 hover:bg-gray-700 transition font-bold">+</button>
+                        </div>
+                        <button onclick="deleteItemCompletely('${item}')" class="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white p-1.5 rounded-xl transition" title="حذف">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm2 3h14l-1 13H6L5 9zm5 2v8h2v-8H10zm4 0v8h2v-8h-2zM9 4V2h6v2H9z"/></svg>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
             }
 
             const footer = document.getElementById('cart-footer');
@@ -333,7 +376,6 @@
                 footer.classList.add('translate-y-full');
             }
 
-            document.getElementById('cart-items-summary').innerText = summaryText.join(' ، ');
             document.getElementById('total-price').innerText = total;
         }
 
