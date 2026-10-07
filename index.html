@@ -25,8 +25,25 @@
 </head>
 <body class="bg-[#0d0d0d] min-h-screen pb-40">
 
+    <!-- Welcome Modal (Popup) -->
+    <div id="welcome-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-[#161616] border border-amber-500/30 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
+            <div class="inline-block bg-amber-500 text-black font-black text-xs px-3 py-1 rounded-full mb-3 shadow-md">
+                65 COFFEE SHOP
+            </div>
+            <h2 class="text-xl font-black text-white mb-2">يا هلا فيك في كافي ونس!</h2>
+            <p class="text-xs text-gray-400 mb-5">عطنا اسمك عشان نظبط لك القائمة على جوك</p>
+            
+            <input type="text" id="user-name-input" placeholder="اكتب اسمك هنا..." class="w-full bg-[#222] border border-gray-700 rounded-2xl px-4 py-3 text-white text-center font-bold focus:outline-none focus:border-amber-500 mb-4 text-sm">
+            
+            <button onclick="saveName()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-black py-3 rounded-2xl transition shadow-lg text-sm">
+                ابدأ الطلب ☕
+            </button>
+        </div>
+    </div>
+
     <!-- Header -->
-    <header class="bg-[#161616] border-b border-amber-500/20 py-5 px-4 text-center sticky top-0 z-50 shadow-2xl backdrop-blur-md bg-opacity-95">
+    <header class="bg-[#161616] border-b border-amber-500/20 py-5 px-4 text-center sticky top-0 z-40 shadow-2xl backdrop-blur-md bg-opacity-95">
         <div class="max-w-xl mx-auto">
             <div class="inline-block bg-amber-500 text-black font-black text-xs px-2.5 py-0.5 rounded-full mb-1.5 shadow-md">
                 65 COFFEE SHOP
@@ -47,6 +64,13 @@
 
     <!-- Main Container -->
     <main class="max-w-xl mx-auto px-4 py-6">
+
+        <!-- Personalized Greeting Banner -->
+        <div id="greeting-banner" class="bg-gradient-to-r from-amber-500/10 to-transparent border-r-4 border-amber-500 p-4 rounded-2xl mb-6 shadow-lg">
+            <h2 id="greeting-text" class="text-lg font-black text-amber-400 leading-relaxed">
+                مرحباً، وش ودك تطلب اليوم؟
+            </h2>
+        </div>
 
         <!-- 1. القهوة الساخنة -->
         <div id="section-hot" class="menu-section space-y-3">
@@ -264,7 +288,7 @@
     </main>
 
     <!-- Floating Cart & WhatsApp Footer -->
-    <div id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-[#161616] border-t border-amber-500/20 p-4 shadow-2xl transform translate-y-full transition-transform duration-300 z-50 backdrop-blur-md bg-opacity-95">
+    <div id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-[#161616] border-t border-amber-500/20 p-4 shadow-2xl transform translate-y-full transition-transform duration-300 z-40 backdrop-blur-md bg-opacity-95">
         <div class="max-w-xl mx-auto flex flex-col gap-3">
             <div class="flex justify-between items-center">
                 <span class="text-sm font-bold text-amber-400 flex items-center gap-1.5">
@@ -290,6 +314,37 @@
 
     <!-- JavaScript -->
     <script>
+        let currentUserName = '';
+
+        // Check if name already exists in localStorage on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('cafe_user_name');
+            if (savedName) {
+                currentUserName = savedName;
+                document.getElementById('welcome-modal').classList.add('hidden');
+                updateGreeting();
+            }
+        });
+
+        function saveName() {
+            const input = document.getElementById('user-name-input');
+            const name = input.value.trim();
+            if (name) {
+                currentUserName = name;
+                localStorage.setItem('cafe_user_name', name);
+                document.getElementById('welcome-modal').classList.add('hidden');
+                updateGreeting();
+            } else {
+                input.focus();
+                input.classList.add('border-red-500');
+            }
+        }
+
+        function updateGreeting() {
+            const greetingEl = document.getElementById('greeting-text');
+            greetingEl.innerHTML = `مرحباً ${currentUserName}، وش ودك تطلب اليوم؟`;
+        }
+
         // Tab Switching Logic
         function switchTab(categoryId) {
             const sections = document.querySelectorAll('.menu-section');
@@ -380,7 +435,7 @@
         }
 
         function sendOrder() {
-            let text = "السلام عليكم، حاب أطلب من كافي ونس:\n\n";
+            let text = `السلام عليكم، حاب أطلب من كافي ونس:\n\n`;
             let total = 0;
 
             for (let item in cart) {
