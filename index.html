@@ -13,212 +13,259 @@
             background-color: #0d0d0d;
             color: #f3f4f6;
         }
+        /* Hide scrollbar for clean horizontal tabs */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="bg-[#0d0d0d] min-h-screen pb-32">
 
     <!-- Header -->
-    <header class="bg-[#161616] border-b border-amber-500/20 py-6 px-4 text-center sticky top-0 z-50 shadow-2xl backdrop-blur-md bg-opacity-95">
+    <header class="bg-[#161616] border-b border-amber-500/20 py-5 px-4 text-center sticky top-0 z-50 shadow-2xl backdrop-blur-md bg-opacity-95">
         <div class="max-w-xl mx-auto">
-            <div class="inline-block bg-amber-500 text-black font-black text-sm px-3 py-0.5 rounded-full mb-2 shadow-md">
+            <div class="inline-block bg-amber-500 text-black font-black text-xs px-2.5 py-0.5 rounded-full mb-1.5 shadow-md">
                 65 COFFEE SHOP
             </div>
-            <h1 class="text-3xl font-black text-amber-400 tracking-wider">كافي ونس</h1>
-            <p class="text-xs text-gray-400 mt-1">حي المطار • قائمة المشروبات والحلويات</p>
+            <h1 class="text-2xl font-black text-amber-400 tracking-wider">كافي ونس</h1>
+            <p class="text-[11px] text-gray-400 mt-0.5">حي المطار • القائمة الرقمية التفاعلية</p>
+        </div>
+
+        <!-- Horizontal Categories Navigation -->
+        <div class="max-w-xl mx-auto mt-4 flex gap-2 overflow-x-auto no-scrollbar px-1 py-1">
+            <button onclick="switchTab('hot')" id="tab-hot" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-black transition shadow-md">☕ الساخنة</button>
+            <button onclick="switchTab('cold')" id="tab-cold" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#222] text-gray-300 transition border border-gray-800">🥤 الباردة</button>
+            <button onclick="switchTab('mojito')" id="tab-mojito" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#222] text-gray-300 transition border border-gray-800">🍹 موهيتو وعصائر</button>
+            <button onclick="switchTab('sweets')" id="tab-sweets" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#222] text-gray-300 transition border border-gray-800">🍰 الكيك والحلى</button>
+            <button onclick="switchTab('bakery')" id="tab-bakery" class="category-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-[#222] text-gray-300 transition border border-gray-800">🧇 كريب وبان كيك</button>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-xl mx-auto px-4 py-6 space-y-6">
+    <main class="max-w-xl mx-auto px-4 py-6">
 
-        <!-- القهوة الساخنة -->
-        <section class="bg-[#171717] rounded-3xl p-5 border border-amber-500/10 shadow-xl">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 flex items-center gap-2 border-b border-gray-800 pb-2">
-                ☕ القهوة الساخنة
+        <!-- 1. القهوة الساخنة -->
+        <div id="section-hot" class="menu-section space-y-3">
+            <h2 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 px-1">
+                <span>☕</span> القهوة الساخنة
             </h2>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+            <div class="space-y-2.5">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">كابتشينو</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">10 ر.س</span>
-                        <button onclick="addItem('كابتشينو', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('كابتشينو', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">لاتيه</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">10 ر.س</span>
-                        <button onclick="addItem('لاتيه', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('لاتيه', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">فلات وايت</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">12 ر.س</span>
-                        <button onclick="addItem('فلات وايت', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('فلات وايت', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">سبانش لاتيه</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">14 ر.س</span>
-                        <button onclick="addItem('سبانش لاتيه', 14)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('سبانش لاتيه', 14)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">إيطالي / موكا / أمريكانو</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">10 ر.س</span>
-                        <button onclick="addItem('إيطالي/موكا/أمريكانو', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('إيطالي/موكا/أمريكانو', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">فرنسي</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">9 ر.س</span>
-                        <button onclick="addItem('فرنسي', 9)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('فرنسي', 9)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">إسبريسو (سنجل / دبل)</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">7 - 10 ر.س</span>
-                        <button onclick="addItem('إسبريسو', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('إسبريسو', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">قهوة اليوم (حار صغير)</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">5 ر.س</span>
-                        <button onclick="addItem('قهوة اليوم', 5)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('قهوة اليوم', 5)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">تركي (حليب / سادة)</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">7 - 9 ر.س</span>
-                        <button onclick="addItem('قهوة تركي', 9)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('قهوة تركي', 9)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">V60 ساخن</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">12 ر.س</span>
-                        <button onclick="addItem('V60 ساخن', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('V60 ساخن', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- المشروبات الباردة -->
-        <section class="bg-[#171717] rounded-3xl p-5 border border-amber-500/10 shadow-xl">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 flex items-center gap-2 border-b border-gray-800 pb-2">
-                🥤 المشروبات الباردة
+        <!-- 2. المشروبات الباردة -->
+        <div id="section-cold" class="menu-section space-y-3 hidden">
+            <h2 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 px-1">
+                <span>🥤</span> المشروبات الباردة
             </h2>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+            <div class="space-y-2.5">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">آيس كراميل ماكياتو / سبانش / موكا / ماتشا</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">14 ر.س</span>
-                        <button onclick="addItem('مشروب بارد مميز', 14)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('مشروب بارد مميز', 14)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">آيس موكا أوريو</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">16 ر.س</span>
-                        <button onclick="addItem('آيس موكا أوريو', 16)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('آيس موكا أوريو', 16)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">آيس بستانشيو</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">13 ر.س</span>
-                        <button onclick="addItem('آيس بستانشيو', 13)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('آيس بستانشيو', 13)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">آيس كركديه / آيس V60 / آيس لاتيه</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">12 ر.س</span>
-                        <button onclick="addItem('آيس لاتيه/كركديه/V60', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('آيس لاتيه/كركديه/V60', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">آيس شيكن</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">17 ر.س</span>
-                        <button onclick="addItem('آيس شيكن', 17)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('آيس شيكن', 17)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- الموهيتو والعصائر -->
-        <section class="bg-[#171717] rounded-3xl p-5 border border-amber-500/10 shadow-xl">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 flex items-center gap-2 border-b border-gray-800 pb-2">
-                🍹 الموهيتو والعصائر
+        <!-- 3. الموهيتو والعصائر -->
+        <div id="section-mojito" class="menu-section space-y-3 hidden">
+            <h2 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 px-1">
+                <span>🍹</span> الموهيتو والعصائر
             </h2>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+            <div class="space-y-2.5">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">موهيتو / ليمون نعناع / كودرد نكهات</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">12 ر.س</span>
-                        <button onclick="addItem('موهيتو أو عصير منعش', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('موهيتو أو عصير منعش', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">موهيتو باشن فروت</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">13 ر.س</span>
-                        <button onclick="addItem('موهيتو باشن فروت', 13)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('موهيتو باشن فروت', 13)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">ريد بول</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">17 ر.س</span>
-                        <button onclick="addItem('ريد بول', 17)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('ريد بول', 17)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- الحلويات والكيك -->
-        <section class="bg-[#171717] rounded-3xl p-5 border border-amber-500/10 shadow-xl">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 flex items-center gap-2 border-b border-gray-800 pb-2">
-                🍰 الحلويات والكيك
+        <!-- 4. الحلويات والكيك -->
+        <div id="section-sweets" class="menu-section space-y-3 hidden">
+            <h2 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 px-1">
+                <span>🍰</span> الحلويات والكيك
             </h2>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+            <div class="space-y-2.5">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">كروسان / كيكة زعفران / سينابون</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">8 - 12 ر.س</span>
-                        <button onclick="addItem('معجنات أو كيك خفيف', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('معجنات أو كيك خفيف', 10)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">تشيز كيك (مختلف الأنواع) / كيكة عسل</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">13 - 15 ر.س</span>
-                        <button onclick="addItem('تشيز كيك / كيكة عسل', 14)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('تشيز كيك / كيكة عسل', 14)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between items-center bg-[#1f1f1f] p-3 rounded-2xl border border-gray-800/60">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
                     <div><span class="font-medium text-sm">سان سباستيان</span></div>
                     <div class="flex items-center gap-3">
                         <span class="text-amber-400 font-bold text-sm">16 ر.س</span>
-                        <button onclick="addItem('سان سباستيان', 16)" class="bg-amber-500 hover:bg-amber-400 text-black w-8 h-8 rounded-xl font-black text-lg flex items-center justify-center transition shadow-md">+</button>
+                        <button onclick="addItem('سان سباستيان', 16)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- 5. الكريب والبان كيك -->
+        <div id="section-bakery" class="menu-section space-y-3 hidden">
+            <h2 class="text-base font-bold text-amber-400 mb-3 flex items-center gap-2 px-1">
+                <span>🧇</span> الكريب والبان كيك
+            </h2>
+            <div class="space-y-2.5">
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
+                    <div><span class="font-medium text-sm">كريب شوكولاتة / مكس</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold text-sm">13 - 16 ر.س</span>
+                        <button onclick="addItem('كريب شوكولاتة/مكس', 15)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
+                    <div><span class="font-medium text-sm">وافل بلجيكي (شوكولاتة / مكس)</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold text-sm">13 - 16 ر.س</span>
+                        <button onclick="addItem('وافل بلجيكي', 15)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center bg-[#171717] p-3 rounded-2xl border border-amber-500/10 shadow-lg">
+                    <div><span class="font-medium text-sm">بان كيك (كبير / صغير)</span></div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-amber-400 font-bold text-sm">11 - 13 ر.س</span>
+                        <button onclick="addItem('بان كيك', 12)" class="bg-amber-500 hover:bg-amber-400 text-black w-7 h-7 rounded-xl font-black text-base flex items-center justify-center transition shadow">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
     <!-- Floating Cart & WhatsApp Footer -->
     <div id="cart-footer" class="fixed bottom-0 left-0 right-0 bg-[#161616] border-t border-amber-500/20 p-4 shadow-2xl transform translate-y-full transition-transform duration-300 z-50 backdrop-blur-md bg-opacity-95">
-        <div class="max-w-xl mx-auto flex flex-col gap-3">
+        <div class="max-w-xl mx-auto flex flex-col gap-2.5">
             <div class="flex justify-between items-center text-xs">
                 <span class="text-gray-300 font-medium">الطلبات المحددة:</span>
                 <span id="cart-items-summary" class="text-amber-400 font-bold truncate max-w-[200px]">لا توجد طلبات</span>
@@ -235,6 +282,28 @@
 
     <!-- JavaScript -->
     <script>
+        // Tab Switching Logic
+        function switchTab(categoryId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.menu-section');
+            sections.forEach(sec => sec.classList.add('hidden'));
+
+            // Show selected section
+            document.getElementById('section-' + categoryId).classList.remove('hidden');
+
+            // Update button styles
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-amber-500', 'text-black');
+                btn.classList.add('bg-[#222]', 'text-gray-300', 'border', 'border-gray-800');
+            });
+
+            const activeBtn = document.getElementById('tab-' + categoryId);
+            activeBtn.classList.remove('bg-[#222]', 'text-gray-300', 'border', 'border-gray-800');
+            activeBtn.classList.add('bg-amber-500', 'text-black');
+        }
+
+        // Cart Logic
         let cart = {};
 
         function addItem(name, price) {
