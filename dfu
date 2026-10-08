@@ -3,389 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطاعم ومطابخ أمواج الخليج | حي المطار - المدينة المنورة</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        oceanDark: '#111827',
-                        oceanDeep: '#0B0F19',
-                        oceanTeal: '#059669',
-                        oceanCyan: '#10B981',
-                        sandyGold: '#D97706',
-                        sandyAmber: '#B45309',
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts: Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <title>مزاج اليوم - فرع 2</title>
+    <!-- استيراد خط تجوال العصري -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- أيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #0B0F19;
-            color: #F8FAFC;
-            overflow-x: hidden;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            padding-bottom: 130px;
         }
-        .ocean-glow {
-            text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+
+        header {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid #eab308;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(16, 185, 129, 0.15);
+
+        header h1 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 900;
+            letter-spacing: 1px;
         }
-        .glass-card:hover {
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 0 10px 30px -10px rgba(5, 150, 105, 0.3);
+
+        header p {
+            color: #9ca3af;
+            font-size: 1rem;
         }
-        ::-webkit-scrollbar {
-            width: 10px;
+
+        .container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 15px;
         }
-        ::-webkit-scrollbar-track {
-            background: #111827;
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 20px;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #059669;
-            border-radius: 5px;
+
+        .menu-card {
+            background: #161e2e;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #1f2937;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px);
+            border-color: #eab308;
+            box-shadow: 0 12px 30px rgba(234, 179, 8, 0.2);
+        }
+
+        .card-header {
+            position: relative;
+            background: #1f2937;
+            padding: 18px 15px;
+            text-align: center;
+            border-bottom: 1px solid #374151;
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #eab308;
+            color: #0b0f19;
+            font-weight: 900;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .card-header h3 {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-top: 12px;
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 18px 15px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .calories {
+            color: #9ca3af;
+            font-size: 0.88rem;
+            margin-bottom: 15px;
+            background: #1f2937;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 8px;
+            align-self: center;
+            border: 1px solid #374151;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .add-btn.added {
+            background: #16a34a;
+        }
+
+        /* شريط سلة الطلبات العائمة */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #161e2e;
+            border-top: 3px solid #eab308;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+
+        .cart-info {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .cart-info span {
+            color: #eab308;
+        }
+
+        .whatsapp-btn {
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 900;
+            font-size: 1.05rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, background 0.2s;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            background: #16a34a;
+            transform: scale(1.03);
+        }
+
+        .delivery-info {
+            text-align: center;
+            margin: 15px 0 25px;
+            color: #9ca3af;
+            font-size: 1rem;
+            background: #161e2e;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .delivery-info i {
+            color: #eab308;
+            margin-left: 8px;
         }
     </style>
 </head>
-<body class="bg-oceanDeep text-slate-100">
+<body>
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-oceanDark/90 backdrop-blur-md border-b border-emerald-500/20 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo & Brand -->
-                <div class="flex items-center space-x-3 space-x-reverse">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-600 to-amber-500 flex items-center justify-center shadow-lg shadow-emerald-600/30">
-                        <i class="fa-solid fa-fire-burner text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <span class="text-2xl font-black bg-gradient-to-r from-amber-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent">أمواج الخليج</span>
-                        <p class="text-xs text-emerald-400/80 tracking-widest">مطاعم ومطابخ المندي والذبايح</p>
-                    </div>
-                </div>
+    <header>
+        <h1>مزاج اليوم (فرع 2)</h1>
+        <p>قائمة الوجبات السريعة - اطلب بسهولة عبر الواتساب</p>
+    </header>
 
-                <!-- Desktop Menu Links -->
-                <div class="hidden md:flex items-center space-x-8 space-x-reverse font-semibold">
-                    <a href="#hero" class="hover:text-emerald-400 transition-colors">الرئيسية</a>
-                    <a href="#menu" class="hover:text-emerald-400 transition-colors">قائمة الطعام</a>
-                    <a href="#location" class="hover:text-emerald-400 transition-colors">الموقع</a>
-                    <a href="#contact" class="hover:text-emerald-400 transition-colors">اتصل بنا</a>
-                </div>
-
-                <!-- Action Button -->
-                <div class="hidden md:flex items-center space-x-4 space-x-reverse">
-                    <a href="https://wa.me/966508320104" target="_blank" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold px-6 py-2.5 rounded-full shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-0.5 flex items-center space-x-2 space-x-reverse">
-                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                        <span>طلب سريع</span>
-                    </a>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-slate-200 hover:text-emerald-400 focus:outline-none text-2xl p-2">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                </div>
-            </div>
+    <div class="container">
+        <div class="delivery-info">
+            <i class="fa-solid fa-phone-volume"></i> خدمة التوصيل: <strong>0595804974</strong>
         </div>
 
-        <!-- Mobile Menu Drawer -->
-        <div id="mobile-menu" class="hidden md:hidden bg-oceanDark/95 border-b border-emerald-500/20 px-6 pt-4 pb-6 space-y-4 shadow-2xl backdrop-blur-xl">
-            <a href="#hero" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">الرئيسية</a>
-            <a href="#menu" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">قائمة الطعام</a>
-            <a href="#location" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">الموقع</a>
-            <a href="#contact" class="block text-lg hover:text-emerald-400 transition-colors py-2 border-b border-slate-800">اتصل بنا</a>
-            <div class="pt-2">
-                <a href="https://wa.me/966508320104" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl flex items-center justify-center space-x-2 space-x-reverse shadow-lg">
-                    <i class="fa-brands fa-whatsapp text-xl"></i>
-                    <span>طلب سريع عبر واتساب</span>
-                </a>
-            </div>
+        <div class="menu-grid" id="menuGrid">
+            <!-- سيتم توليد الوجبات برمجياً هنا -->
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section id="hero" class="relative min-h-[70vh] flex items-center justify-center pt-28 pb-16 overflow-hidden bg-gradient-to-b from-oceanDark via-oceanDeep to-oceanDark">
-        <div class="absolute inset-0 opacity-15 pointer-events-none">
-            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-emerald-600 rounded-full blur-[140px]"></div>
-            <div class="absolute bottom-10 right-10 w-96 h-96 bg-amber-500 rounded-full blur-[120px]"></div>
+    <!-- شريط سلة الطلبات -->
+    <div class="cart-bar">
+        <div class="cart-info">
+            الإجمالي: <span id="totalPrice">0</span> ر.س | الأصناف: <span id="totalCount">0</span>
         </div>
+        <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+            <i class="fa-brands fa-whatsapp fa-lg"></i> إرسال الطلب للواتساب
+        </button>
+    </div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-            <div class="inline-flex items-center space-x-2 space-x-reverse bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded-full mb-6 backdrop-blur-md">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-                <span class="text-emerald-400 text-sm font-semibold">حي المطار - المدينة المنورة</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">
-                مطاعم ومطابخ <span class="bg-gradient-to-r from-amber-400 via-emerald-300 to-emerald-500 bg-clip-text text-transparent ocean-glow">أمواج الخليج</span>
-            </h1>
-
-            <p class="max-w-2xl mx-auto text-lg text-slate-300 mb-8 font-light">
-                أصالة المندي، اللحوم الطازجة، الإدامات الشهية، والسلطات والمشروبات والحلى الطازج.
-            </p>
-
-            <div class="flex justify-center gap-4">
-                <a href="#menu" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold px-8 py-3.5 rounded-xl shadow-xl shadow-emerald-500/20 transition-all">
-                    تصفح القائمة كاملة
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Menu Section -->
-    <section id="menu" class="py-20 bg-oceanDeep relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-emerald-400 font-bold tracking-wider text-sm uppercase">قائمة الطعام</span>
-                <h2 class="text-3xl sm:text-4xl font-black mt-2 mb-3">اختر ما تشتهيه من أصنافنا</h2>
-                <p class="text-slate-400 text-sm">الأسعار والتسعيرات المعتمدة لمطعم أمواج الخليج</p>
-            </div>
-
-            <!-- Category Filter Buttons -->
-            <div class="flex flex-wrap justify-center gap-3 mb-12">
-                <button onclick="filterMenu('all')" class="menu-tab active-tab bg-emerald-600 text-white font-bold px-5 py-2 rounded-full transition-all shadow-md">الكل</button>
-                <button onclick="filterMenu('meat')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم اللحوم</button>
-                <button onclick="filterMenu('chicken')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الدجاج</button>
-                <button onclick="filterMenu('stews')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الإدامات</button>
-                <button onclick="filterMenu('salads')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">السلطات والمشروبات</button>
-                <button onclick="filterMenu('desserts')" class="menu-tab bg-oceanDark/80 hover:bg-emerald-600/20 text-slate-200 font-bold px-5 py-2 rounded-full border border-emerald-500/30 transition-all">قسم الحلى</button>
-            </div>
-
-            <!-- Menu Grid -->
-            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- 1. قسم اللحوم -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحوم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">الذبايح والولائم (مندي)</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>ربع تيس مندي:</span> <strong class="text-amber-400">340 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص تيس مندي:</span> <strong class="text-amber-400">680 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>تيس كامل مندي:</span> <strong class="text-amber-400">1360 ر.س</strong></li>
-                        <li class="flex justify-between"><span>تيس عزايم:</span> <strong class="text-amber-400">1450 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20من%20قسم%20اللحوم" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-amber-500" data-category="meat">
-                    <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-full">قسم اللحوم</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">أنفار اللحم والبرمة</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر لحم مندي:</span> <strong class="text-amber-400">85 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر لحم مضغوط:</span> <strong class="text-amber-400">65 ر.س</strong></li>
-                        <li class="flex justify-between"><span>برمة لحم:</span> <strong class="text-amber-400">50 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20نفر%20لحم%20أو%20برمة" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 2. قسم الدجاج -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مندي والملاحق</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر رز مندي:</span> <strong class="text-amber-400">7 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص حبة مندي:</span> <strong class="text-amber-400">21 ر.س</strong></li>
-                        <li class="flex justify-between"><span>حبة مندي:</span> <strong class="text-amber-400">42 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مندي" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج مظبي وشعبي</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نفر رز شعبي:</span> <strong class="text-amber-400">7 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص مظبي:</span> <strong class="text-amber-400">21 ر.س</strong></li>
-                        <li class="flex justify-between"><span>حبة مظبي:</span> <strong class="text-amber-400">42 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20مظبي" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-emerald-500" data-category="chicken">
-                    <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">قسم الدجاج</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">دجاج شواية ومضغوط</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>نص شواية / مضغوط:</span> <strong class="text-amber-400">21 ر.س</strong></li>
-                        <li class="flex justify-between"><span>حبة شواية / مضغوط:</span> <strong class="text-amber-400">42 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20دجاج%20شواية%20أو%20مضغوط" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 3. قسم الإدامات -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
-                    <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مشكل خضار وفرن</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل خضار (كبير):</span> <strong class="text-amber-400">8 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل خضار (صغير):</span> <strong class="text-amber-400">5 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مشكل فرن (كبير):</span> <strong class="text-amber-400">8 ر.س</strong></li>
-                        <li class="flex justify-between"><span>مشكل فرن (صغير):</span> <strong class="text-amber-400">5 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20إدام%20خضار" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-teal-500" data-category="stews">
-                    <span class="bg-teal-500/20 text-teal-400 text-xs font-bold px-3 py-1 rounded-full">قسم الإدامات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">مسقعة وبامية وملوخية</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>مسقعة (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>بامية (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
-                        <li class="flex justify-between"><span>ملوخية (كبير / صغير):</span> <strong class="text-amber-400">8 / 5 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20إدام" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 4. السلطات والمشروبات -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">السلطات والمقبلات</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة طحينة:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة حارة:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة لبن:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>سلطة خضار:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between"><span>عشار عدني:</span> <strong class="text-amber-400">4 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20سلطات" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-cyan-500" data-category="salads">
-                    <span class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full">السلطات والمشروبات</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">المشروبات</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>لبن القرية:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>لبن المراعي (صغير / كبير):</span> <strong class="text-amber-400">2 / 3 ر.س</strong></li>
-                        <li class="flex justify-between"><span>ببسي (صغير / وسط / كبير):</span> <strong class="text-amber-400">2.5 / 5 / 9 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20مشروبات" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-                <!-- 5. قسم الحلى -->
-                <div class="menu-item glass-card p-6 rounded-2xl shadow-xl border-l-4 border-l-purple-500" data-category="desserts">
-                    <span class="bg-purple-500/20 text-purple-400 text-xs font-bold px-3 py-1 rounded-full">قسم الحلى</span>
-                    <h3 class="text-xl font-bold text-white mt-3 mb-1">الحلى والحلويات</h3>
-                    <ul class="text-slate-300 text-sm space-y-2 my-4">
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>كنافة بالقشطة:</span> <strong class="text-amber-400">8 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>تشيز كيك:</span> <strong class="text-amber-400">5 ر.س</strong></li>
-                        <li class="flex justify-between border-b border-slate-800 pb-1"><span>كريم كراميل:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                        <li class="flex justify-between"><span>مهلبية:</span> <strong class="text-amber-400">3 ر.س</strong></li>
-                    </ul>
-                    <div class="pt-3 border-t border-slate-800 text-center">
-                        <a href="https://wa.me/966508320104?text=أريد%20طلب%20حلى" target="_blank" class="block w-full bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold py-2 rounded-lg transition-all border border-emerald-500/40">طلب عبر واتساب</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Location & Contact Section -->
-    <section id="location" class="py-20 bg-oceanDark relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-emerald-400 font-bold tracking-wider text-sm uppercase">الموقع</span>
-                <h2 class="text-3xl font-black mt-2 mb-3">موقعنا في المدينة المنورة</h2>
-                <p class="text-slate-300 text-sm">حي المطار - شارع عبد الله بن وديعة</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass-card p-6 rounded-2xl text-center">
-                    <i class="fa-solid fa-location-dot text-3xl text-emerald-400 mb-3"></i>
-                    <h3 class="font-bold text-white mb-1">العنوان</h3>
-                    <p class="text-slate-300 text-sm">حي المطار، المدينة المنورة</p>
-                </div>
-                <div class="glass-card p-6 rounded-2xl text-center">
-                    <i class="fa-regular fa-clock text-3xl text-amber-400 mb-3"></i>
-                    <h3 class="font-bold text-white mb-1">أوقات العمل</h3>
-                    <p class="text-slate-300 text-sm">حتى الساعة 2:00 صباحاً</p>
-                </div>
-                <div class="glass-card p-6 rounded-2xl text-center">
-                    <i class="fa-solid fa-phone text-3xl text-emerald-400 mb-3"></i>
-                    <h3 class="font-bold text-white mb-1">رقم التواصل</h3>
-                    <p class="text-slate-300 text-sm" dir="ltr">050 832 0104</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="bg-oceanDeep border-t border-emerald-500/20 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-slate-400 text-sm">جميع الحقوق محفوظة © 2026 مطاعم ومطابخ أمواج الخليج - حي المطار، المدينة المنورة</p>
-        </div>
-    </footer>
-
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/966508320104" target="_blank" class="fixed bottom-6 left-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/50 transition-all transform hover:scale-110">
-        <i class="fa-brands fa-whatsapp text-3xl"></i>
-    </a>
-
-    <!-- JavaScript -->
     <script>
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // المنيو الدقيق والمطابق تماماً للصورة بدون أي تغيير
+        const menuItems = [
+            { id: 1, name: "وجبة برجر زنجر", price: 17, calories: "496 سعرة" },
+            { id: 2, name: "وجبة برجر دجاج", price: 14, calories: "561 سعرة" },
+            { id: 3, name: "وجبة برجر لحم", price: 14, calories: "584 سعرة" },
+            { id: 4, name: "وجبة برجر مشوي طازج", price: 22, calories: "820 سعرة" },
+            { id: 5, name: "برجر فلفل حار أمريكانا", price: 19, calories: "691 سعرة" },
+            { id: 6, name: "برجر دجاج دبل أمريكانا", price: 18, calories: "714 سعرة" },
+            { id: 7, name: "وجبة برجر دجاج طازج", price: 17, calories: "459 سعرة" },
+            { id: 8, name: "وجبة برجر لحم طازج", price: 22, calories: "426 سعرة" },
+            { id: 9, name: "وجبة برجر مشوي سبايسي", price: 22, calories: "462 سعرة" },
+            { id: 10, name: "صحن مسحب وجبة", price: 15, calories: "912 سعرة" },
+            { id: 11, name: "برجر دجاج طازج (دبل)", price: 25, calories: "659 سعرة" },
+            { id: 12, name: "برجر غنم طازج (دبل)", price: 31, calories: "748 سعرة" },
+            { id: 13, name: "وجبة برجر دبل زنجر", price: 23, calories: "922 سعرة" },
+            { id: 14, name: "فاهيتا كودو زنجر", price: 17, calories: "516 سعرة" },
+            { id: 15, name: "فاهيتا كودو لحم طازج", price: 22, calories: "598 سعرة" },
+            { id: 16, name: "فاهيتا كودو دجاج", price: 17, calories: "573 سعرة" },
+            { id: 17, name: "صحن جمبري وجبة", price: 20, calories: "349 سعرة" },
+            { id: 18, name: "فاهيتا كودو جمبري", price: 16, calories: "612 سعرة" },
+            { id: 19, name: "وجبة فاهيتا كودو مسحب", price: 14, calories: "596 سعرة" },
+            { id: 20, name: "تورتيلا دجاج", price: 17, calories: "566 سعرة" },
+            { id: 21, name: "تورتيلا جمبري", price: 16, calories: "510 سعرة" },
+            { id: 22, name: "تورتيلا زنجر", price: 17, calories: "598 سعرة" },
+            { id: 23, name: "وجبة مسحب تورتيلا", price: 14, calories: "624 سعرة" }
+        ];
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        let cart = {};
 
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
+        const menuGrid = document.getElementById('menuGrid');
+        const totalPriceEl = document.getElementById('totalPrice');
+        const totalCountEl = document.getElementById('totalCount');
 
-        function filterMenu(category) {
-            const items = document.querySelectorAll('.menu-item');
-            const tabs = document.querySelectorAll('.menu-tab');
-
-            tabs.forEach(tab => {
-                tab.classList.remove('bg-emerald-600', 'text-white');
-                tab.classList.add('bg-oceanDark/80', 'text-slate-200');
-            });
-            event.target.classList.remove('bg-oceanDark/80', 'text-slate-200');
-            event.target.classList.add('bg-emerald-600', 'text-white');
-
-            items.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+        function renderMenu() {
+            menuGrid.innerHTML = '';
+            menuItems.forEach(item => {
+                const qty = cart[item.id] || 0;
+                const card = document.createElement('div');
+                card.className = 'menu-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="price-tag">${item.price} ر.س</div>
+                        <h3>${item.name}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="calories"><i class="fa-solid fa-fire"></i> ${item.calories}</div>
+                        <button class="add-btn ${qty > 0 ? 'added' : ''}" onclick="updateCart(${item.id}, 1)">
+                            <i class="fa-solid ${qty > 0 ? 'fa-check' : 'fa-plus'}"></i> ${qty > 0 ? 'تم الإضافة (' + qty + ')' : 'إضافة للطلب'}
+                        </button>
+                    </div>
+                `;
+                menuGrid.appendChild(card);
             });
         }
+
+        function updateCart(id, change) {
+            if (!cart[id]) cart[id] = 0;
+            cart[id] += change;
+            if (cart[id] <= 0) delete cart[id];
+            renderMenu();
+            updateSummary();
+        }
+
+        function updateSummary() {
+            let total = 0;
+            let count = 0;
+            for (let id in cart) {
+                const item = menuItems.find(i => i.id == id);
+                total += item.price * cart[id];
+                count += cart[id];
+            }
+            totalPriceEl.textContent = total;
+            totalCountEl.textContent = count;
+        }
+
+        function sendToWhatsApp() {
+            let count = Object.values(cart).reduce((a, b) => a + b, 0);
+            if (count === 0) {
+                alert('الرجاء اختيار وجبة واحدة على الأقل قبل الإرسال!');
+                return;
+            }
+
+            let message = "السلام عليكم، هذا طلب جديد من مزاج اليوم (فرع 2):\n\n";
+            let total = 0;
+
+            for (let id in cart) {
+                const item = menuItems.find(i => i.id == id);
+                let itemTotal = item.price * cart[id];
+                total += itemTotal;
+                message += `- ${item.name} (العدد: ${cart[id]}) - ${itemTotal} ر.س\n`;
+            }
+
+            message += `\nالإجمالي الكلي: ${total} ريال`;
+
+            const phone = "966595804974"; // رقم التوصيل
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        renderMenu();
     </script>
 </body>
 </html>
