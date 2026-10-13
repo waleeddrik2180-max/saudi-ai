@@ -197,6 +197,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     </div>
   </header>
   <main id="stage">
+    <button id="radiobtn" class="iconbtn" hidden style="position:absolute;top:10px;inset-inline-start:10px;z-index:6;font-size:18px">📻</button>
+    <div id="radiopanel" hidden style="position:absolute;top:56px;inset-inline-start:10px;z-index:6;width:min(300px,86%);background:var(--sign);border:2px solid #fff;border-radius:10px;padding:10px;display:grid;gap:8px"><input id="radioin" dir="ltr" style="width:100%;padding:8px;border-radius:6px;border:0;font:inherit;color:#111"><div class="wbtns"><button id="radioplay" class="buy"></button><button id="radiostop" class="buy use"></button></div><div id="radiomsg" class="muted" style="color:#fff"></div></div>
+    <div id="radioholder" style="position:absolute;width:200px;height:200px;opacity:0;pointer-events:none;z-index:-1"></div>
     <canvas id="cv"></canvas>
     <section class="sheet" id="home"></section>
     <section class="sheet" id="end" hidden></section>
@@ -244,6 +247,12 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       ],
       defBtn: 'بوري', bnAmbFar: 'قطاع طرق قدامك! جهّز البوري', bnAmbNow: 'قطاع طرق! اضغط البوري الحين!',
       ambOk: 'هربوا! مكافأة', ambCaught: 'مسكوك! خسرت فلوس', ambNone: 'ما عندك بوري!',
+      camelF: 'حلال بالطريق! خفّف', camelHit: 'صدمت الحلال!', karakF: 'كرك! تعبّت الطاقة', shopF: 'بقالة المحطة قدام', shopSign: 'بقالة وكرك',
+      karakToast: function (c) { return 'شربت كرك ورجعت الطاقة كاملة (-' + c + ')'; }, fpOk: '✓ تمت بصمة الحضور!', fpFail: '✗ فاتتك البصمة!',
+      chooseMode: 'اختر طريقك', modeCalmT: '🌙 طريق الروقان', modeCalmD: 'ليل هادئ، خط ماله نهاية، راديو يوتيوب، بدون مخالفات.', modeRushT: '⏱️ الدوام الحماسي', modeRushD: 'تحدي بصمة الحضور، إبل، بقالة وكرك، وطرق الدوام الثانية.',
+      calmInfo: 'طريق مفتوح بدون نهاية · اضغط زر البيت لإنهاء المشوار وأخذ فلوسك',
+      radioT: 'راديو يوتيوب', radioPh: 'الصق رابط يوتيوب هنا', radioPlay: 'شغّل', radioStop: 'وقّف', radioBad: 'الرابط مو صحيح',
+      radioNoEmbed: 'صاحب المقطع مانع تشغيله خارج يوتيوب، جرب مقطع ثاني', radioNet: 'ما قدرت أحمّل يوتيوب، تأكد من الإنترنت', radioFile: 'افتح اللعبة من رابط http (مو ملف محلي) عشان يشتغل اليوتيوب',
       ambToastWin: function (n) { return 'صدّيت قطاع الطرق! +' + n + ' م'; }, ambToastLose: function (n) { return 'قطاع الطرق أخذوا ' + n + ' م!'; },
       eAmbB: 'مكافأة صدّ قطاع الطرق', eAmbL: 'اللي أخذه قطاع الطرق',
       keys: 'من الكيبورد: مسطرة (Space) للمشي والوقوف، السهم الأيمن مشي، السهم الأيسر وقوف، وP للإيقاف، وB لبوري الردع (الطريق المختصر)',
@@ -335,7 +344,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         short: ['الطريق المختصر', 'خطر', 'قصير وسريع وأرباحه عالية، بس فيه طلعات حادة وقطاع طريق. تصادم بسرعة عالية يكلفك قلب، و3 قلوب يعني تتعطل. وأحياناً رادار ومطر.'],
         desert: ['الطريق الصحراوي', 'رمل', 'طريق مفتوح وسط الصحراء، فيه بقع رمل تبطّئك وتصرف بنزين أكثر. أرباحه أعلى من الطويل.'],
         highway: ['الطريق السريع', 'مدفوع', 'مستوي وسريع، بس تدفع رسوم قبل ما تطلع. فيه رادارات تغرّمك لو زودت السرعة، وأحياناً زحمة.'],
-        night: ['الطريق الليلي', 'ليل', 'طريق مظلم وقصير وأرباحه عالية. ما تشوف العوائق إلا قريبة، وفيه مطر ورادارات أحياناً.']
+        night: ['الطريق الليلي', 'ليل', 'طريق مظلم وقصير وأرباحه عالية. ما تشوف العوائق إلا قريبة، وفيه مطر ورادارات أحياناً.'],
+        calm: ['طريق الروقان', 'روقان', 'طريق ليلي طويل ماله نهاية وإضاءات شوارع. بدون مخالفات ولا ساهر ولا وقت. شغّل الراديو وخذ راحتك.'],
+        rush: ['طريق الدوام الحماسي', 'تحدي', 'سابق الوقت وسجّل بصمة الحضور! الإبل تقطع الخط فجأة، وبقالة المحطة والكرك بالطريق.']
       },
       says: [
         'يا هلا بالموظف! الطريق طويل، وكل متر تقطعه له سعر عندي.',
@@ -370,6 +381,12 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       ],
       defBtn: 'Siren', bnAmbFar: 'Bandits ahead! Get the siren ready', bnAmbNow: 'Bandits! Hit the siren now!',
       ambOk: 'They fled! Bonus', ambCaught: 'Robbed! You lost money', ambNone: 'No siren left!',
+      camelF: 'Camels ahead! Slow down', camelHit: 'You hit a camel!', karakF: 'Karak! Energy full', shopF: 'Station shop ahead', shopSign: 'Shop & Karak',
+      karakToast: function (c) { return 'Karak break, energy refilled (-' + c + ')'; }, fpOk: '✓ Clocked in on time!', fpFail: '✗ You missed the clock-in!',
+      chooseMode: 'Choose your path', modeCalmT: '🌙 Calm Road', modeCalmD: 'Quiet night, endless road, YouTube radio, no fines.', modeRushT: '⏱️ Rush Challenge', modeRushD: 'Clock-in challenge, camels, shop and karak, plus the other routes.',
+      calmInfo: 'Endless open road · tap the home button to end the drive and bank your cash',
+      radioT: 'YouTube radio', radioPh: 'Paste a YouTube link', radioPlay: 'Play', radioStop: 'Stop', radioBad: 'Invalid link',
+      radioNoEmbed: 'This video cannot be embedded, try another', radioNet: 'Could not load YouTube, check your connection', radioFile: 'Open the game over http (not a local file) so YouTube can play',
       ambToastWin: function (n) { return 'Bandits driven off! +' + n + ' m'; }, ambToastLose: function (n) { return 'The bandits took ' + n + ' m!'; },
       eAmbB: 'Bandit-repel bonus', eAmbL: 'Taken by bandits',
       keys: 'Keyboard: Space to drive/stop, Right arrow to drive, Left arrow to stop, P to pause, B for the siren (shortcut route)',
@@ -461,7 +478,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         short: ['The Shortcut', 'Risky', 'Short, fast and high-paying, but with steep hills and bandits. A high-speed crash costs a heart, and losing all your hearts means a breakdown. Sometimes cameras and rain.'],
         desert: ['The Desert Road', 'Sand', 'An open road through the desert with sand patches that slow you down and burn more fuel. Pays better than the long route.'],
         highway: ['The Toll Highway', 'Toll', 'Flat and fast, but you pay a toll before you set off. Speed cameras fine you if you go too fast, and sometimes traffic.'],
-        night: ['The Night Road', 'Night', 'A short dark road that pays well. You only see obstacles up close, with rain and speed cameras at times.']
+        night: ['The Night Road', 'Night', 'A short dark road that pays well. You only see obstacles up close, with rain and speed cameras at times.'],
+        calm: ['Calm Road', 'Chill', 'A endless night road under street lights. No fines, no speed cameras, no timer. Put on your radio and just drive.'],
+        rush: ['Rush Challenge', 'Challenge', 'Beat the clock to clock in on time! Camels cross suddenly, and a station shop with karak is on the way.']
       },
       says: [
         'Welcome, employee! The road is long, and every meter you drive has a price with me.',
@@ -503,6 +522,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     short: { key: 'short', cls: 'risk', dist: .6, amp: 1.4, rate: 3.5, arr: 4, tb: 2, haz: true, div: 11, add: 10, consol: 0, ev: ['radar', 'rain'], ground: '#4a4038' },
     desert: { key: 'desert', cls: 'sand', dist: 1.1, amp: .9, rate: 1.8, arr: 2, tb: 1.5, haz: false, div: 10, add: 15, consol: .3, sand: true, ev: ['rain'], ground: '#b8935a' },
     highway: { key: 'highway', cls: 'toll', dist: 1.3, amp: .3, rate: 1.5, arr: 1.8, tb: 1.3, haz: false, div: 13, add: 10, consol: .2, toll: true, spd: 1.2, ev: ['radar', 'jam'], ground: '#3b4636' },
+    calm: { key: 'calm', cls: 'night', dist: 120, amp: .5, rate: 1.2, arr: 0, tb: 0, haz: false, div: 1e9, add: 1e6, consol: 1, night: true, calm: true, ev: [], ground: '#2a2824' },
+    rush: { key: 'rush', cls: 'risk', dist: .8, amp: 1.2, rate: 3, arr: 4, tb: 2.5, haz: false, camel: true, div: 11, add: 8, consol: 0, ev: [], ground: '#b8935a' },
     night: { key: 'night', cls: 'night', dist: .9, amp: 1.1, rate: 2.5, arr: 3, tb: 2, haz: true, div: 10.5, add: 12, consol: 0, night: true, ev: ['rain', 'radar'], ground: '#2a2824' }
   };
   var RORDER = ['long', 'short', 'desert', 'highway', 'night'];
@@ -914,7 +935,38 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     }
     endRaf = requestAnimationFrame(frame);
   }
-  function quitRun() { if (mode !== 'run') return; $('pause').hidden = true; toHome(); sfx('click'); toast(tx('homeToast')); }
+  function ytLoad(cb) {
+    if (window.YT && YT.Player) return cb();
+    var o = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = function () { if (o) o(); cb(); };
+    if (!document.getElementById('ytapi')) { var sc = document.createElement('script'); sc.id = 'ytapi'; sc.src = 'https://www.youtube.com/iframe_api'; sc.onerror = function () { $('radiomsg').textContent = tx('radioNet'); }; document.head.appendChild(sc); }
+  }
+  function ytParse(v) {
+    v = v.trim(); if (/^[\w-]{11}$/.test(v)) return { id: v };
+    var id = v.match(/(?:[?&]v=|youtu\.be\/|embed\/|shorts\/|live\/|\/v\/)([\w-]{11})/), li = v.match(/[?&]list=([\w-]+)/);
+    if (id) return { id: id[1] }; if (li) return { list: li[1] };
+    if (/^(PL|UU|OL|RD|FL)[\w-]{10,}$/.test(v)) return { list: v };
+    return null;
+  }
+  var ytP = null;
+  function radioStop() { if (ytP && ytP.destroy) { try { ytP.destroy(); } catch (e) {} } ytP = null; $('radioholder').innerHTML = ''; $('radiomsg').textContent = ''; }
+  function radioPlay() {
+    var raw = $('radioin').value, p = ytParse(raw); if (!p) { $('radiomsg').textContent = tx('radioBad'); return; }
+    try { localStorage.setItem('dawam.radio', raw.trim()); } catch (e) {}
+    radioStop(); $('radioholder').innerHTML = '<div id="ytbox"></div>';
+    if (location.protocol === 'file:') $('radiomsg').textContent = tx('radioFile');
+    ytLoad(function () {
+      var pv = { autoplay: 1, playsinline: 1, controls: 0, loop: 1 }, cfg = { width: 200, height: 200, playerVars: pv, events: {
+        onReady: function (e) { e.target.playVideo(); },
+        onError: function (e) { $('radiomsg').textContent = tx(e.data === 101 || e.data === 150 ? 'radioNoEmbed' : e.data === 153 ? 'radioFile' : 'radioBad'); } } };
+      if (/^https?:/.test(location.origin)) pv.origin = location.origin;
+      if (p.id) { cfg.videoId = p.id; pv.playlist = p.id; } else { pv.listType = 'playlist'; pv.list = p.list; }
+      ytP = new YT.Player('ytbox', cfg);
+    });
+  }
+  $('radiobtn').addEventListener('click', function () { $('radiopanel').hidden = !$('radiopanel').hidden; this.blur(); });
+  $('radioplay').addEventListener('click', radioPlay); $('radiostop').addEventListener('click', radioStop);
+  try { $('radioin').value = localStorage.getItem('dawam.radio') || ''; } catch (e) {}
+  function quitRun() { if (mode !== 'run') return; $('pause').hidden = true; if (R.rt.calm && R.x > 20) { finish(true); return; } toHome(); sfx('click'); toast(tx('homeToast')); }
 
   /* ===================== Run logic ===================== */
   var mode = 'home', R = null, last = 0, END = null, pendingEnd = 0;
@@ -922,7 +974,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     HAZ_SPEED = 12 + VEH[S.veh].tough;
     var rt = ROUTES[S.route], dist = distOf(S.day, rt.key), seedAdd = RORDER.indexOf(rt.key) * 101;
     var r = rng(S.day * 7919 + 13 + seedAdd), c = rng(S.day * 31 + 5), hz = rng(S.day * 57 + 3), er = rng(S.day * 83 + seedAdd + 9);
-    var hp0 = rt.haz ? 3 + VEH[S.veh].hp : 0;
+    var hp0 = (rt.haz || rt.camel) ? 3 + VEH[S.veh].hp : 0;
     var run = {
       x: 0, v: 0, st: maxSt(), tired: false, t: 0, earn: 0, hold: false, paused: false, dist: dist, limit: limitOf(S.day, rt.key), rt: rt, hp: hp0, hpMax: hp0, haz: [],
       terr: { A: (26 + .6 * Math.min(S.day, 12)) * rt.amp, p1: r() * 6.28, p2: r() * 6.28, p3: r() * 6.28, f1: 6.283 / (300 + r() * 110), f2: 6.283 / (140 + r() * 50), f3: 6.283 / (80 + r() * 20) },
@@ -941,6 +993,11 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
       x += len + 130 + er() * 170;
     }
     if (rt.sand) { x = 90 + er() * 40; while (x < dist - 120) { var sl = 60 + er() * 60; run.sand.push({ x: x, len: sl }); x += sl + 90 + er() * 90; } }
+    if (rt.camel) {
+      run.ev = []; var cr = rng(S.day * 131 + 7), nc = 2 + Math.min(4, Math.floor(S.day / 3)), shx = Math.round(dist * .5);
+      for (var q = 1; q <= nc; q++) { var cx0 = Math.round(dist * q / (nc + 1) * .85 + 40 + cr() * 20); if (Math.abs(cx0 - shx) > 50) run.ev.push({ type: 'camel', x: cx0, len: 0, k: q, st: 0, t: 0, done: false, entered: false }); }
+      run.ev.push({ type: 'shop', x: shx, len: 30, k: 0, t: 0, done: false, entered: false });
+    }
     run.amb = []; run.charges = 0; run.ambBonus = 0; run.ambLost = 0;
     if (rt.key === 'short') {
       var na = S.day < 3 ? 1 : S.day < 8 ? 2 : 3, fr = na === 1 ? [.5] : na === 2 ? [.36, .7] : [.28, .52, .78], ar = rng(S.day * 977 + 11);
@@ -995,6 +1052,19 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         else addFloat('radarOk');
       }
     });
+    R.ev.forEach(function (e) {
+      if (e.type === 'camel') {
+        if (e.st === 0 && R.x >= e.x - 60) { e.st = 1; e.t = 0; addFloat('camelF'); sfx('honk'); }
+        else if (e.st === 1) { e.t += dt; if (R.x >= e.x - 2) { e.st = 3; e.t = 0; R.hp--; R.v *= .15; R.t += 3; addFloat('camelHit'); sfx('crash'); } else if (e.t > 3.6) { e.st = 2; e.t = 0; } }
+        else if (e.st >= 2) e.t += dt;
+      } else if (e.type === 'shop' && !e.done) {
+        if (!e.warned && R.x >= e.x - 70) { e.warned = 1; addFloat('shopF'); }
+        if (R.x >= e.x && R.x <= e.x + e.len && R.v < 2.5) {
+          e.t += dt;
+          if (e.t > 1.2) { e.done = true; var kc = Math.min(Math.floor(R.earn), 20 + 5 * S.day); R.earn -= kc; R.st = maxSt(); R.dry = false; addFloat('karakF'); sfx('fuel'); toast(tx('karakToast')(fmt(kc))); }
+        } else e.t = 0;
+      }
+    });
     R.amb.forEach(function (a) {
       if (a.s === 'wait') {
         if (R.x >= a.x - 4) {
@@ -1015,7 +1085,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     R.rain += ((R.rainNow ? 1 : 0) - R.rain) * Math.min(1, dt * 2.5);
     R.flash = Math.max(0, R.flash - dt);
     R.floats.forEach(function (f2) { f2.life -= dt; }); R.floats = R.floats.filter(function (f2) { return f2.life > 0; });
-    if (rt.haz && R.hp <= 0) finish(false, true);
+    if ((rt.haz || rt.camel) && R.hp <= 0) finish(false, true);
     else if (R.x >= R.dist - 1) finish(true); else if (R.t >= R.limit) finish(false);
   }
   function nextAmb(x, d) { var b = null; if (R && R.amb) R.amb.forEach(function (a) { var dd = a.x - x; if (a.s === 'wait' && dd > 0 && dd < d && (!b || a.x < b.x)) b = a; }); return b; }
@@ -1034,10 +1104,11 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     mode = 'end'; R.hold = false;
     var rt = R.rt, vm = VEH[S.veh].arr, bm = R.sp === 'holiday' ? 2 : R.sp === 'boss' ? 1.6 : 1;
     var earn = Math.floor(R.earn * (wreck ? .5 : 1)), arr = 0, tb = 0, con = 0, dayPlayed = S.day;
-    if (ok) { arr = Math.round(R.dist * .25 * mult() * rt.arr * vm * bm); tb = Math.round(Math.max(0, R.limit - R.t) * 4 * rt.tb * vm * bm); S.day++; S.best = Math.max(S.best, S.day - 1); }
+    if (ok) { arr = Math.round(R.dist * .25 * mult() * rt.arr * vm * bm); tb = Math.round(Math.max(0, R.limit - R.t) * 4 * rt.tb * vm * bm); if (!rt.calm) { S.day++; S.best = Math.max(S.best, S.day - 1); } }
     else if (!wreck && rt.consol) con = Math.round(earn * rt.consol);
     var tot = earn + arr + tb + con + (R.ambBonus || 0); S.money += tot;
-    if (ok && !S.ends.won && dayPlayed >= (rt.key === 'short' ? 100 : 50)) pendingEnd = 1;
+    if (ok && !rt.calm && !S.ends.won && dayPlayed >= (rt.key === 'short' ? 100 : 50)) pendingEnd = 1;
+    if (rt.camel) toast(tx(ok ? 'fpOk' : 'fpFail'));
     var st = S.stats; st.runs++; st.total += tot; st.bestTrip = Math.max(st.bestTrip, tot);
     if (ok) { st.arrivals++; st.streak++; st.bestStreak = Math.max(st.bestStreak, st.streak); st.routes[rt.key] = 1; } else st.streak = 0;
     S.top.push({ day: dayPlayed, tot: tot, route: rt.key, ok: !!ok });
@@ -1073,7 +1144,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   var merchantSVG = '<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#08543c"/><path d="M10 64c0-16 10-22 22-22s22 6 22 22z" fill="#ffffff"/><path d="M32 42v22" stroke="#d9dfdb" stroke-width="2"/><circle cx="32" cy="29" r="11" fill="#c98f63"/><path d="M18 30c0-12 6-18 14-18s14 6 14 18c-3-5-6-7-14-7s-11 2-14 7z" fill="#ffffff"/><path d="M18 30c0-12 6-18 14-18s14 6 14 18" fill="none" stroke="#c9302c" stroke-width="2" stroke-dasharray="3 2"/><path d="M26 33q6 5 12 0" fill="none" stroke="#3a2a1c" stroke-width="2"/><circle cx="27.5" cy="28" r="1.4" fill="#2a1c12"/><circle cx="36.5" cy="28" r="1.4" fill="#2a1c12"/></svg>';
   function pips(n) { var h = ''; for (var i = 0; i < MAXLV; i++) h += '<i class="' + (i < n ? 'on' : '') + '"></i>'; return '<span class="pips" aria-label="' + tx('pipsAria')(n, MAXLV) + '">' + h + '</span>'; }
   function routeCard(k) {
-    var rt = ROUTES[k], on = S.route === k, rx = tx('route')[k], toll = rt.toll ? tollOf(S.day) : 0, broke = rt.toll && S.money < toll;
+    var rt = ROUTES[k], on = S.route === k, rx = tx('route')[k];
+    if (rt.calm) return '<button class="route ' + rt.cls + '" data-route="' + k + '" aria-pressed="' + on + '"><div class="rt"><b>' + rx[0] + '</b><span class="tag">' + rx[1] + '</span></div><p>' + rx[2] + '</p><ul><li>' + tx('calmInfo') + '</li></ul></button>';
+    var toll = rt.toll ? tollOf(S.day) : 0, broke = rt.toll && S.money < toll;
     return '<button class="route ' + rt.cls + '" data-route="' + k + '" aria-pressed="' + on + '"' + (broke ? ' disabled' : '') + '><div class="rt"><b>' + rx[0] + '</b><span class="tag">' + rx[1] + '</span></div><p>' + rx[2] + '</p>' +
       '<ul><li>' + tx('rDist')(fmt(distOf(S.day, k))) + '</li><li>' + tx('rTime')(Math.round(limitOf(S.day, k))) + '</li><li>' + tx('rRate')(rt.rate, rt.arr) + '</li>' +
       (rt.toll ? '<li>' + tx('rToll')(fmt(toll)) + (broke ? ' · ' + tx('rTollNo') : '') + '</li>' : '') + '</ul></button>';
@@ -1099,7 +1172,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
         '<div class="qbar"><i style="width:' + pc + '%"></i></div></div>';
     }).join('') + '</div>';
     if (S.day === 1 && S.best === 0) h += '<div class="how"><b>' + tx('howTitle') + '</b><span>' + tx('how1') + '</span><span>' + tx('how2') + '</span><span>' + tx('how3') + '</span></div>';
-    h += '<div class="routes"><h3>' + tx('chooseRoute') + '</h3><div class="routegrid">' + RORDER.map(routeCard).join('') + '</div></div>';
+    var calmM = S.route === 'calm';
+    h = '<div class="routes"><h3>' + tx('chooseMode') + '</h3><div class="routegrid"><button class="route night" data-mode="calm" aria-pressed="' + calmM + '"><div class="rt"><b>' + tx('modeCalmT') + '</b></div><p>' + tx('modeCalmD') + '</p></button><button class="route risk" data-mode="rush" aria-pressed="' + !calmM + '"><div class="rt"><b>' + tx('modeRushT') + '</b></div><p>' + tx('modeRushD') + '</p></button></div></div>' + h;
+    h += '<div class="routes"><h3>' + tx('chooseRoute') + '</h3><div class="routegrid">' + (calmM ? ['calm'] : ['rush'].concat(RORDER)).map(routeCard).join('') + '</div></div>';
     h += '<div class="merchant">' + merchantSVG + '<div class="say">' + says[(S.day + S.best) % says.length] + '</div></div>';
     h += '<div class="shopgrid"><h3>' + tx('shopUp') + '</h3>';
     UPG.forEach(function (u) {
@@ -1166,6 +1241,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     var u, i, st, p;
     if (b.dataset.wheel) { openWheel(); return; }
     if (b.dataset.end) { playEnding(false); return; }
+    if (b.dataset.mode) { S.route = b.dataset.mode === 'calm' ? 'calm' : (S.route === 'calm' ? 'rush' : S.route); save(); R = makeRun(); st = $('home').scrollTop; renderHome(); $('home').scrollTop = st; refresh(); return; }
     if (b.dataset.route) {
       if (ROUTES[b.dataset.route]) {
         if (ROUTES[b.dataset.route].toll && S.money < tollOf(S.day)) return;
@@ -1223,12 +1299,14 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     var ck = $('clock'); ck.textContent = hh + ':' + (mm < 10 ? '0' : '') + mm + ' ' + tx('ampm'); ck.classList.toggle('late', mode === 'run' && lim - t < 10);
     var p = R ? clamp(R.x / R.dist, 0, 1) : 0;
     $('prog').style.width = (p * 100) + '%'; $('dot').style.left = (p * 100) + '%';
-    $('left').textContent = fmt(R ? Math.max(0, R.dist - R.x) : distOf(S.day)) + ' ' + tx('unit');
+    $('left').textContent = (R && R.rt.calm) ? '∞' : fmt(R ? Math.max(0, R.dist - R.x) : distOf(S.day)) + ' ' + tx('unit');
     $('stam').style.width = (R ? clamp(R.st / maxSt(), 0, 1) * 100 : 100) + '%';
     $('stamwrap').classList.toggle('tired', !!(R && R.tired));
-    var hp = $('hearts'), showH = !!(R && R.rt.haz);
+    var hp = $('hearts'), showH = !!(R && (R.rt.haz || R.rt.camel));
     hp.hidden = !showH;
     if (showH) { var mx = R.hpMax, n = clamp(R.hp, 0, mx); hp.textContent = new Array(n + 1).join('♥') + new Array(mx - n + 1).join('♡'); hp.setAttribute('aria-label', tx('heartsAria')(n, mx)); }
+    var rb = $('radiobtn'); rb.hidden = S.route !== 'calm'; if (rb.hidden) $('radiopanel').hidden = true;
+    rb.setAttribute('aria-label', tx('radioT')); $('radioin').placeholder = tx('radioPh'); $('radioplay').textContent = tx('radioPlay'); $('radiostop').textContent = tx('radioStop');
     var go = $('go');
     if (mode === 'run' && R) {
       go.className = R.hold ? 'run' : 'idle';
@@ -1570,6 +1648,16 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     if (running && R.v > 5) { ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 2; for (var q = 0; q < 4; q++) { var qx = pxs - 50 - q * 18 - (now / 8 + q * 30) % 30, qy = py - 12 - q * 11; ctx.beginPath(); ctx.moveTo(qx, qy); ctx.lineTo(qx - 18, qy); ctx.stroke(); } }
     vehicle(pxs, py, ang, running);
 
+    if (R.rt.camel) R.ev.forEach(function (e) {
+      var sx = (e.x - camX) * PX; if (sx < -120 || sx > W + 120) return; var sy = Y(e.x);
+      if (e.type === 'shop') { drawStall(sx, sy + 2); ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '700 14px "IBM Plex Sans Arabic", sans-serif'; ctx.fillText(tx('shopSign'), sx + 35, sy - 84); return; }
+      if (e.type !== 'camel' || !(e.st === 1 || (e.st === 2 && e.t < 1) || (e.st === 3 && e.t < 1.5))) return;
+      ctx.save(); ctx.globalAlpha = e.st === 2 ? 1 - e.t : Math.min(1, .3 + e.t * 3); ctx.translate(sx, sy + 3); ctx.fillStyle = '#b98a52';
+      [-22, -12, 12, 22].forEach(function (lx) { ctx.fillRect(lx - 2, -30, 5, 30); });
+      ctx.beginPath(); ctx.ellipse(0, -42, 32, 16, 0, 0, 6.3); ctx.fill(); ctx.beginPath(); ctx.ellipse(-6, -60, 10, 10, 0, 0, 6.3); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(22, -46); ctx.lineTo(30, -46); ctx.lineTo(40, -78); ctx.lineTo(32, -80); ctx.fill(); ctx.beginPath(); ctx.ellipse(40, -80, 10, 6, 0, 0, 6.3); ctx.fill();
+      ctx.restore(); if (e.st === 1) { ctx.fillStyle = '#ffc72c'; ctx.font = '700 28px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('⚠', sx, sy - 100); }
+    });
     if (R.rain > .02) {
       ctx.fillStyle = 'rgba(20,32,56,' + (.24 * R.rain) + ')'; ctx.fillRect(0, 0, W, H);
       ctx.strokeStyle = 'rgba(200,220,255,' + (.5 * R.rain) + ')'; ctx.lineWidth = 1.2; ctx.beginPath();
