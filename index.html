@@ -947,24 +947,26 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     if (/^(PL|UU|OL|RD|FL)[\w-]{10,}$/.test(v)) return { list: v };
     return null;
   }
-  var ytP = null;
+  var ytP = null, ytKey = null;
+  function radioPause() { if (ytP && ytP.pauseVideo) { try { ytP.pauseVideo(); } catch (e) {} } }
   function radioStop() { if (ytP && ytP.destroy) { try { ytP.destroy(); } catch (e) {} } ytP = null; $('radioholder').innerHTML = ''; $('radiomsg').textContent = ''; }
   function radioPlay() {
     var raw = $('radioin').value, p = ytParse(raw); if (!p) { $('radiomsg').textContent = tx('radioBad'); return; }
     try { localStorage.setItem('dawam.radio', raw.trim()); } catch (e) {}
-    radioStop(); $('radioholder').innerHTML = '<div id="ytbox"></div>';
+    if (ytP && ytKey === raw.trim() && ytP.playVideo) { try { ytP.playVideo(); $('radiomsg').textContent = ''; return; } catch (e) {} }
+    ytKey = raw.trim(); radioStop(); $('radioholder').innerHTML = '<div id="ytbox"></div>';
     if (location.protocol === 'file:') $('radiomsg').textContent = tx('radioFile');
     ytLoad(function () {
       var pv = { autoplay: 1, playsinline: 1, controls: 0, loop: 1 }, cfg = { width: 200, height: 200, playerVars: pv, events: {
         onReady: function (e) { e.target.playVideo(); },
-        onError: function (e) { $('radiomsg').textContent = tx(e.data === 101 || e.data === 150 ? 'radioNoEmbed' : e.data === 153 ? 'radioFile' : 'radioBad'); } } };
+        onError: function (e) { ytKey = null; $('radiomsg').textContent = tx(e.data === 101 || e.data === 150 ? 'radioNoEmbed' : e.data === 153 ? 'radioFile' : 'radioBad'); } } };
       if (/^https?:/.test(location.origin)) pv.origin = location.origin;
       if (p.id) { cfg.videoId = p.id; pv.playlist = p.id; } else { pv.listType = 'playlist'; pv.list = p.list; }
       ytP = new YT.Player('ytbox', cfg);
     });
   }
   $('radiobtn').addEventListener('click', function () { $('radiopanel').hidden = !$('radiopanel').hidden; this.blur(); });
-  $('radioplay').addEventListener('click', radioPlay); $('radiostop').addEventListener('click', radioStop);
+  $('radioplay').addEventListener('click', radioPlay); $('radiostop').addEventListener('click', radioPause);
   try { $('radioin').value = localStorage.getItem('dawam.radio') || ''; } catch (e) {}
   function quitRun() { if (mode !== 'run') return; $('pause').hidden = true; if (R.rt.calm && R.x > 20) { finish(true); return; } toHome(); sfx('click'); toast(tx('homeToast')); }
 
