@@ -2,7 +2,7 @@
    الصق هذا البلوك كامل داخل الـ IIFE في اللعبة،
    قبل السطر:  /* ===================== Run logic ===================== *​/
 */
-var MP_URL = ''; // '' = نفس السيرفر اللي فاتح منه اللعبة. إذا السيرفر منفصل حط رابطه: 'https://dawam.onrender.com'
+var MP_URL = 'https://gcqscbmkc1.onrender.com';
 var MP_ROUTES = ['long', 'short', 'desert', 'night', 'rush', 'corniche', 'mountain', 'ring', 'flood', 'safar'];
 var MP = { sock: null, me: null, room: null, host: null, players: [], peers: {}, racing: false, route: 'long', day: 1, diff: 1, ready: false, last: 0 };
 var railEls = {};
