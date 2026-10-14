@@ -202,7 +202,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   function mult() { return 1 + .15 * S.up.bag; }
 
   var mode = 'home', R = null, last = 0;
-  var CH = null, OPP = null, mpLast = 0, MP_URL = ''; /* MP_URL فاضي = نفس سيرفر الصفحة. لو السيرفر في مكان ثاني حط wss://... */
+ var CH = null, OPP = null, mplast = 0, MP_URL = 'wss://gcqscbmkc1.onrender.com';
   function esc(x) { return String(x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function mpFresh() { return { ws: null, state: 'idle', name: '', codeIn: '', code: '', host: false, names: [], cfg: null, err: '', result: null, paid: false }; }
   var mp = mpFresh();
